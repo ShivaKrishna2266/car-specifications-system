@@ -10,15 +10,34 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin123') {
-      router.push('/products'); 
-    } else {
-      alert('Invalid credentials! Please try again.');
+    try {
+      const response = await fetch('http://localhost:9090/api/users/login', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.text();
+        console.log('Login successful:', data);
+        router.push('/products');
+      } else {
+        const errorMessage = await response.text();
+        alert(errorMessage || 'Invalid credentials! Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('An error occurred. Please try again later.');
     }
   };
 
   return (
-    <div className="mt-5">
+    <div className="container mt-5">
       <h2 className="mb-4">Login</h2>
       <form onSubmit={handleLogin}>
         <div className="mb-3">
