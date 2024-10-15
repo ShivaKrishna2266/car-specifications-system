@@ -9,6 +9,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = async (e) => {
+    e.preventDefault();
     if (username === 'admin' && password === 'admin123') {
       router.push('/products'); 
     } else {
