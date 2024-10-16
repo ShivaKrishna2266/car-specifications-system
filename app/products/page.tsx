@@ -1,57 +1,18 @@
-import React from 'react';
+import AsideMenu from '../components/AsideMenu';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 import './ProductsPage.css';
+import React from 'react';
+
 
 export default function ProductsPage() {
   return (
     <div className="">
-      {/* Header */}
-      <header className="bg-dark text-white p-3 mb-4">
-        <div className="container">
-          <div className="d-flex justify-content-between align-items-center">
-            <a href="/">
-              <img src="https://www.designrush.com/uploads/users/customer-11/image_1526487017_D4nHpYcQEqJIECHp7VuoM7UR9XJw8GdGB0wdshls.png" alt="Logo" className="me-3" style={{ height: '50px' }} />
-            </a>
-            {/* <h1 className="h3 mb-0">Enterprise Application</h1> */}
-
-            {/* Navigation */}
-            <nav className="mt-3 d-flex justify-content-center">
-              <a href="/" className="text-white me-3">Home</a>
-              <a href="./products" className="text-white me-3">Products</a>
-              <a href="#" className="text-white me-3">About Us</a>
-              <a href="#" className="text-white">Contact</a>
-            </nav>
-
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-light" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </div>
-      </header>
-
+      <Header />
 
       <div className="container">
         <div className="row">
-          {/* Aside Menu */}
-          <aside className="col-md-3 bg-light ">
-            <h5 className="mb-3">Categories</h5>
-            <ul className="list-group">
-              <li className="list-group-item">Jaguar</li>
-              <li className="list-group-item">Audi</li>
-              <li className="list-group-item">Ferrari</li>
-              <li className="list-group-item">BMW</li>
-              <li className="list-group-item">Porsche</li>
-            </ul>
-          </aside>
-
-          {/* Main Content */}
+          <AsideMenu />
           <main className="col-md-9">
             <h2 className="mb-4">Products List</h2>
             <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -90,12 +51,7 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="bg-dark text-white text-center p-3 mt-4">
-        <div className="">
-          <p className="mb-0">&copy; 2024 Enterprise Application. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
