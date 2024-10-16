@@ -4,8 +4,22 @@ import Header from '../components/Header';
 import './ProductsPage.css';
 import React from 'react';
 
+// Fetch product data directly in the component
+/*async function fetchProducts() {
+  try {
+    const res = await fetch('https://api.example.com/products', { cache: 'no-store' }); // Replace with a valid API URL
+    if (!res.ok) {
+      throw new Error(`Failed to fetch product data. Status: ${res.status} ${res.statusText}`);
+    }
+    return await res.json();
+  } catch (error) {
+    console.error('Error fetching product data:', error);
+    throw new Error('Failed to fetch product data. Please try again later.');
+  }
+}*/
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = new Array(); //await fetchProducts();
   return (
     <div className="">
       <Header />
@@ -15,6 +29,20 @@ export default function ProductsPage() {
           <AsideMenu />
           <main className="col-md-9">
             <h2 className="mb-4">Products List</h2>
+            <div className="row row-cols-1 row-cols-md-3 g-4">
+              {products.map((product, index) => (
+                <div className="col" key={index}>
+                  <div className="card h-100">
+                    <img src={product.imageUrl} className="card-img-top" alt="Product Image" />
+                    <div className="card-body">
+                      <h5 className="card-title">{product.title}</h5>
+                      <p className="card-text">{product.description}</p>
+                      <a href="#" className="btn btn-primary">View Details</a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
             <div className="row row-cols-1 row-cols-md-3 g-4">
               <div className="col">
                 <div className="card h-100">
