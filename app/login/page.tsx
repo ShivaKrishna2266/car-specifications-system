@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import './LoginPage.css'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -37,33 +38,37 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="mb-3">
-          <label htmlFor="username" className="form-label">Username</label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+      <div className="card col-md-6">
+        <div className="card-body p-5 text-center">
+          <h2 className="mb-4">Login</h2>
+          <form onSubmit={handleLogin}> 
+            <div className="mb-3">
+              <label htmlFor="username" className="form-label text-left">Username</label>
+              <input
+                type="text"
+                className="form-control text-left"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-3 text-t">
+              <label htmlFor="password" className="form-label text-start-">Password</label>
+              <input
+                type="password"
+                className="form-control text-left"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div><br></br>
+            <button type="submit" className="btn btn-primary w-10">Login</button>
+          </form>
         </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">Login</button>
-      </form>
+      </div>
     </div>
   );
 }

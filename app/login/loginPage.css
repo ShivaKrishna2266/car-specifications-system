@@ -1,0 +1,47 @@
+/* Card shadow */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 600px; /* Optional: limits the width of the card */
+  }
+  
+  .card-body {
+    padding: 30px;
+    background-color: #fff;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Input fields */
+  .form-control {
+    height: 40px;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  /* Text alignment for labels */
+  .form-label {
+    text-align: left;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Button */
+  /* .btn-primary {
+    width: 10px;
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px;
+  } */
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
