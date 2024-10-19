@@ -3,6 +3,7 @@
 import AsideMenu from '../components/AsideMenu';
 import './ProductsPage.css';
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 // Function to fetch car models by brand
 async function fetchCarModelsByBrand(brandName: string) {
@@ -21,6 +22,8 @@ async function fetchCarModelsByBrand(brandName: string) {
 export default function ProductsPage() {
   const [carModels, setCarModels] = useState([]); // Stores car models dynamically
   const [selectedBrand, setSelectedBrand] = useState(''); // To display the selected brand
+  const [selectedCarModel, setSelectedCarModel] = useState(''); 
+  // const router = useRouter();
 
   // Function to handle brand click
   const handleBrandClick = async (brandName: string) => {
@@ -28,6 +31,12 @@ export default function ProductsPage() {
     const carModels = await fetchCarModelsByBrand(brandName); // Fetch car models by brand
     setCarModels(carModels.data); // Update car models
   };
+
+  const handleCarModelClick = (model: { modelId: number; modelName: string; specifications: string }) => {
+    localStorage.setItem('selectedCarModel', JSON.stringify(model)); // Save car model data in localStorage
+    // router.push('/car-model-details'); // Navigate to the details page
+  };
+
 
   return (
     <div className="">
@@ -38,14 +47,20 @@ export default function ProductsPage() {
             <h2 className="mb-4">{selectedBrand ? `Models for ${selectedBrand}` : 'Select a brandName'}</h2>
             <div className="row row-cols-1 row-cols-md-3 g-4">
               {carModels.length > 0 ? (
-                carModels.map((model: { modelId: number; modelName: string; specifications: string }) => (
+                carModels.map((model: { modelId: number; modelName: string; specifications: string; price: number }) => (
                   <div className="col" key={model.modelId}>
                     <div className="card h-100">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU" className="card-img-top" alt="Model Image" />
+                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU" className="card-img-top" alt="Model Image" />
                       <div className="card-body">
                         <h5 className="card-title">{model.modelName}</h5>
                         <p className="card-text">{model.specifications}</p>
-                        <a href="#" className="btn btn-primary">View Details</a>
+                        <p className="card-text">{model.price}</p>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handleCarModelClick(model)}
+                        >
+                          View Details
+                        </button>
                       </div>
                     </div>
                   </div>
