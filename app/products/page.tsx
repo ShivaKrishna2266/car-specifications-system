@@ -2,10 +2,9 @@
 
 import AsideMenu from '../components/AsideMenu';
 import './ProductsPage.css';
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect, useState} from 'react';
+import { useRouter } from 'next/navigation';
 
-// Function to fetch car models by brand
 async function fetchCarModelsByBrand(brandName: string) {
   try {
     const res = await fetch(`http://localhost:9090/user/carBrand/${brandName}`, { cache: 'no-store' });
@@ -20,21 +19,32 @@ async function fetchCarModelsByBrand(brandName: string) {
 }
 
 export default function ProductsPage() {
-  const [carModels, setCarModels] = useState([]); // Stores car models dynamically
-  const [selectedBrand, setSelectedBrand] = useState(''); // To display the selected brand
+  const [carModels, setCarModels] = useState([]); 
+  const [selectedBrand, setSelectedBrand] = useState(''); 
   const [selectedCarModel, setSelectedCarModel] = useState(''); 
-  // const router = useRouter();
+  const router = useRouter();
 
-  // Function to handle brand click
+  useEffect(() => {
+    const fetchInitialCarModels = async () => {
+      setSelectedBrand('Toyota'); 
+      const carModels = await fetchCarModelsByBrand('Toyota');
+      setCarModels(carModels.data || []);
+    };
+
+    fetchInitialCarModels();
+  }, []);
+
+
   const handleBrandClick = async (brandName: string) => {
-    setSelectedBrand(brandName); // Set the selected brand
-    const carModels = await fetchCarModelsByBrand(brandName); // Fetch car models by brand
-    setCarModels(carModels.data); // Update car models
+    setSelectedBrand(brandName); 
+    const carModels = await fetchCarModelsByBrand(brandName); 
+    setCarModels(carModels.data);
   };
 
-  const handleCarModelClick = (model: { modelId: number; modelName: string; specifications: string }) => {
-    localStorage.setItem('selectedCarModel', JSON.stringify(model)); // Save car model data in localStorage
-    // router.push('/car-model-details'); // Navigate to the details page
+  const handleViewDeatailsClick = (
+    model: { modelId: number; modelName: string; specifications: string }) => {
+    localStorage.setItem('selectedCarModel', JSON.stringify(model)); 
+    router.push('/viewdetails'); 
   };
 
 
@@ -57,7 +67,7 @@ export default function ProductsPage() {
                         <p className="card-text">{model.price}</p>
                         <button
                           className="btn btn-primary"
-                          onClick={() => handleCarModelClick(model)}
+                          onClick={() => handleViewDeatailsClick(model)}
                         >
                           View Details
                         </button>
@@ -75,3 +85,4 @@ export default function ProductsPage() {
     </div>
   );
 }
+

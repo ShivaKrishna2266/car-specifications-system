@@ -9,9 +9,10 @@ export default function SearchForm() {
         placeholder="Search"
         aria-label="Search"
       />
-      <button className="btn btn-outline-light" type="submit">
+      <button className="btn btn-outline-light me-3" type="submit">
         Search
       </button>
+      <a href="./login" className="nav-link text-white mt-2">Login</a>
     </form>
   );
 }

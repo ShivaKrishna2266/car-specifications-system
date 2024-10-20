@@ -90,3 +90,12 @@ form {
     margin-bottom: 1rem;
   }
 }
+
+.nav-link {
+  text-decoration: none;
+}
+
+  
+a {
+  text-decoration: none
+}
