@@ -32,13 +32,6 @@
     margin-bottom: 10px;
   }
   
-  /* Button */
-  /* .btn-primary {
-    width: 10px;
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px;
-  } */
   
   .btn-primary:hover {
     background-color: #0056b3;
