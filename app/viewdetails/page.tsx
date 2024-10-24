@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import router, { useRouter } from 'next/router';
+import "../viewdetails/view_details.css"
 
 export default function CarModelDetails() {
   const [carModel, setCarModel] = useState<any>(null);
@@ -32,17 +33,16 @@ export default function CarModelDetails() {
       <h2>{carModel.modelName} Car Model Details</h2>
       <div className="card">
         <div className="row">
-          <div className="col-md-6 mt-3 mb-3">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU" className="" alt="" />
+          <div className="col-md-4 mt-3 mb-3">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU" className="image" alt="" />
           </div>
-          <div className="col-md-6 mt-5">
-            <h5 className="card-title">Name :{carModel.modelName}</h5>
-            <p className="card-text">Specifications :{carModel.specifications}</p>
-            <p className="card-text">Price :{carModel.price} Rupeis</p>
-          </div>
-          
+          <div className="card-text col-md-5 mt-5">
+            <h5 className="card-text"><b>Name</b> :{carModel.modelName}</h5>
+            <p className="card-text"><b>Specifications</b> :{carModel.specifications}</p>
+            <p className="card-text"><b>Price</b> :{carModel.price} Rupeis</p>
+          </div>       
         </div>
-        <button className="btn btn-primary">Book Car</button>
+      <button className="btn btn-primary">Book Car</button>
       </div>
     </div>
   );
