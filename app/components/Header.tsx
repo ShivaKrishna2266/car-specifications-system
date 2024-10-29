@@ -4,7 +4,7 @@ import SearchForm from './SearchForm';
 
 export default function Header() {
   return (
-    <header className="bg-dark text-white p-3 mb-4">
+    <header className="bg-dark text-white p-3 ">
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
           <a href="/">
