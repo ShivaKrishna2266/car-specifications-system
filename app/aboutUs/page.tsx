@@ -16,7 +16,7 @@ export default function AboutUs() {
                 <p className="text-center">Cars.com is the No. 1 most recognized automotive marketplace visited by more than 25 million in-market consumers each month. Launched in 1998 and headquartered in Chicago, Cars.com empowers shoppers with the data, resources and digital tools needed to make informed buying decisions and seamlessly connect with automotive retailers.
                     Cars.com is the flagship offering from Cars.com Inc. d/b/a Cars Commerce, an audience-driven technology company empowering automotive that simplifies everything about buying and selling cars. Learn more at www.carscommerce.inc.</p>
             </div>
-            <div className="row text-container">
+            <div className="row  text-container">
                 <div className="col-md-6 mt-4 mb-4">
                     <img
                         src="https://images.pexels.com/photos/1335077/pexels-photo-1335077.jpeg?auto=compress&cs=tinysrgb&w=600"
@@ -24,7 +24,7 @@ export default function AboutUs() {
                         alt="Car 1"
                     />
                 </div>
-                <div className="text-center col-md-6 mt-5 text-container">
+                <div className="text-center col-md-6 mt-5 ">
                     <h1>Our roots</h1><br />
                     <p>
                         Cars.com invented car search. Our site and innovative solutions connect buyers and sellers to match people with their perfect car. With our people spread across the U.S., we still maintain a startup culture with innovation and passion for our people at the core of everything we do.
@@ -53,6 +53,13 @@ export default function AboutUs() {
                     <p>Cars Commerce’s Industry Insights Report Shows a Stabilizing Market; Ford, Chevrolet and Honda Drive Balanced New-Car Inventory Levels in August <br /><br />
                         Sep 19, 2024</p>
                 </div>
+            </div>
+            <div className="container text-center mt-5 mb-5">
+                <h1>Our office</h1>
+                <p>Cars.com is located at 300 South Riverside, a 23-story Class A, LEED Gold Certified office tower. LEED Gold Certificate <br /><br />
+                   <b> Cars.com</b>
+                    <span> </span>300 S. Riverside Plaza, Suite 1000
+                    Chicago, IL 60606</p>
             </div>
 
 
