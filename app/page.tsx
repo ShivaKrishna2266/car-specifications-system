@@ -5,9 +5,7 @@ import './globals.css';
 export default function HomePage() {
   return (
     <div className="">
-      <h1 className="text-center">Welcome to the Car Specification System</h1>
-
-      {/* Image Carousel */}
+      {/* <h1 className="text-center">Welcome to the Car Specification System</h1> */}
       <div id="carCarousel" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-inner">
           <div className="carousel-item active">
@@ -166,6 +164,11 @@ export default function HomePage() {
         </div>
 
       </div>
+      <div className=''>
+        <h1>Shiva </h1>
+      </div>
+
+
     </div>
   );
 }

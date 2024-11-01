@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import tokenService from '../tokenService';
 
 interface AsideMenuProps {
   onBrandClick: (brandName: string) => void; // Function to handle brand click
@@ -6,12 +7,29 @@ interface AsideMenuProps {
 
 async function fetchBrands() {
   try {
-    const res = await fetch(`http://localhost:9090/user/getAllCarBrand`, { cache: 'no-store' });
+    const token = tokenService.getToken();
+
+    if (!token) {
+      console.error('No token found. Please log in.');
+      return [];
+    }
+
+    console.log("Authorization Token:", token); // Log the token for debugging
+
+    const res = await fetch(`http://localhost:9090/user/getAllCarBrand`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
     if (!res.ok) {
       throw new Error(`Failed to fetch car brands. Status: ${res.status} ${res.statusText}`);
     }
     const data = await res.json();
     return data;
+
   } catch (error) {
     console.error('Error fetching car brands:', error);
     return [];
@@ -55,7 +73,7 @@ export default function AsideMenu({ onBrandClick }: AsideMenuProps) {
           <li
             key={brandName}
             className="list-group-item list-group-item-action"
-            onClick={() => onBrandClick(brandName)} 
+            onClick={() => onBrandClick(brandName)}
             style={{ cursor: 'pointer' }}
           >
             {brandName}

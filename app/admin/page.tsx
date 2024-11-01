@@ -1,16 +1,32 @@
-// pages/about.tsx
-import Link from 'next/link';
+import React from 'react';
 
-const Admin = () => {
+const AdminDashboard: React.FC = () => {
   return (
     <div>
-      <h1>About Us Shiva</h1>
-      <p>This is a simple Next.js app with routing.</p>
-      <p>
-        Go back to <Link href="/">Home</Link> page.
-      </p>
+      <h1>Admin Dashboard</h1>
+      <div>
+        <h2>Car Brands Management</h2>
+        <ul>
+          <li>Toyota</li>
+          <li>Honda</li>
+          <li>Ford</li>
+          <li>Chevrolet</li>
+          <li>Nissan</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Statistics</h2>
+        <p>Total Cars: 100</p>
+        <p>Active Users: 50</p>
+      </div>
+      <div>
+        <h2>Actions</h2>
+        <button>Add New Car Brand</button>
+        <button>View All Cars</button>
+        <button>Manage Users</button>
+      </div>
     </div>
   );
 };
 
-export default Admin;
+export default AdminDashboard;

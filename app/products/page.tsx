@@ -2,16 +2,33 @@
 
 import AsideMenu from '../components/AsideMenu';
 import './ProductsPage.css';
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import tokenService from '../tokenService';
 
 async function fetchCarModelsByBrand(brandName: string) {
   try {
-    const res = await fetch(`http://localhost:9090/user/carBrand/${brandName}`, { cache: 'no-store' });
+    const token = tokenService.getToken();
+
+    if (!token) {
+      console.error('No token found. Please log in.');
+      return [];
+    }
+    console.log("Authorization Token:", token);
+
+    const res = await fetch(`http://localhost:9090/user/carBrand/${brandName}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    });
     if (!res.ok) {
       throw new Error(`Failed to fetch car models for brand ${brandName}. Status: ${res.status} ${res.statusText}`);
     }
-    return await res.json();
+    const data = await res.json();
+    return data;
+
   } catch (error) {
     console.error('Error fetching car model data:', error);
     return [];
@@ -19,14 +36,14 @@ async function fetchCarModelsByBrand(brandName: string) {
 }
 
 export default function ProductsPage() {
-  const [carModels, setCarModels] = useState([]); 
-  const [selectedBrand, setSelectedBrand] = useState(''); 
-  const [selectedCarModel, setSelectedCarModel] = useState(''); 
+  const [carModels, setCarModels] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedCarModel, setSelectedCarModel] = useState('');
   const router = useRouter();
 
   useEffect(() => {
     const fetchInitialCarModels = async () => {
-      setSelectedBrand('Toyota'); 
+      setSelectedBrand('Toyota');
       const carModels = await fetchCarModelsByBrand('Toyota');
       setCarModels(carModels.data || []);
     };
@@ -36,15 +53,15 @@ export default function ProductsPage() {
 
 
   const handleBrandClick = async (brandName: string) => {
-    setSelectedBrand(brandName); 
-    const carModels = await fetchCarModelsByBrand(brandName); 
+    setSelectedBrand(brandName);
+    const carModels = await fetchCarModelsByBrand(brandName);
     setCarModels(carModels.data);
   };
 
   const handleViewDeatailsClick = (
     model: { modelId: number; modelName: string; specifications: string }) => {
-    localStorage.setItem('selectedCarModel', JSON.stringify(model)); 
-    router.push('/viewdetails'); 
+    localStorage.setItem('selectedCarModel', JSON.stringify(model));
+    router.push('/viewdetails');
   };
 
 
