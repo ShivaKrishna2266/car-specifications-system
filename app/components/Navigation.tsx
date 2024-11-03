@@ -34,7 +34,7 @@ export default function Navigation() {
       <a href="./contact_us" className="nav-link text-white me-3">Contact</a>
 
       {isLoggedIn && isAdmin && (
-        <a href="./manage-products" className="nav-link text-white">Manage Products</a>
+        <a href="./manageproducts" className="nav-link text-white">Manage Products</a>
       )}
     </nav>
   );
