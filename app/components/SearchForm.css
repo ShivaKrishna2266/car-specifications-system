@@ -1,0 +1,45 @@
+/* SearchForm.css */
+.user-icon-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.user-icon {
+  font-size: 24px;
+  color: white;
+}
+
+.user-modal {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.user-icon-container:hover .user-modal {
+  display: block;
+}
+
+.username {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.logout-link {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-align: left;
+}
+
+.logout-link:hover {
+  text-decoration: underline;
+}

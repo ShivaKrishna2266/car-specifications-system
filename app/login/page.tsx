@@ -10,41 +10,42 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (e: any) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch("http://localhost:9090/authenticate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": tokenService.getToken() as string,
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       if (!response.ok) throw new Error("Login failed");
-
+  
       const data = await response.json();
-      const { token, role } = data; // Assuming the response contains token and role
-
+      const { token, role } = data;
+  
       // Store token and role using tokenService
-      tokenService.setToken(token, role);
-
-      console.log("Logged in successfully:", role);
+      tokenService.setToken(token, role, data.username);
+  
+      // Emit custom login event
+      window.dispatchEvent(new Event("userLoggedIn"));
+  
+      // Redirect based on role
       if (role === "ROLE_ADMIN") {
         router.push('/admin');
-      } else if (role === "ROLE_USER") {
-        router.push('/products');
       } else {
-        alert("Unknown role! Please contact support.");
+        router.push('/products');
       }
-
+  
     } catch (error) {
       console.error("Error logging in:", error);
       alert("Invalid credentials! Please try again.");
     }
   };
+  
 
   return (
     <div className="login-container">
