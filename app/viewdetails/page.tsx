@@ -3,10 +3,18 @@
 import { useEffect, useState } from 'react';
 import router, { useRouter } from 'next/router';
 import "../viewdetails/view_details.css"
+import { useCart } from '../context/CartContext';
 
 export default function CarModelDetails() {
   const [carModel, setCarModel] = useState<any>(null);
+  const { addToCart } = useCart();
+
+  
   // const router = useRouter();
+  const handleBookCar = () => {
+    addToCart(carModel);
+   // alert("Car has been added to your cart!");
+  };
 
   useEffect(() => {
     const storedModel = localStorage.getItem('selectedCarModel'); // Get the car model data from localStorage
@@ -42,7 +50,7 @@ export default function CarModelDetails() {
             <p className="card-text"><b>Price</b> :{carModel.price} Rupeis</p>
           </div>       
         </div>
-      <button className="btn btn-primary">Book Car</button>
+      <button className="btn btn-primary"  onClick={handleBookCar}>Book Car</button>
       </div>
     </div>
   );
