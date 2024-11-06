@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './loginPage.css';
 import tokenService from '../tokenService';
+import Link from 'next/link';
+
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -76,7 +78,8 @@ export default function LoginPage() {
               />
             </div>
             <button type="submit" className="btn btn-primary">Login</button>
-          </form>
+          </form><br />
+          <h6>You don't have an account? <Link href='/register'>Register here</Link></h6>
         </div>
       </div>
     </div>
