@@ -1,18 +1,45 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Link from 'next/link';
-import "./register.css"
+import "./register.css";
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
+  const router = useRouter();
+  const [roles, setRoles] = useState([]);
+  const roles1 = [
+    { id: 1, value: 'ROLE_ADMIN', name: 'ADMIN' },
+    { id: 2, value: 'ROLE_USER', name: 'USER' },
+    // more roles
+  ];
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
+    mobile: '',
+    role: '',
     password: '',
     confirmPassword: '',
     agreeToTerms: false,
   });
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await fetch("http://localhost:9090/data/getAllRoles");  // Adjust endpoint as needed
+        if (response.ok) {
+          const data = await response.json();
+          setRoles(data);  // Store roles in the state
+        } else {
+          console.error("Failed to fetch roles");
+        }
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+      }
+    };
+    fetchRoles();
+  }, []);
+
+  const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -20,17 +47,15 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    // Check if passwords match before sending the data
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    // Prepare the data to be sent to the backend
-    const { name, email, password, agreeToTerms } = formData;
+    const { username, email, mobile, role, password, agreeToTerms } = formData;
 
     try {
       const response = await fetch("http://localhost:9090/register", {
@@ -38,25 +63,34 @@ export default function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password, agreeToTerms }),
+        body: JSON.stringify({ username, email, mobile, role, password, agreeToTerms }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to register");
+      const contentType = response.headers.get("content-type");
+
+      let data;
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+        console.log("Registration successful:", data);
+        alert("Registration successful!");
+      } else {
+        data = await response.text();  // Handle text response
+        console.log("Registration successful:", data);
+        alert("Registration successful! Message: " + data);
       }
 
-      const data = await response.json();
-      console.log("Registration successful:", data);
-      alert("Registration successful!");
-
-      // Redirect to login page
-      window.location.href = "/login";
+      if (role === "ROLE_ADMIN") {
+        router.push('/admin');
+      } else {
+        router.push('/products');
+      }
 
     } catch (error) {
       console.error("Error registering:", error);
       alert("Registration failed. Please try again.");
     }
-  };
+  }
+
   return (
     <section
       className="vh-50 bg-image"
@@ -76,8 +110,8 @@ export default function Register() {
                         type="text"
                         id="form3Example1cg"
                         className="form-control form-control-lg"
-                        name="name"
-                        value={formData.name}
+                        name="username"
+                        value={formData.username}
                         onChange={handleChange}
                         required
                       />
@@ -95,6 +129,38 @@ export default function Register() {
                         required
                       />
                       <label className="form-label" htmlFor="form3Example3cg">Your Email</label>
+                    </div>
+
+                    <div className="form-outline mb-4">
+                      <input
+                        type="tel"
+                        id="form3ExampleMobile"
+                        className="form-control form-control-lg"
+                        name="mobile"
+                        value={formData.mobile}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label className="form-label" htmlFor="form3ExampleMobile">Mobile Number</label>
+                    </div>
+
+                    <div className="form-outline mb-4">
+                      <select
+                        id="roleSelect"
+                        className="form-control form-control-lg"
+                        name="role"
+                        value={formData.role}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">Select Role</option>
+                        {roles1.map((role) => (
+                          <option key={role.id} value={role.value}>
+                            {role.name}
+                          </option>
+                        ))}
+                      </select>
+                      <label className="form-label" htmlFor="roleSelect">Role</label>
                     </div>
 
                     <div className="form-outline mb-4">

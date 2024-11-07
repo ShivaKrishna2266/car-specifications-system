@@ -15,12 +15,10 @@
     border-radius: 8px;
     margin: 20px auto;
     width: 100%;
-    max-width: 600px; /* Optional: limits the width of the card */
+    max-width: 600px; 
 
-    /* min-height: 100vh; */
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     background-image: url("https://img.freepik.com/premium-photo/product-showcase-spotlight-background-3d-rendering_327072-475.jpg?ga=GA1.1.424294533.1729748802&semt=ais_siglip");
     background-size: cover;
     background-position: center;
