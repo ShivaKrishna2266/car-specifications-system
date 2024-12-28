@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { useCart } from '../context/CartContext'; // Adjust the import path as necessary
+import { useCart } from '../context/CartContext'; 
 
 const CartDetails = () => {
   const { cartItems, getTotalPrice } = useCart();

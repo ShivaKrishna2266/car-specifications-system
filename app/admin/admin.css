@@ -1,0 +1,25 @@
+.card {
+  background-color: #f8f9fa; /* Light gray background */
+  border: 1px solid #ecdede;  /* Remove outer border for the card */
+  padding: 10px; /* Add padding for spacing inside the card */
+}
+
+.card h5 {
+  background-color: #ffffff; /* White background for each box */
+  border: 1px solid #726a6a; /* Light border around each box */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Inner padding for the box */
+  margin-bottom: 10px; /* Space between boxes */
+  font-size: 16px; /* Font size for the text */
+  color: #007bff; /* Blue text for clickable items */
+  cursor: pointer; /* Change cursor to pointer */
+  text-align: center; /* Center align the text */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth hover effect */
+}
+
+.card h5:hover {
+  background-color: #e9ecef; /* Light gray on hover */
+  transform: scale(1.03); /* Slightly enlarge the box on hover */
+  color: #0056b3; /* Darker blue text on hover */
+}
+
