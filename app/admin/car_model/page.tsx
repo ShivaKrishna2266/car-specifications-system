@@ -69,13 +69,11 @@ export default function ViewCarModels() {
   };
 
   const handleEditCarModel = (modelId: number) => {
+    alert(`Edit Car Model with ID: ${modelId}`);
     console.log("Navigating to EditCarModel page with modelId:", modelId);
-    router.push(`/admin/car_model/edit_car_model`);
-  };
+    router.push(`/admin/car_model/edit_car_model?modelId=${modelId}`);
 
-  // const handleEditCarModel = (modelId: number) => {
-  //   router.push(`/admin/car_model/edit_car_model/${modelId}`);
-  // };
+  };
 
   useEffect(() => {
     fetchProductsData();

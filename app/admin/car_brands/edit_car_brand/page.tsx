@@ -2,89 +2,104 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import tokenService from "@/app/tokenService";
+import tokenService from "@/app/tokenService"; // Utility to get token
 
 export default function EditCarBrand() {
   const [form, setForm] = useState({
+    brandId: 0,
     brandName: "",
     countryOfOrigin: "",
     foundedYear: "",
     logoUrl: "",
     description: "",
   });
-
   const [message, setMessage] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const id = searchParams?.get("id"); // Access the `id` from query parameters.
+  const brandId = searchParams.get("modelId");
 
-  useEffect(() => {
-    if (id) {
-      fetchCarBrandData(id);
-    }
-  }, [id]);
 
-  const fetchCarBrandData = async (id: string) => {
+
+  const fetchCarBrandById = async (brandId: number) => {
     try {
-      const response = await fetch(`http://localhost:9090/admin/getCarBrand/${id}`, {
-        method: "GET",
+      const token = tokenService.getToken();
+      if (!token) {
+        console.error('No token found. Please log in.');
+        return;
+      }
+      
+      const response = await fetch(`http://localhost:9090/admin/getCarBrandById/${brandId}`, {
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error("Failed to fetch car brand data");
+        throw new Error(`Failed to fetch car brand. Status: ${response.status}`);
       }
-
-      const carBrand = await response.json();
-      setForm({
-        brandName: carBrand.brandName || "",
-        countryOfOrigin: carBrand.countryOfOrigin || "",
-        foundedYear: carBrand.foundedYear?.toString() || "",
-        logoUrl: carBrand.logoUrl || "",
-        description: carBrand.description || "",
-      });
+      const handleEditCarBrand = (brandId: number) => {
+        console.log("Edit Car Brand button clicked!");
+        router.push(`/admin/car_brands/edit_car_brand?modelId=${brandId}`);
+      };
+      const res = await response.json();
+      setForm(res.data);
     } catch (error) {
-      setMessage("Error fetching car brand data.");
-      console.error("Error fetching data:", error);
+      console.error("Error fetching car brand:", error);
+      alert("Could not load car brand data. Please try again later.");
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  // If brandId is not available, redirect or show an error
+  useEffect(() => {
+    if (!brandId) {
+      setMessage("Invalid or missing car brand ID.");
+      router.push("/admin/car_brands"); // Redirect to car brand list if no brandId
+    }
+  }, [brandId, router]);
+
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const updatedBrand = {
-      ...form,
-      foundedYear: Number(form.foundedYear), // Ensure it's a number
-    };
+    const token = tokenService.getToken();
+    if (!token) {
+      setMessage("Authentication required. Please log in.");
+      return;
+    }
 
     try {
-      const response = await fetch(`http://localhost:9090/admin/editCarBrand/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-        body: JSON.stringify(updatedBrand),
-      });
+      const response = await fetch(
+        `http://localhost:9090/admin/updateCarBrand/${brandId}`, // Use dynamic brandId for the update
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
       if (response.ok) {
         setMessage("Car brand updated successfully!");
-        router.push("/admin/car_brand");
+        setTimeout(() => router.push("/admin/car_brands"), 2000); // Redirect to car brand list page
       } else {
-        const errorData = await response.json();
-        setMessage(`Error: ${errorData.message || "Failed to update car brand"}`);
+        const error = await response.json();
+        setMessage(`Error: ${error.message || "Failed to update car brand."}`);
       }
     } catch (error) {
-      setMessage("Error: Unable to connect to the server.");
-      console.error("Error updating car brand:", error);
+      setMessage("Error: Unable to update car brand.");
+      console.error("Error:", error);
     }
   };
 

@@ -40,6 +40,30 @@ export default function ProductsPage() {
   const [selectedBrand, setSelectedBrand] = useState('');
   const [selectedCarModel, setSelectedCarModel] = useState('');
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState('');
+
+
+  useEffect(() => {
+    const checkAuthentication = () => {
+      const token = tokenService.getToken();
+      if (!token) {
+        setIsAuthenticated(false);
+        return; // No token found, stay in the current page or redirect to login later
+      }
+
+      const role = tokenService.getRole(); // Assuming tokenService has a method to extract user role
+      if (role === 'Admin' || role === 'User') {
+        setIsAuthenticated(true);
+        setUserRole(role);
+      } else {
+        setIsAuthenticated(false);
+        return; // Invalid role, you can handle this case if needed
+      }
+    };
+
+    checkAuthentication();
+  }, [router]);
 
   useEffect(() => {
     const fetchInitialCarModels = async () => {
