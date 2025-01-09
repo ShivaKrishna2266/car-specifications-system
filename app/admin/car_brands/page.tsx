@@ -1,7 +1,7 @@
 "use client";
 
 import tokenService from "@/app/tokenService";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
@@ -16,7 +16,17 @@ interface Brand {
 
 export default function ViewCarBrands() {
   const [brands, setBrands] = useState<Brand[]>([]);
+  const [formData, setFormData] = useState<Brand>({
+    brandId: 0,
+    brandName: '',
+    countryOfOrigin: '',
+    foundedYear: 0,
+    logoUrl: '',
+    description: ''
+  });
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const brandId = searchParams?.get("modelId");
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 5;
   const totalPages = Math.ceil(brands.length / recordsPerPage);
@@ -29,9 +39,6 @@ export default function ViewCarBrands() {
    const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
      setCurrentPage(pageNumber);
   };
-
-
-
 
   const fetchBrandData = async () => {
     try {
@@ -65,17 +72,14 @@ export default function ViewCarBrands() {
     }
   };
 
-
-
-
   const handleAddCarBrand = () => {
     console.log("Add Car Brand button clicked!");
     router.push('/admin/car_brands/add_car_brand');
   };
 
-  const handleEditCarBrand = () => {
-    console.log("Edit Car Brand button clicked!");
-    router.push('/admin/car_brands/edit_car_brand');
+  const handleEditCarBrand = (brandId: number) => {
+    alert(`Edit Car Brand with ID: ${brandId}`);
+    router.push(`/admin/car_brands/edit_car_brand?modelId=${brandId}`);
   };
 
   useEffect(() => {
@@ -114,7 +118,10 @@ export default function ViewCarBrands() {
                 <td>{brand.logoUrl}</td>
                 <td>{brand.description}</td>
                 <td>
-                <FaEdit className="text-warning me-2 action-icon" onClick={() => handleEditCarBrand()} />
+                <FaEdit 
+                    className="text-warning me-2 action-icon" 
+                    onClick={() => handleEditCarBrand(brand.brandId)} 
+                  />
                   <FaTrash className="text-danger action-icon" onClick={() => { }} />
                 </td>
               </tr>
