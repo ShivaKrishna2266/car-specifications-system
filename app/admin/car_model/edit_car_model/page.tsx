@@ -1,75 +1,132 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import tokenService from "@/app/tokenService";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import tokenService from "@/app/tokenService"; // Utility to get token
 
 export default function EditCarModel() {
   const [form, setForm] = useState({
-    modelId: "",
     modelName: "",
     price: "",
     specifications: "",
-    carBrandId: "",
-    createdBy: tokenService.getUsername(),
+    brandId: "",
   });
 
+  const [brands, setCarBrands] = useState<any[]>([]); // Brands is an array of objects
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const modelId = searchParams.get("modelId");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({ ...prevForm, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!form.modelId) {
-      setMessage("Please enter a valid Model ID.");
-      return;
-    }
-
-    const updatedProduct = {
-      ...form,
-      price: Number(form.price),
-      carBrandId: Number(form.carBrandId),
-    };
-
+  // Fetch car model data by ID
+  const fetchCarModelById = async (modelId: string) => {
     try {
       const token = tokenService.getToken();
+      if (!token) {
+        console.error("No token found. Please log in.");
+        return;
+      }
+      const response = await fetch(`http://localhost:9090/admin/getCarModelById/${modelId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
+      if (!response.ok) {
+        throw new Error(`Failed to fetch car model. Status: ${response.status}`);
+      }
+
+      const res = await response.json();
+      setForm(res.data);
+    } catch (error) {
+      console.error("Error fetching car model:", error);
+      alert("Could not load car model data. Please try again later.");
+    }
+  };
+
+  // Load car model data when the component mounts
+  useEffect(() => {
+    const initialize = async () => {
+      if (modelId) {
+        await fetchCarBrands(); // Fetch car brands before fetching the car model
+        fetchCarModelById(modelId);
+      } else {
+        setMessage("Invalid or missing car model ID.");
+        setTimeout(() => router.push("/admin/car_model"), 3000);
+      }
+    };
+    initialize();
+  }, [modelId, router]);
+
+  // Handle form input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+  
+
+  // Load car brands data
+  const fetchCarBrands = async () => {
+    try {
+      const token = tokenService.getToken();
       if (!token) {
         setMessage("Authentication required. Please log in.");
         return;
       }
+      const response = await fetch("http://localhost:9090/admin/getAllCarBrand", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      const response = await fetch(
-        `http://localhost:9090/admin/updateCarModel/${form.modelId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedProduct),
-        }
-      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch car brands.");
+      }
+
+      const res = await response.json();
+      setCarBrands(res.data || []); // Assuming response contains `data`
+    } catch (error) {
+      console.error("Error fetching car brands:", error);
+      setMessage("Unable to load car brands.");
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const token = tokenService.getToken();
+    if (!token) {
+      setMessage("Authentication required. Please log in.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:9090/admin/updateCarModel/${modelId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
 
       if (response.ok) {
         setMessage("Car model updated successfully!");
-        setTimeout(() => {
-          router.push("/admin/car_model");
-        }, 2000);
+        setTimeout(() => router.push("/admin/car_model"), 2000); // Redirect to car model list page
       } else {
-        const errorData = await response.json();
-        setMessage(
-          `Error: ${errorData.message || "Failed to update car model"}`
-        );
+        const error = await response.json();
+        setMessage(`Error: ${error.message || "Failed to update car model."}`);
       }
     } catch (error) {
-      setMessage(`Error: Unable to connect to the server. ${error.message}`);
-      console.error(error);
+      setMessage("Error: Unable to update car model.");
+      console.error("Error:", error);
     }
   };
 
@@ -79,27 +136,8 @@ export default function EditCarModel() {
         <div className="card" style={{ borderRadius: "15px" }}>
           <div className="card-body p-5">
             <h2 className="d-flex justify-content-center mb-5">Edit Car Model</h2>
-            {message && (
-              <div
-                className={`alert ${
-                  message.includes("Error") ? "alert-danger" : "alert-success"
-                }`}
-              >
-                {message}
-              </div>
-            )}
+            {message && <div className="alert alert-info">{message}</div>}
             <form onSubmit={handleSubmit} className="mb-4">
-              <div className="mb-3">
-                <input
-                  type="text"
-                  name="modelId"
-                  className="form-control"
-                  value={form.modelId}
-                  onChange={handleChange}
-                  placeholder="Enter Model ID"
-                  required
-                />
-              </div>
               <div className="mb-3">
                 <input
                   type="text"
@@ -107,7 +145,7 @@ export default function EditCarModel() {
                   className="form-control"
                   value={form.modelName}
                   onChange={handleChange}
-                  placeholder="Enter Model Name"
+                  placeholder="Model Name"
                   required
                 />
               </div>
@@ -118,7 +156,7 @@ export default function EditCarModel() {
                   className="form-control"
                   value={form.price}
                   onChange={handleChange}
-                  placeholder="Enter Price"
+                  placeholder="Price"
                   required
                 />
               </div>
@@ -128,20 +166,27 @@ export default function EditCarModel() {
                   className="form-control"
                   value={form.specifications}
                   onChange={handleChange}
-                  placeholder="Enter Specifications"
+                  placeholder="Specifications"
                   required
                 />
               </div>
               <div className="mb-3">
-                <input
-                  type="number"
-                  name="carBrandId"
+                <select
+                  name="brandId"
                   className="form-control"
-                  value={form.carBrandId}
+                  value={form.brandId}
                   onChange={handleChange}
-                  placeholder="Enter Car Brand ID"
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Select Car Brand
+                  </option>
+                  {brands.map((brand) => (
+                    <option key={brand.brandId} value={brand.brandId}>
+                      {brand.brandName}
+                    </option>
+                  ))}
+                </select>
               </div>
               <button type="submit" className="btn btn-primary">
                 Update Car Model

@@ -6,7 +6,6 @@ import tokenService from "@/app/tokenService"; // Utility to get token
 
 export default function EditCarBrand() {
   const [form, setForm] = useState({
-    brandId: 0,
     brandName: "",
     countryOfOrigin: "",
     foundedYear: "",
@@ -18,31 +17,32 @@ export default function EditCarBrand() {
   const searchParams = useSearchParams();
   const brandId = searchParams.get("modelId");
 
-
+  // Convert brandId to a number
+  const numericBrandId = brandId ? Number(brandId) : null;
 
   const fetchCarBrandById = async (brandId: number) => {
     try {
       const token = tokenService.getToken();
       if (!token) {
-        console.error('No token found. Please log in.');
+        console.error("No token found. Please log in.");
         return;
       }
-      
-      const response = await fetch(`http://localhost:9090/admin/getCarBrandById/${brandId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+
+      const response = await fetch(
+        `http://localhost:9090/admin/getCarBrandById/${brandId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to fetch car brand. Status: ${response.status}`);
       }
-      const handleEditCarBrand = (brandId: number) => {
-        console.log("Edit Car Brand button clicked!");
-        router.push(`/admin/car_brands/edit_car_brand?modelId=${brandId}`);
-      };
+
       const res = await response.json();
       setForm(res.data);
     } catch (error) {
@@ -51,16 +51,17 @@ export default function EditCarBrand() {
     }
   };
 
-  // If brandId is not available, redirect or show an error
   useEffect(() => {
-    if (!brandId) {
+    if (numericBrandId) {
+      fetchCarBrandById(numericBrandId);
+    } else {
       setMessage("Invalid or missing car brand ID.");
-      router.push("/admin/car_brands"); // Redirect to car brand list if no brandId
+      router.push("/admin/car_brands"); // Redirect to car brand list if no modelId
     }
-  }, [brandId, router]);
+  }, [numericBrandId, router]);
 
-  // Handle input changes
-  const handleChange = (e) => {
+  // Handle form input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
@@ -69,7 +70,7 @@ export default function EditCarBrand() {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const token = tokenService.getToken();
     if (!token) {
@@ -79,12 +80,12 @@ export default function EditCarBrand() {
 
     try {
       const response = await fetch(
-        `http://localhost:9090/admin/updateCarBrand/${brandId}`, // Use dynamic brandId for the update
+        `http://localhost:9090/admin/updateCarBrand/${numericBrandId}`, // Use dynamic brandId for the update
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(form),
         }

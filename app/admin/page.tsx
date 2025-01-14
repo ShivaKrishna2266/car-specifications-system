@@ -5,6 +5,7 @@ import ViewCarBrands from './car_brands/page';
 import ViewCarModels from './car_model/page';
 import "./admin.css"
 import ViewCarColour from './car_colour/page';
+import ViewFeedBacks from './FeedBack/page' 
 
 export default function AdminDashboard() {
   const [activeSection, setActiveSection] = useState<'dashboard' | 'carBrands' | 'carModels' | 'carColour' | 'feedback'>('dashboard');
@@ -20,7 +21,7 @@ export default function AdminDashboard() {
           <h5 onClick={() => handleSectionChange('carBrands')} style={{ cursor: 'pointer' }}>Car Brands</h5>
           <h5 onClick={() => handleSectionChange('carModels')} style={{ cursor: 'pointer' }}>Car Models</h5>
           <h5 onClick={() => handleSectionChange('carColour')} style={{ cursor: 'pointer' }}>Car Colour</h5>
-          <h5 onClick={() => handleSectionChange('carModels')} style={{ cursor: 'pointer' }}>feedback</h5>
+          <h5 onClick={() => handleSectionChange('feedback')} style={{ cursor: 'pointer' }}>Feedback</h5>
         </div>
         <div className="col-md-9 d-flex justify-content-center">
           {activeSection === 'dashboard' && (
@@ -31,6 +32,7 @@ export default function AdminDashboard() {
           {activeSection === 'carBrands' && <ViewCarBrands />}
           {activeSection === 'carModels' && <ViewCarModels />}
           {activeSection === 'carColour' && <ViewCarColour />}
+          {activeSection === 'feedback' && <ViewFeedBacks />}
         </div>
       </div>
     </div>
