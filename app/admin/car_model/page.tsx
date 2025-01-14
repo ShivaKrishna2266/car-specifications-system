@@ -10,11 +10,18 @@ interface Product {
   modelName: string;
   price: number;
   specifications: string;
-  carBrandId: number;
+  brandId: number;
+}
+
+interface Brand {
+  brandId: number;
+  brandName: string;
 }
 
 export default function ViewCarModels() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
+
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +70,37 @@ export default function ViewCarModels() {
     }
   };
 
+  const fetchBrandsData = async () => {
+    try {
+      const token = tokenService.getToken();
+
+      if (!token) {
+        console.error("No token found. Please log in.");
+        return;
+      }
+      console.log("Authorization Token:", token);
+
+      const response = await fetch("http://localhost:9090/admin/getAllCarBrand", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch brands. Status: ${response.status}`);
+      }
+
+      const res = await response.json();
+      console.log("Fetched Brands:", res.data);
+      setBrands(res.data);
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+      alert("Could not load brands. Please try again later.");
+    }
+  };
+
   const handleAddCarModel = () => {
     console.log("Navigating to AddCarModel page");
     router.push("/admin/car_model/add_car_model");
@@ -72,12 +110,18 @@ export default function ViewCarModels() {
     alert(`Edit Car Model with ID: ${modelId}`);
     console.log("Navigating to EditCarModel page with modelId:", modelId);
     router.push(`/admin/car_model/edit_car_model?modelId=${modelId}`);
-
   };
 
   useEffect(() => {
     fetchProductsData();
+    fetchBrandsData();
   }, []);
+
+  // Function to get the brand name based on brandId
+  const getBrandName = (brandId: number) => {
+    const brand = brands.find((brand) => brand.brandId === brandId);
+    return brand ? brand.brandName : "Unknown Brand";
+  };
 
   return (
     <div className="card container">
@@ -97,7 +141,7 @@ export default function ViewCarModels() {
             <th>Model Name</th>
             <th>Price</th>
             <th>Specifications</th>
-            <th>Brand ID</th>
+            <th>Brand Name</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -109,7 +153,7 @@ export default function ViewCarModels() {
                 <td>{product.modelName}</td>
                 <td>${product.price.toFixed(2)}</td>
                 <td>{product.specifications}</td>
-                <td>{product.carBrandId}</td>
+                <td>{getBrandName(product.brandId)}</td>
                 <td>
                   <FaEdit
                     className="text-warning me-2 action-icon"
