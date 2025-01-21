@@ -40,30 +40,35 @@ export default function SearchForm() {
   };
 
   return (
-    <form className="d-flex">
-      <input
-        className="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <button className="btn btn-outline-light me-3" type="submit">
-        Search
-      </button>
+    <form className="d-flex ">
+    <input
+      className="form-control me-2"
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+    />
+    <button className="btn btn-outline-light me-3" type="submit">
+      Search
+    </button>
 
-      {isLoggedIn ? (
-        <div className="user-icon-container">
-          <FaUserCircle className="user-icon" />
-          <div className="user-modal">
-            <p className="username">{username} ({role})</p>
-            <button onClick={handleLogout} className="logout-link">
-              Logout
-            </button>
-          </div>
+    {isLoggedIn ? (
+      <div className="user-icon-container">
+        <FaUserCircle className="user-icon" />
+        <div className="user-modal">
+          <p className="username">
+            {username} ({role})
+          </p>
+          <button onClick={handleLogout} className="logout-link">
+            Logout
+          </button>
         </div>
-      ) : (
-        <a href="./login" className="nav-link text-white mt-2">Login</a>
-      )}
-    </form>
+      </div>
+    ) : (
+      <a href="./login" className="nav-link text-white mt-2">
+        Login
+      </a>
+    )}
+  </form>
+
   );
 }

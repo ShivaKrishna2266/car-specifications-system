@@ -18,7 +18,7 @@
 }
 
 .card h5:hover {
-  background-color: #e9ecef; /* Light gray on hover */
+  background-color: #b2b8be; /* Light gray on hover */
   transform: scale(1.03); /* Slightly enlarge the box on hover */
   color: #0056b3; /* Darker blue text on hover */
 }

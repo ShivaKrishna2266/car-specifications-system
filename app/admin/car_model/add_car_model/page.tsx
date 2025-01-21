@@ -1,34 +1,67 @@
 "use client";
 
 import tokenService from "@/app/tokenService";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 
-
 export default function AddCarModel() {
-
   const [form, setForm] = useState({
     modelName: '',
     price: '',
     specifications: '',
-    carBrandId: '',
+    brandId: '',
     createdBy: tokenService.getUsername(),
   });
 
   const [message, setMessage] = useState('');
+  const [brands, setCarBrands] = useState<any[]>([]);
   const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  useEffect(() => {
+    // Fetch car brands on component mount
+    const fetchCarBrands = async () => {
+      try {
+        const token = tokenService.getToken();
+        if (!token) {
+          setMessage("Authentication required. Please log in.");
+          return;
+        }
+
+        const response = await fetch("http://localhost:9090/admin/getAllCarBrand", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch car brands.");
+        }
+
+        const res = await response.json();
+        setCarBrands(res.data || []); // Assuming response contains `data`
+      } catch (error) {
+        console.error("Error fetching car brands:", error);
+        setMessage("Unable to load car brands.");
+      }
+    };
+
+    fetchCarBrands();
+  }, []); // Empty dependency array to run only once on mount
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const newProduct = {
       modelName: form.modelName,
       price: Number(form.price),
       specifications: form.specifications,
-      carBrandId: Number(form.carBrandId),
+      brandId: Number(form.brandId),
       createdBy: tokenService.getUsername(),
     };
 
@@ -37,29 +70,26 @@ export default function AddCarModel() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Adjust token retrieval as per your setup
+          Authorization: `Bearer ${tokenService.getToken()}`,
         },
         body: JSON.stringify(newProduct),
       });
 
       if (response.ok) {
         setMessage("Car model added successfully!");
-        setForm({ modelName: '', price: '', specifications: '', carBrandId: '', createdBy: '' });
+        setForm({ modelName: '', price: '', specifications: '', brandId: '', createdBy: '' });
+        router.push('/admin/car_model');
       } else {
         const errorData = await response.json();
         setMessage(`Error: ${errorData.message || "Failed to add car model"}`);
       }
-
-      router.push('/admin/car_model');
     } catch (error) {
       setMessage("Error: Unable to connect to the server.");
       console.error("Error adding car model:", error);
     }
   };
 
-
   return (
-
     <div className="d-flex justify-content-center align-items-center h-100 mt-5 mb-5">
       <div className="col-12 col-md-9 col-lg-7 col-xl-6">
         <div className="card" style={{ borderRadius: '15px' }}>
@@ -100,26 +130,34 @@ export default function AddCarModel() {
                   />
                 </div>
                 <div className="">
-                  <input
-                    type="text"
-                    name="carBrandId"
+                  <select
+                    name="brandId"
                     className="form-control"
-                    value={form.carBrandId}
+                    value={form.brandId}
                     onChange={handleChange}
-                    placeholder="Car Brand ID"
                     required
-                  />
+                  >
+                    <option value="" disabled>
+                      Select Car Brand
+                    </option>
+                    {brands.map((brand) => (
+                      <option key={brand.brandId} value={brand.brandId}>
+                        {brand.brandName}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="">
-                  <button type="submit" className="btn btn-primary mr-10">Add Product</button>
+                  <button type="submit" className="btn btn-primary mr-10">
+                    Add Product
+                  </button>
                 </div>
               </div>
             </form>
+            {message && <div className="alert alert-info">{message}</div>}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
-

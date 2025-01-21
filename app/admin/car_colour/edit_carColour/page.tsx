@@ -8,7 +8,7 @@ import tokenService from "@/app/tokenService";
 export default function EditCarColour() {
   const [form, setForm] = useState({
     colourName: "",
-    carModelId: "",
+    modelId: "",
   });
   const [carModels, setCarModels] = useState({
     modelId: "",
@@ -176,9 +176,9 @@ export default function EditCarColour() {
               </div>
               <div className="mb-3">
                 <select
-                  name="carModelId"
+                  name="modelId"
                   className="form-control"
-                  value={form.carModelId}
+                  value={form.modelId}
                   onChange={handleChange}
                   required
                 >

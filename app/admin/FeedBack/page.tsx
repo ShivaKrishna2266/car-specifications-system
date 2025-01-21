@@ -177,8 +177,9 @@ export default function ViewFeedBacks() {
           Add Feed Back
         </button>
       </div>
-      <table className="table table-bordered mt-5">
-        <thead className="table-light">
+      <div className="table-responsive mt-5">
+      <table className="table table-bordered">
+        <thead className="table-light ">
           <tr>
             <th>S No</th>
             <th>Rating</th>
@@ -218,7 +219,7 @@ export default function ViewFeedBacks() {
           )}
         </tbody>
       </table>
-
+      </div>
       <div className="d-flex justify-content-end">
         <nav>
           <ul className="pagination">

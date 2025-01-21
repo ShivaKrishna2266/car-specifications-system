@@ -134,8 +134,9 @@ export default function ViewCarModels() {
           Add Car Model
         </button>
       </div>
-      <table className="table table-bordered mt-5">
-        <thead className="table-light">
+      <div className="table-responsive mt-5">
+      <table className="table table-bordered">
+        <thead className="table-light ">
           <tr>
             <th>S No</th>
             <th>Model Name</th>
@@ -175,6 +176,7 @@ export default function ViewCarModels() {
           )}
         </tbody>
       </table>
+      </div>
       <div className="d-flex justify-content-end">
         <nav>
           <ul className="pagination">
