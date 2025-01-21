@@ -95,8 +95,9 @@ export default function ViewCarBrands() {
         <button type="button" className="btn btn-primary mr-10" onClick={handleAddCarBrand} > Add Car Brands </button>
       </div>
 
-      <table className="table table-bordered mt-5">
-        <thead className="table-light">
+      <div className="table-responsive mt-5">
+      <table className="table table-bordered">
+        <thead className="table-light ">
           <tr>
             <th>S No</th>
             <th>Name</th>
@@ -133,6 +134,7 @@ export default function ViewCarBrands() {
           )}
         </tbody>
       </table>
+      </div>
       <div className="d-flex justify-content-end">
         <nav>
           <ul className="pagination">

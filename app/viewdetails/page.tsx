@@ -1,19 +1,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import router, { useRouter } from 'next/router';
+// import router, { useRouter } from 'next/router';
 import "../viewdetails/view_details.css"
 import { useCart } from '../context/CartContext';
+import { useRouter } from 'next/navigation';
+
 
 export default function CarModelDetails() {
   const [carModel, setCarModel] = useState<any>(null);
   const { addToCart } = useCart();
+  const router = useRouter();
 
   
   // const router = useRouter();
   const handleBookCar = () => {
     addToCart(carModel);
-   // alert("Car has been added to your cart!");
+    // alert('Car has been added to your cart!');
+    // router.push('/cart-details'); 
   };
 
   useEffect(() => {
@@ -38,9 +42,9 @@ export default function CarModelDetails() {
 
   return (
     <div className="container">
-      <h2>{carModel.modelName} Car Model Details</h2>
-      <div className="card">
-        <div className="row">
+      <div className="card mt-5 mb-5">
+      <h2 className="d-flex justify-content-center align-items-center mt-5"><b>{carModel.modelName} Car Model Details</b></h2>
+        <div className="container row">
           <div className="col-md-4 mt-3 mb-3">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU" className="image" alt="" />
           </div>
@@ -50,7 +54,7 @@ export default function CarModelDetails() {
             <p className="card-text"><b>Price</b> :{carModel.price} Rupeis</p>
           </div>       
         </div>
-      <button className="btn btn-primary"  onClick={handleBookCar}>Book Car</button>
+      <button className="btn btn-primary"  onClick={handleBookCar}>Add Cart</button>
       </div>
     </div>
   );

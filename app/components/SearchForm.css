@@ -6,14 +6,14 @@
 }
 
 .user-icon {
-  font-size: 24px;
+  font-size: 20px;
   color: white;
 }
 
 .user-modal {
   display: none;
   position: absolute;
-  top: 30px;
+  top: 10px;
   right: 0;
   background-color: #fff;
   color: #333;
@@ -43,3 +43,6 @@
 .logout-link:hover {
   text-decoration: underline;
 }
+
+
+

@@ -8,7 +8,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 interface CarColour {
   colourId: number;
   colourName: string;
-  carModelId: number;
+  modelId: number;
 }
 
 interface CarModel {
@@ -142,7 +142,7 @@ export default function ViewCarColour() {
               currentRecords.map((carColour, index) => {
                 // Find the modelName corresponding to the carModelId
                 const model = carModels.find(
-                  (model) => model.modelId === carColour.carModelId
+                  (model) => model.modelId === carColour.modelId
                 );
                 return (
                   <tr key={carColour.colourId}>
