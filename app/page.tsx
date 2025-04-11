@@ -98,9 +98,8 @@ export default function HomePage() {
                 alt="True Value About"
               />
               <div className="card-body">
-                <h4>About Us</h4>
-                <p>
-                  Since foraying into India’s pre-owned car market in 2001, True Value has grown in both size and stature, with 558 outlets across 279 cities.
+                {/* <h4>About Us</h4> */}
+                <p>Since foraying into India’s pre-owned car market in 2001, True Value has grown in both size and stature, with 558 outlets across 279 cities.
                 </p>
                 <a href="#">Read More</a>
               </div>
