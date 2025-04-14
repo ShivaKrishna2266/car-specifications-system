@@ -12,17 +12,17 @@
   }
 }
 
-/* The image zoom effect */
 .card-img-top {
   transition: transform 0.3s ease-in-out;
   width: 100%;
-  height: auto;
   border-radius: 8px;
   object-fit: cover; 
+  height: 200px;
+  
 }
 
 .card-img-top:hover {
-  animation: zoomInOut 0.30s ease-out; 
+  animation: zoomInOut 0.70s ease-out; 
   z-index: 1;
 }
 
@@ -31,4 +31,12 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
   border-radius: 8px; 
 }
+
+/* ====================================================== */
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
 

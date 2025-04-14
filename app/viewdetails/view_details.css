@@ -1,47 +1,9 @@
- .btn-primary {
-    background-color: #4fba2e;
-    /* border-color: #007bff; */
-    width: 90px;
-    padding:9px;
-    margin-left: auto;
-    margin-top: 5px;
-    margin-bottom:10px ;
-  }
-  
- .btn-primary:hover {
-    background-color: #1a1003;
-    border-color: #0056b3;
-    text-decoration-color:#0056b3;
-  }
+/* view_details.css */
+.card {
+  transition: all 0.3s ease-in-out;
+}
 
-  @keyframes zoomInOut {
-    0% {
-      transform: scale(1); /* Initial size */
-    }
-    50% {
-      transform: scale(1.2); /* Zoom in */
-    }
-    100% {
-      transform: scale(1); /* Zoom out to original size */
-    }
-  }
-  
-  /* The image zoom effect */
-  .image {
-    transition: transform 0.3s ease-in-out;
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover; /* Ensure image fits within the card */
-  }
-  
-  /* When hovering over the image, apply the animation */
-  .image:hover {
-    animation: zoomInOut 0.45s ease-out; /* Zoom in and out in 0.6s */
-    z-index: 1;
-  }
-  .card {
-    padding: 7px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
-    border-radius: 8px; 
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
