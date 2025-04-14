@@ -2,8 +2,9 @@
 
 import "./globals.css";
 import { useEffect, useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-// Define the type for a brand
 interface Brand {
   brandId: number;
   brandName: string;
@@ -14,10 +15,11 @@ interface Brand {
 }
 
 export default function HomePage() {
-  const [brands, setBrands] = useState<Brand[]>([]); // Explicitly set the type
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const brandsPerPage = 8;
 
   useEffect(() => {
-    // Fetch data from API
     const fetchBrands = async () => {
       try {
         const response = await fetch("http://localhost:9090/data/getAllCarBrand");
@@ -38,6 +40,13 @@ export default function HomePage() {
     fetchBrands();
   }, []);
 
+    // Pagination Logic
+    const indexOfLastBrand = currentPage * brandsPerPage;
+    const indexOfFirstBrand = indexOfLastBrand - brandsPerPage;
+    const currentBrands = brands.slice(indexOfFirstBrand, indexOfLastBrand);
+    const totalPages = Math.ceil(brands.length / brandsPerPage);
+  
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -47,25 +56,28 @@ export default function HomePage() {
           <div className="carousel-item active">
             <img
               src="https://t3.ftcdn.net/jpg/08/68/87/14/240_F_868871426_pbtuxaZrRsBgAeCaZQbTAKFNnuXucZvd.jpg"
-              className="d-block w-100 img-fluid"
+              className="d-block w-100 carousel-img"
               alt="Car Display 1"
             />
+            <div className="carousel-caption d-none d-md-block">
+              <h1>Luxury and Speed</h1>
+              <p>Experience the thrill of modern design and performance.</p>
+            </div>
           </div>
+
           <div className="carousel-item">
             <img
-              src="https://img.freepik.com/free-vector/luxury-car-advertisement-banner-template_1268-13318.jpg"
-              className="d-block w-100 img-fluid"
+              src="https://assets.fastly.carvana.io/merchui/images/home_heroes/kb_ds_121624.jpg"
+              className="d-block w-100 carousel-img"
               alt="Car Display 2"
             />
-          </div>
-          <div className="carousel-item">
-            <img
-              src="https://img.freepik.com/free-psd/car-rental-automotive-facebook-cover-template_106176-2481.jpg"
-              className="d-block w-100 img-fluid"
-              alt="Car Display 3"
-            />
+            <div className="carousel-caption d-none d-md-block">
+              <h1>Premium Rentals</h1>
+              <p>Drive the best without the commitment.</p>
+            </div>
           </div>
         </div>
+
         <button
           className="carousel-control-prev"
           type="button"
@@ -87,54 +99,58 @@ export default function HomePage() {
       </div>
 
       {/* About Section */}
-      <div className="container ">
+      <div className="container">
         <div className="row mt-5">
-          <div className="col-md-4 mt-4 text-center">
-            <h2>About True Value</h2>
-            <div className="card mt-3 mb-3">
+          {/* Card 1 */}
+          <div className="col-md-4 mt-4 d-flex flex-column">
+            <h2 className="text-center">About True Value</h2>
+            <div className="card mt-3 mb-3 h-100 d-flex flex-column">
               <img
                 src="https://cdn.prod.website-files.com/607ee530dd59915d46108839/607ee530dd59919c6e108dbf_cover.avif"
                 className="card-img-top"
                 alt="True Value About"
+                style={{ height: "200px", objectFit: "cover" }}
               />
-              <div className="card-body">
-                {/* <h4>About Us</h4> */}
-                <p>Since foraying into India’s pre-owned car market in 2001, True Value has grown in both size and stature, with 558 outlets across 279 cities.
+              <div className="card-body d-flex flex-column">
+                <p className="flex-grow-1">
+                  Since foraying into India’s pre-owned car market in 2001, True Value has grown in both size and stature, with 558 outlets across 279 cities.
                 </p>
                 <a href="#">Read More</a>
               </div>
             </div>
           </div>
 
-          <div className="col-md-4 mt-4">
-            <h2>From the Auto Experts</h2>
-            <div className="card mt-3">
-              <div className="">
-                <div className="col-md-">
-                  <img
-                    src="https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg"
-                    className="card-img-top"
-                    alt="Expert Tip 1"
-                  />
-                </div>
-                <div className="col-md-">
-                  <p>What Makes Maruti Suzuki True Value A Trusted Name in the Pre-Owned Car Market?</p>
-                  <a href="#" target="_blank">Read More</a>
-                </div>
+          {/* Card 2 */}
+          <div className="col-md-4 mt-4 d-flex flex-column">
+            <h2 className="text-center">From the Auto Experts</h2>
+            <div className="card mt-3 h-100 d-flex flex-column">
+              <img
+                src="https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg"
+                className="card-img-top"
+                alt="Expert Tip"
+                style={{ height: "200px", objectFit: "cover" }}
+              />
+              <div className="card-body d-flex flex-column">
+                <p className="flex-grow-1">
+                  What Makes Maruti Suzuki True Value A Trusted Name in the Pre-Owned Car Market?
+                </p>
+                <a href="#" target="_blank">Read More</a>
               </div>
             </div>
           </div>
 
-          <div className="col-md-4 mt-4">
-            <h2>The Advantages</h2>
-            <div className="card mt-3">
+          {/* Card 3 */}
+          <div className="col-md-4 mt-4 d-flex flex-column">
+            <h2 className="text-center">The Advantages</h2>
+            <div className="card mt-3 h-100 d-flex flex-column">
               <img
                 src="https://t3.ftcdn.net/jpg/08/68/87/14/240_F_868871426_pbtuxaZrRsBgAeCaZQbTAKFNnuXucZvd.jpg"
-                className="card-img-top w-100 img-fluid"
+                className="card-img-top"
                 alt="True Value Advantages"
+                style={{ height: "200px", objectFit: "cover" }}
               />
-              <div className="card-body">
-                <p>
+              <div className="card-body d-flex flex-column">
+                <p className="flex-grow-1">
                   At Maruti Suzuki True Value, the term ‘True Value’ takes on an all-important meaning, ensuring transparency, reliability, and customer delight.
                 </p>
                 <a href="#">Read More</a>
@@ -142,32 +158,44 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        </div>
+      </div>
 
-        {/* Shop By Brand Section */}
-        <div className="container mt-5">
-          <h1 className="text-center">Shop By Brand</h1>
-          <div className="row mt-4">
-            {brands.map((brand) => (
-              <div className="col-md-3 mb-4" key={brand.brandId}>
-                <div className="card">
-                  <img
-                    src="https://tse4.mm.bing.net/th?id=OIP.XQ6CyncXgEdljRssh_LAIwHaEK&pid=Api&P=0&h=180"
-                    className="card-img-top"
-                    alt={brand.brandName}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title text-center">{brand.brandName}</h5>
-                    {/* <p className="card-text text-center">{brand.description}</p> */}
-                    {/* <h6 className="card-text text-center">{brand.countryOfOrigin}</h6> */}
-                  </div>
+      {/* Shop By Brand Section */}
+      <div className="container mt-5">
+        <h1 className="text-center">Shop By Brand</h1>
+        <div className="row mt-4">
+          {currentBrands.map((brand) => (
+            <div className="col-md-3 mb-4" key={brand.brandId}>
+              <div className="card">
+                <img
+                  src={brand.logoUrl || "https://tse4.mm.bing.net/th?id=OIP.XQ6CyncXgEdljRssh_LAIwHaEK&pid=Api&P=0&h=180"}
+                  className="card-img-top"
+                  alt={brand.brandName}
+                  style={{ height: "180px", objectFit: "contain", padding: "10px" }}
+                />
+                <div className="card-body">
+                  <h5 className="card-title text-center">{brand.brandName}</h5>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-     
-    </div>
 
+        {/* Pagination Controls */}
+        <nav>
+          <ul className="pagination justify-content-center">
+            {[...Array(totalPages)].map((_, index) => (
+              <li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+                <button className="page-link" onClick={() => paginate(index + 1)}>
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+
+      
+    </div>
   );
 }

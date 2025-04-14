@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-// import router, { useRouter } from 'next/router';
-import "../viewdetails/view_details.css"
+import '../viewdetails/view_details.css';
 import { useCart } from '../context/CartContext';
 import { useRouter } from 'next/navigation';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
 export default function CarModelDetails() {
@@ -12,49 +13,233 @@ export default function CarModelDetails() {
   const { addToCart } = useCart();
   const router = useRouter();
 
-  
-  // const router = useRouter();
-  const handleBookCar = () => {
-    addToCart(carModel);
-    // alert('Car has been added to your cart!');
-    // router.push('/cart-details'); 
-  };
-
   useEffect(() => {
-    const storedModel = localStorage.getItem('selectedCarModel'); // Get the car model data from localStorage
+    const storedModel = localStorage.getItem('selectedCarModel');
     if (storedModel) {
-      setCarModel(JSON.parse(storedModel)); // Parse and set the car model
-    } else {
-      // If no data is available in localStorage, redirect back to products page
-      // router.push('/products-page');
+      setCarModel(JSON.parse(storedModel));
     }
   }, [router]);
 
-  // Handle the case where car model data might not exist
+  const handleBookCar = () => {
+    addToCart(carModel);
+    router.push('/cart-details');
+  };
+
   if (!carModel) {
     return (
-      <div className="container">
-        <h2>Error</h2>
+      <div className="container text-center mt-5">
+        <h2 className="text-danger">Error</h2>
         <p>No car model data found. Please go back and select a car model.</p>
       </div>
     );
   }
 
   return (
-    <div className="container">
-      <div className="card mt-5 mb-5">
-      <h2 className="d-flex justify-content-center align-items-center mt-5"><b>{carModel.modelName} Car Model Details</b></h2>
-        <div className="container row">
-          <div className="col-md-4 mt-3 mb-3">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU" className="image" alt="" />
+    <div className="container mt-5 mb-5">
+      <div className="card shadow-lg border-0 rounded-4 p-5 bg-light">
+        <h2 className="text-center mb-4 text-primary fw-bold">
+          {carModel.modelName} - Premium Car Details
+        </h2>
+        <div className="row align-items-center">
+          <div className="col-md-6 mb-3 text-center">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU"
+              alt={carModel.modelName}
+              className="img-fluid rounded-4 border shadow-lg"
+              style={{ maxHeight: '350px', objectFit: 'cover' }}
+            />
           </div>
-          <div className="card-text col-md-5 mt-5">
-            <h5 className="card-text"><b>Name</b> :{carModel.modelName}</h5>
-            <p className="card-text"><b>Specifications</b> :{carModel.specifications}</p>
-            <p className="card-text"><b>Price</b> :{carModel.price} Rupeis</p>
-          </div>       
+          <div className="col-md-6">
+            <ul className="list-group list-group-flush fs-5">
+              <li className="list-group-item bg-transparent">
+                <strong className="text-muted">Name:</strong> {carModel.modelName}
+              </li>
+              <li className="list-group-item bg-transparent">
+                <strong className="text-muted">Specifications:</strong> {carModel.specifications}
+              </li>
+              <li className="list-group-item bg-transparent">
+                <strong className="text-muted">Price:</strong>{' '}
+                ₹ {Number(carModel.price).toLocaleString('en-IN')}
+              </li>
+            </ul>
+            <div className="mt-4 d-grid">
+              <button className="btn btn-success btn-lg fw-semibold" onClick={handleBookCar}>
+                🚗 Add to Cart
+              </button>
+            </div>
+          </div>
         </div>
-      <button className="btn btn-primary"  onClick={handleBookCar}>Add Cart</button>
+      </div>
+
+      {/* Key Features Section */}
+      <div className="mt-5">
+        <h4 className="text-primary mb-4">🔑 Key Features</h4>
+        <ul className="list-group">
+          <li className="list-group-item">
+            <strong>Engine:</strong> 2.0L 4-cylinder turbocharged engine for a smooth and powerful ride.
+          </li>
+          <li className="list-group-item">
+            <strong>Transmission:</strong> 6-speed automatic transmission for seamless gear shifts.
+          </li>
+          <li className="list-group-item">
+            <strong>Infotainment:</strong> 10-inch touchscreen with Android Auto and Apple CarPlay compatibility.
+          </li>
+          <li className="list-group-item">
+            <strong>Safety:</strong> Equipped with 6 airbags, ABS, and stability control for enhanced safety.
+          </li>
+        </ul>
+      </div>
+
+      {/* Vehicle Details Section */}
+      <div className="mt-5">
+        <h4 className="text-primary mb-4">🚗 Vehicle Details</h4>
+        <ul className="list-group">
+          <li className="list-group-item">
+            <strong>Fuel Type:</strong> Petrol
+          </li>
+          <li className="list-group-item">
+            <strong>Body Type:</strong> Sedan
+          </li>
+          <li className="list-group-item">
+            <strong>Seating Capacity:</strong> 5
+          </li>
+          <li className="list-group-item">
+            <strong>Color Options:</strong> White, Black, Silver, Red
+          </li>
+        </ul>
+      </div>
+
+      {/* Price Details Section */}
+      <div className="mt-5">
+        <h4 className="text-primary mb-4">💰 Price Details</h4>
+        <div className="card shadow-sm mb-3 p-4">
+          <ul className="list-group">
+            <li className="list-group-item bg-transparent">
+              <strong>Ex-Showroom Price:</strong> ₹ {Number(carModel.exShowroomPrice).toLocaleString('en-IN')}
+            </li>
+            <li className="list-group-item bg-transparent">
+              <strong>On-Road Price:</strong> ₹ {Number(carModel.onRoadPrice).toLocaleString('en-IN')}
+            </li>
+            <li className="list-group-item bg-transparent">
+              <strong>Insurance:</strong> ₹ {Number(carModel.insurancePrice).toLocaleString('en-IN')}
+            </li>
+            <li className="list-group-item bg-transparent">
+              <strong>EMI Option:</strong> ₹ {Number(carModel.emiOption).toLocaleString('en-IN')} per month
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Inspection Section */}
+      <div className="mt-5">
+        <h4 className="text-primary mb-4">🔍 Inspection</h4>
+        <p className="text-muted">
+          We recommend that all potential buyers schedule a comprehensive inspection to ensure the vehicle
+          meets your expectations. You can book an inspection with our certified agents for a detailed review.
+        </p>
+        <button className="btn btn-outline-primary">Book Inspection</button>
+      </div>
+
+      {/* More Cars Section */}
+      <div className="mt-5">
+        <h4 className="text-primary mb-4">🚘 More Cars You Might Like</h4>
+        <div className="row">
+          {/* Replace this section with dynamic car models */}
+          {[...Array(3)].map((_, idx) => (
+            <div className="col-md-4 mb-4" key={idx}>
+              <div className="card">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU"
+                  alt="Car Model"
+                  className="card-img-top"
+                />
+                <div className="card-body">
+                  <h5 className="card-title">Car Model {idx + 1}</h5>
+                  <p className="card-text">₹ 25,00,000</p>
+                  <a href="#" className="btn btn-primary">View Details</a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Reviews Section */}
+      <div className="mt-5">
+        <h4 className="text-primary mb-4">⭐ Customer Reviews</h4>
+        <div className="list-group">
+          <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
+            <h6 className="mb-1 fw-semibold text-dark">Ravi Sharma</h6>
+            <p className="mb-2 text-muted">"Amazing driving experience! The mileage is great and the interior is super premium."</p>
+            <div className="d-flex align-items-center">
+              <span className="text-warning">⭐⭐⭐⭐☆</span>
+              <small className="ms-3 text-muted">2 days ago</small>
+            </div>
+          </div>
+          <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
+            <h6 className="mb-1 fw-semibold text-dark">Sneha Reddy</h6>
+            <p className="mb-2 text-muted">"Comfortable and smooth ride. Definitely worth the price. I highly recommend it!"</p>
+            <div className="d-flex align-items-center">
+              <span className="text-warning">⭐⭐⭐⭐⭐</span>
+              <small className="ms-3 text-muted">1 week ago</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="mt-5 mb-5">
+        <h4 className="text-primary mb-3">❓ Frequently Asked Questions</h4>
+        <div className="accordion" id="faqAccordion">
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingOne">
+              <button
+                className="accordion-button fw-semibold"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                What is the mileage of this model?
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              className="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#faqAccordion"
+            >
+              <div className="accordion-body text-muted">
+                This car offers a mileage of approximately 18–20 km/l depending on the variant and driving conditions.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingTwo">
+              <button
+                className="accordion-button fw-semibold"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Is there a sunroof available in this model?
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              className="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#faqAccordion"
+            >
+              <div className="accordion-body text-muted">
+                Yes, this model comes with an optional sunroof for an enhanced driving experience.
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

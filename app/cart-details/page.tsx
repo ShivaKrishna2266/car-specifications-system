@@ -1,76 +1,112 @@
-// app/cart-details/page.tsx
-"use client"; // Ensure this is marked as a Client Component
+"use client";
 
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
+import { FaShoppingCart } from "react-icons/fa";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const CartDetails = () => {
   const { cartItems, getTotalPrice, removeFromCart } = useCart();
   const router = useRouter();
 
-  // Handle order logic (e.g., integrating Razorpay)
   const handleOrder = async () => {
     const totalPrice = getTotalPrice();
     try {
-      // Placeholder: Add Razorpay integration or order processing logic here
-      alert(`Order placed successfully! Total: ${totalPrice} Rupees`);
+      alert(`Order placed successfully! Total: ₹${totalPrice}`);
     } catch (error) {
       console.error("Order failed:", error);
     }
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Cart Details</h2>
-
-      {/* Display an alert if the cart is empty */}
-      {
-      cartItems.length === 0 ? (
-        <div className="alert alert-warning" role="alert">
-          Your cart is empty! <button onClick={() => router.push("/")} className="btn btn-link">Go Shopping</button>
-        </div>
-      ) : 
-      (
-        <>
-          <table className="table table-bordered table-striped">
-            <thead className="table-light">
-              <tr>
-                <th>Model Name</th>
-                <th>Specifications</th>
-                <th>Price (Rupees)</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cartItems.map((item, index) => (
-                <tr key={item.modelId || index}>
-                  <td>{item.modelName || "N/A"}</td>
-                  <td>{item.specifications || "N/A"}</td>
-                  <td>{item.price || 0}</td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => removeFromCart(item)}
-                    >
-                      Remove
+    <div className="container py-5">
+      <h1 className="mb-5"><b>Your Shopping Cart</b></h1>
+      <div className="row">
+        {/* Left Column - Cart Items */}
+        <div className="col-lg-8">
+          <div className="card mb-4">
+            <div className="card-body">{cartItems.length > 0 ? (<>{cartItems.map((item, i) => (
+              <div key={item.modelId || i}>
+                <div className="row cart-item mb-3">
+                  <div className="col-md-3">
+                    <img
+                      //  src={item.imageUrl || "/default-car.jpg"}
+                      alt={item.modelName} className="img-fluid rounded" />
+                  </div>
+                  <div className="col-md-4">
+                    <h5 className="card-title">{item.modelName}</h5>
+                    {/* <p className="text-muted">Type: {item.type || "General"}</p> */}
+                    <p>{item.specifications || "No specifications provided"}</p>
+                  </div>
+                  <div className="col-md-3 d-flex align-items-center">
+                    <p className="fw-bold mb-0">₹{item.price}</p>
+                  </div>
+                  <div className="col-md-2 text-end">
+                    <button className="btn btn-sm btn-outline-danger" onClick={() => removeFromCart(item)}>
+                      <i className="fa fa-trash" aria-hidden="true"></i>
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="d-flex justify-content-between align-items-center mt-4">
-            <h4>
-              Total Price:{" "}
-              <span className="text-success">{getTotalPrice()} Rupees</span>
-            </h4>
-            <button onClick={handleOrder} className="btn btn-primary">
-              Order Car
+                  </div>
+                </div>
+                <hr />
+              </div>
+            ))}
+            </>
+            ) : (
+              <p className="text-center text-muted">
+                Your cart is empty.{" "}
+                <button className="btn btn-link" onClick={() => router.push("/")} >Go Shopping </button>
+              </p>
+            )}
+            </div>
+          </div>
+
+          <div className="text-start mb-4">
+            <button className="btn btn-outline-primary" onClick={() => router.push("/products")} >
+              <i className="bi bi-arrow-left me-2"></i>Continue Shopping
             </button>
           </div>
-        </>
-      )}
+        </div>
+
+        {/* Right Column - Summary */}
+        <div className="col-lg-4">
+          <div className="card cart-summary">
+            <div className="card-body">
+              <h3 className="card-title mb-4"><b>Order Summary</b></h3>
+              <div className="d-flex justify-content-between mb-3">
+                <span>Subtotal</span>
+                <span>₹{getTotalPrice()}</span>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <span>Shipping</span>
+                <span>₹10.00</span>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <span>Tax</span>
+                <span>₹20.00</span>
+              </div>
+              <hr />
+              <div className="d-flex justify-content-between mb-4">
+                <strong>Total</strong>
+                <strong>₹{getTotalPrice() + 10 + 20}</strong>
+              </div>
+              <h5><b>Taxes, discounts and shipping calculated at checkout</b></h5>
+              <button className="btn btn-primary w-100" onClick={handleOrder}> Proceed to Checkout </button>
+            </div>
+          </div>
+
+          {/* Promo Code Card */}
+          <div className="card mt-4">
+            <div className="card-body">
+              <h5 className="card-title mb-3">Apply Promo Code</h5>
+              <div className="input-group mb-3">
+                <input type="text" className="form-control" placeholder="Enter promo code" />
+                <button className="btn btn-outline-secondary" type="button">Apply</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

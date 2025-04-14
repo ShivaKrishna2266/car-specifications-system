@@ -1,168 +1,159 @@
 /* ProductsPage.css */
 
-/* General styling for the page */
+/* General Styling */
 .bg-dark {
-    background-color: #343a40 !important;
-  }
-  
-  .text-white {
-    color: #ffffff !important;
-  }
-  
-  .p-3 {
-    padding: 1rem !important;
-  }
-  
-  .mb-4 {
-    margin-bottom: 1.5rem !important;
-  }
-  
-  .mt-4 {
-    margin-top: 1.5rem !important;
-  }
-  
-  .container {
-    max-width: 1140px;
-    margin: 0 auto;
-  }
-  
-  /* Header */
-  header {
-    background-color: #343a40;
-    color: white;
-  }
-  
-  header h1 {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  
-  nav a {
-    text-decoration: none;
-    color: white;
-    margin-right: 15px;
-  }
-  
-  nav a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Aside Menu */
-  aside {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-  }
-  
-  aside h5 {
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-  
-  aside .list-group {
-    margin-top: 20px;
-  }
-  
-  aside .list-group-item {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-  
-  aside .list-group-item:hover {
-    background-color: #e5f3f4;
-    cursor: pointer;
-  }
-  
-  /* Main Content */
-  main {
-    padding: 2rem;
-  }
-  
-  main h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-  }
-  
-  .card {
-    border: 1px solid #dee2e6;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 8px;
-  }
-  
-  .card-img-top {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-  
-  .card-body {
-    padding: 1.25rem;
-  }
-  
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    color: #6c757d;
-  }
-  
-  .card .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-  }
-  
-  .card .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-  }
-  
-  /* Footer */
-  footer {
-    background-color: #343a40;
-    color: white;
-    padding: 1rem;
-  }
-  
-  footer p {
-    margin-bottom: 0;
-    font-size: 1rem;
-    color: #ffffff;
-  }
-
-  /* Define the zoom-in/zoom-out animation */
-@keyframes zoomInOut {
-  0% {
-    transform: scale(1); /* Initial size */
-  }
-  50% {
-    transform: scale(1.2); /* Zoom in */
-  }
-  100% {
-    transform: scale(1); /* Zoom out to original size */
-  }
+  background-color: #343a40 !important;
 }
 
-/* The image zoom effect */
+.text-white {
+  color: #ffffff !important;
+}
+
+/* .p-3 {
+  padding: 1rem !important;
+} */
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* Header */
+header {
+  background-color: #343a40;
+  color: white;
+  padding: 1rem 0;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  margin-right: 15px;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #ffc107;
+}
+
+/* Aside Menu */
+aside {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+aside h5 {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+aside .list-group {
+  margin-top: 20px;
+}
+
+aside .list-group-item {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  margin-bottom: 10px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+}
+
+aside .list-group-item:hover {
+  background-color: #e5f3f4;
+  cursor: pointer;
+}
+
+/* Main Content */
+main {
+  padding: 2rem;
+}
+
+main h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+/* Card Styling */
+.card {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  padding: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
 .card-img-top {
-  transition: transform 0.3s ease-in-out;
   width: 100%;
-  height: auto;
-  object-fit: cover; /* Ensure image fits within the card */
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
-/* When hovering over the image, apply the animation */
 .card-img-top:hover {
-  animation: zoomInOut 0.30s ease-out; /* Zoom in and out in 0.6s */
+  transform: scale(1.1);
   z-index: 1;
 }
 
-/* Optional: Add a border to enhance the hover effect */
+.card-body {
+  padding: 1.25rem;
+}
 
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.card .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Footer */
+/* footer {
+  background-color: #343a40;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+footer p {
+  margin-bottom: 0;
+  font-size: 1rem;
+  color: #ffffff;
+} */
