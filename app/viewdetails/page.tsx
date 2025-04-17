@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-
 export default function CarModelDetails() {
   const [carModel, setCarModel] = useState<any>(null);
   const { addToCart } = useCart();
@@ -58,8 +57,7 @@ export default function CarModelDetails() {
                 <strong className="text-muted">Specifications:</strong> {carModel.specifications}
               </li>
               <li className="list-group-item bg-transparent">
-                <strong className="text-muted">Price:</strong>{' '}
-                ₹ {Number(carModel.price).toLocaleString('en-IN')}
+                <strong className="text-muted">Price:</strong> ₹ {Number(carModel.price).toLocaleString('en-IN')}
               </li>
             </ul>
             <div className="mt-4 d-grid">
@@ -144,7 +142,6 @@ export default function CarModelDetails() {
       <div className="mt-5">
         <h4 className="text-primary mb-4">🚘 More Cars You Might Like</h4>
         <div className="row">
-          {/* Replace this section with dynamic car models */}
           {[...Array(3)].map((_, idx) => (
             <div className="col-md-4 mb-4" key={idx}>
               <div className="card">
@@ -170,73 +167,20 @@ export default function CarModelDetails() {
         <div className="list-group">
           <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
             <h6 className="mb-1 fw-semibold text-dark">Ravi Sharma</h6>
-            <p className="mb-2 text-muted">"Amazing driving experience! The mileage is great and the interior is super premium."</p>
+            <p className="mb-2 text-muted">
+              "Amazing driving experience! The mileage is great and the interior is super premium."
+            </p>
             <div className="d-flex align-items-center">
-              <span className="text-warning">⭐⭐⭐⭐☆</span>
-              <small className="ms-3 text-muted">2 days ago</small>
+              <span className="text-warning">⭐⭐⭐⭐⭐</span>
             </div>
           </div>
           <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
-            <h6 className="mb-1 fw-semibold text-dark">Sneha Reddy</h6>
-            <p className="mb-2 text-muted">"Comfortable and smooth ride. Definitely worth the price. I highly recommend it!"</p>
+            <h6 className="mb-1 fw-semibold text-dark">Neha Verma</h6>
+            <p className="mb-2 text-muted">
+              "Loved the comfort and smooth ride. Definitely recommend to anyone looking for a premium sedan."
+            </p>
             <div className="d-flex align-items-center">
-              <span className="text-warning">⭐⭐⭐⭐⭐</span>
-              <small className="ms-3 text-muted">1 week ago</small>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* FAQ Section */}
-      <div className="mt-5 mb-5">
-        <h4 className="text-primary mb-3">❓ Frequently Asked Questions</h4>
-        <div className="accordion" id="faqAccordion">
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="headingOne">
-              <button
-                className="accordion-button fw-semibold"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
-                What is the mileage of this model?
-              </button>
-            </h2>
-            <div
-              id="collapseOne"
-              className="accordion-collapse collapse show"
-              aria-labelledby="headingOne"
-              data-bs-parent="#faqAccordion"
-            >
-              <div className="accordion-body text-muted">
-                This car offers a mileage of approximately 18–20 km/l depending on the variant and driving conditions.
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="headingTwo">
-              <button
-                className="accordion-button fw-semibold"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
-                Is there a sunroof available in this model?
-              </button>
-            </h2>
-            <div
-              id="collapseTwo"
-              className="accordion-collapse collapse"
-              aria-labelledby="headingTwo"
-              data-bs-parent="#faqAccordion"
-            >
-              <div className="accordion-body text-muted">
-                Yes, this model comes with an optional sunroof for an enhanced driving experience.
-              </div>
+              <span className="text-warning">⭐⭐⭐⭐</span>
             </div>
           </div>
         </div>
