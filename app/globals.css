@@ -39,4 +39,15 @@
   border-radius: 0.5rem;
 }
 
+.carousel-img {
+  height: 500px; /* Set your desired height */
+  object-fit: cover; /* Ensures image fills area without distortion */
+  border-radius: 12px; /* Optional rounded corners */
+  transition: transform 0.5s ease; /* Smooth hover effect */
+}
+
+/* .carousel-img:hover {
+  transform: scale(1.03); 
+} */
+
 

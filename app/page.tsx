@@ -4,6 +4,7 @@ import "./globals.css";
 import { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import { useRouter } from "next/navigation";
 
 interface Brand {
   brandId: number;
@@ -16,6 +17,8 @@ interface Brand {
 
 export default function HomePage() {
   const [brands, setBrands] = useState<Brand[]>([]);
+
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const brandsPerPage = 8;
 
@@ -40,13 +43,18 @@ export default function HomePage() {
     fetchBrands();
   }, []);
 
-    // Pagination Logic
-    const indexOfLastBrand = currentPage * brandsPerPage;
-    const indexOfFirstBrand = indexOfLastBrand - brandsPerPage;
-    const currentBrands = brands.slice(indexOfFirstBrand, indexOfLastBrand);
-    const totalPages = Math.ceil(brands.length / brandsPerPage);
-  
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const handleViewModelsClick = (brandName: string) => {
+    router.push(`/view_models?brand=${encodeURIComponent(brandName)}`);
+  };
+
+
+  // Pagination Logic
+  const indexOfLastBrand = currentPage * brandsPerPage;
+  const indexOfFirstBrand = indexOfLastBrand - brandsPerPage;
+  const currentBrands = brands.slice(indexOfFirstBrand, indexOfLastBrand);
+  const totalPages = Math.ceil(brands.length / brandsPerPage);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
     <div>
@@ -67,9 +75,21 @@ export default function HomePage() {
 
           <div className="carousel-item">
             <img
-              src="https://assets.fastly.carvana.io/merchui/images/home_heroes/kb_ds_121624.jpg"
+              src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mikebirdy-170811.jpg&fm=jpg"
               className="d-block w-100 carousel-img"
               alt="Car Display 2"
+            />
+            <div className="carousel-caption d-none d-md-block">
+              <h1>Premium Rentals</h1>
+              <p>Drive the best without the commitment.</p>
+            </div>
+          </div>
+
+          <div className="carousel-item">
+            <img
+              src="https://images.unsplash.com/photo-1485291571150-772bcfc10da5?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              className="d-block w-100 carousel-img "
+              alt="Car Display 3"
             />
             <div className="carousel-caption d-none d-md-block">
               <h1>Premium Rentals</h1>
@@ -174,8 +194,15 @@ export default function HomePage() {
                   style={{ height: "180px", objectFit: "contain", padding: "10px" }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title text-center">{brand.brandName}</h5>
+                  <h5 className="card-title text-center">{brand.brandName}
+
+                  </h5>
                 </div>
+                {/* <button  className="btn btn-primary add-to-cart-btn" >View All Models</button> */}
+                <button onClick={() => handleViewModelsClick(brand.brandName)} className="btn btn-primary">
+                  View Models
+                </button>
+
               </div>
             </div>
           ))}
@@ -194,8 +221,6 @@ export default function HomePage() {
           </ul>
         </nav>
       </div>
-
-      
     </div>
   );
 }
