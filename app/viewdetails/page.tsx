@@ -6,11 +6,15 @@ import { useCart } from '../context/CartContext';
 import { useRouter } from 'next/navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function CarModelDetails() {
   const [carModel, setCarModel] = useState<any>(null);
   const { addToCart } = useCart();
   const router = useRouter();
+
+  const [carModels, setCarModels] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const storedModel = localStorage.getItem('selectedCarModel');
@@ -18,6 +22,26 @@ export default function CarModelDetails() {
       setCarModel(JSON.parse(storedModel));
     }
   }, [router]);
+
+
+
+
+  // Fetch car models from the backend API
+  useEffect(() => {
+    const fetchCarModels = async () => {
+      try {
+        const response = await fetch('https://your-backend-api.com/cars'); // Replace with your actual API URL
+        const data = await response.json();
+        setCarModels(data); // Set car models to state
+      } catch (error) {
+        console.error("Error fetching car models:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCarModels();
+  }, []);
 
   const handleBookCar = () => {
     addToCart(carModel);
@@ -32,6 +56,10 @@ export default function CarModelDetails() {
       </div>
     );
   }
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
 
   return (
     <div className="container mt-5 mb-5">
@@ -57,7 +85,7 @@ export default function CarModelDetails() {
                 <strong className="text-muted">Specifications:</strong> {carModel.specifications}
               </li>
               <li className="list-group-item bg-transparent">
-                <strong className="text-muted">Price:</strong> ₹ {Number(carModel.price).toLocaleString('en-IN')}
+                <strong className="text-muted">Price:</strong> $  {Number(carModel.price).toLocaleString('en-IN')}
               </li>
             </ul>
             <div className="mt-4 d-grid">
@@ -72,61 +100,132 @@ export default function CarModelDetails() {
       {/* Key Features Section */}
       <div className="mt-5">
         <h4 className="text-primary mb-4">🔑 Key Features</h4>
-        <ul className="list-group">
-          <li className="list-group-item">
-            <strong>Engine:</strong> 2.0L 4-cylinder turbocharged engine for a smooth and powerful ride.
-          </li>
-          <li className="list-group-item">
-            <strong>Transmission:</strong> 6-speed automatic transmission for seamless gear shifts.
-          </li>
-          <li className="list-group-item">
-            <strong>Infotainment:</strong> 10-inch touchscreen with Android Auto and Apple CarPlay compatibility.
-          </li>
-          <li className="list-group-item">
-            <strong>Safety:</strong> Equipped with 6 airbags, ABS, and stability control for enhanced safety.
-          </li>
-        </ul>
+        <div className="row">
+          <div className="col-md-3 mb-3">
+            <div className="card h-100 text-center shadow p-3">
+              <i className="fas fa-cogs fa-3x text-primary mb-2"></i>
+              <div className="card-body">
+                <h5 className="card-title">Engine</h5>
+                <p className="card-text">{carModel.engine}</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3 mb-3">
+            <div className="card h-100 text-center shadow p-3">
+              <i className="fas fa-sliders-h fa-3x text-success mb-2"></i>
+              <div className="card-body">
+                <h5 className="card-title">Transmission</h5>
+                <p className="card-text">{carModel.transmission}</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3 mb-3">
+            <div className="card h-100 text-center shadow p-3">
+              <i className="fas fa-music fa-3x text-warning mb-2"></i>
+              <div className="card-body">
+                <h5 className="card-title">Infotainment</h5>
+                <p className="card-text">{carModel.infotainment}</p>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3 mb-3">
+            <div className="card h-100 text-center shadow p-3">
+              <i className="fas fa-shield-alt fa-3x text-danger mb-2"></i>
+              <div className="card-body">
+                <h5 className="card-title">Safety</h5>
+                <p className="card-text">{carModel.safety}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+
 
       {/* Vehicle Details Section */}
       <div className="mt-5">
         <h4 className="text-primary mb-4">🚗 Vehicle Details</h4>
-        <ul className="list-group">
-          <li className="list-group-item">
-            <strong>Fuel Type:</strong> Petrol
-          </li>
-          <li className="list-group-item">
-            <strong>Body Type:</strong> Sedan
-          </li>
-          <li className="list-group-item">
-            <strong>Seating Capacity:</strong> 5
-          </li>
-          <li className="list-group-item">
-            <strong>Color Options:</strong> White, Black, Silver, Red
-          </li>
-        </ul>
+        <div className="row">
+          <div className="col-md-3 mb-3">
+            <div className="card text-center shadow p-3 h-100">
+              <i className="fas fa-gas-pump fa-2x text-danger mb-2"></i>
+              <h6 className="fw-bold">Fuel Type</h6>
+              <p className="text-muted">{carModel.fuelType}</p>
+            </div>
+          </div>
+          <div className="col-md-3 mb-3">
+            <div className="card text-center shadow p-3 h-100">
+              <i className="fas fa-car-side fa-2x text-info mb-2"></i>
+              <h6 className="fw-bold">Body Type</h6>
+              <p className="text-muted">{carModel.bodyType}</p>
+            </div>
+          </div>
+          <div className="col-md-3 mb-3">
+            <div className="card text-center shadow p-3 h-100">
+              <i className="fas fa-users fa-2x text-success mb-2"></i>
+              <h6 className="fw-bold">Seating Capacity</h6>
+              <p className="text-muted">{carModel.seatingCapacity}</p>
+            </div>
+          </div>
+          <div className="col-md-3 mb-3">
+            <div className="card text-center shadow p-3 h-100">
+              <i className="fas fa-palette fa-2x text-warning mb-2"></i>
+              <h6 className="fw-bold">Color Options</h6>
+              <p className="text-muted">{carModel.colorOptions}</p>
+            </div>
+          </div>
+        </div>
       </div>
+
 
       {/* Price Details Section */}
       <div className="mt-5">
         <h4 className="text-primary mb-4">💰 Price Details</h4>
-        <div className="card shadow-sm mb-3 p-4">
-          <ul className="list-group">
-            <li className="list-group-item bg-transparent">
-              <strong>Ex-Showroom Price:</strong> ₹ {Number(carModel.exShowroomPrice).toLocaleString('en-IN')}
-            </li>
-            <li className="list-group-item bg-transparent">
-              <strong>On-Road Price:</strong> ₹ {Number(carModel.onRoadPrice).toLocaleString('en-IN')}
-            </li>
-            <li className="list-group-item bg-transparent">
-              <strong>Insurance:</strong> ₹ {Number(carModel.insurancePrice).toLocaleString('en-IN')}
-            </li>
-            <li className="list-group-item bg-transparent">
-              <strong>EMI Option:</strong> ₹ {Number(carModel.emiOption).toLocaleString('en-IN')} per month
-            </li>
-          </ul>
+        <div className="table-responsive">
+          <table className="table table-bordered shadow rounded text-center">
+            <thead className="table-light">
+              <tr>
+                <th className='text-primary'>S No</th>
+                <th className="text-primary">Type</th>
+                <th className="text-primary">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><i className="fas fa-store-alt me-2 text-info"></i>Ex-Showroom Price</td>
+                <td>$  {Number(carModel.exShowroomPrice).toLocaleString('en-IN')}</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><i className="fas fa-road me-2 text-success"></i>On-Road Price</td>
+                <td>$  {Number(carModel.onRoadPrice).toLocaleString('en-IN')}</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><i className="fas fa-shield-alt me-2 text-warning"></i>Insurance</td>
+                <td>$  {Number(carModel.insurance).toLocaleString('en-IN')}</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td><i className="fas fa-coins me-2 text-danger"></i>EMI Option</td>
+                <td>$ {carModel.emiOption}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="mt-3 text-end p-3 bg-light rounded shadow-sm">
+          <h5 className="text-dark fw-bold">
+            🧾 Total Price: $ {" "}
+            {(
+              Number(carModel.exShowroomPrice) +
+              Number(carModel.onRoadPrice) +
+              Number(carModel.insurance)
+            ).toLocaleString("en-IN")}
+          </h5>
         </div>
       </div>
+
 
       {/* Inspection Section */}
       <div className="mt-5">
@@ -167,20 +266,74 @@ export default function CarModelDetails() {
         <div className="list-group">
           <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
             <h6 className="mb-1 fw-semibold text-dark">Ravi Sharma</h6>
-            <p className="mb-2 text-muted">
-              "Amazing driving experience! The mileage is great and the interior is super premium."
-            </p>
+            <p className="mb-2 text-muted">"Amazing driving experience! The mileage is great and the interior is super premium."</p>
             <div className="d-flex align-items-center">
-              <span className="text-warning">⭐⭐⭐⭐⭐</span>
+              <span className="text-warning">⭐⭐⭐⭐☆</span>
+              <small className="ms-3 text-muted">2 days ago</small>
             </div>
           </div>
           <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
-            <h6 className="mb-1 fw-semibold text-dark">Neha Verma</h6>
-            <p className="mb-2 text-muted">
-              "Loved the comfort and smooth ride. Definitely recommend to anyone looking for a premium sedan."
-            </p>
+            <h6 className="mb-1 fw-semibold text-dark">Sneha Reddy</h6>
+            <p className="mb-2 text-muted">"Comfortable and smooth ride. Definitely worth the price. I highly recommend it!"</p>
             <div className="d-flex align-items-center">
-              <span className="text-warning">⭐⭐⭐⭐</span>
+              <span className="text-warning">⭐⭐⭐⭐⭐</span>
+              <small className="ms-3 text-muted">1 week ago</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* FAQ Section */}
+      <div className="mt-5 mb-5">
+        <h4 className="text-primary mb-3">❓ Frequently Asked Questions</h4>
+        <div className="accordion" id="faqAccordion">
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingOne">
+              <button
+                className="accordion-button fw-semibold"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                What is the mileage of this model?
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              className="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#faqAccordion"
+            >
+              <div className="accordion-body text-muted">
+                This car offers a mileage of approximately 18–20 km/l depending on the variant and driving conditions.
+              </div>
+            </div>
+          </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="headingTwo">
+              <button
+                className="accordion-button fw-semibold"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Is there a sunroof available in this model?
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              className="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#faqAccordion"
+            >
+              <div className="accordion-body text-muted">
+                Yes, this model comes with an optional sunroof for an enhanced driving experience.
+              </div>
             </div>
           </div>
         </div>
