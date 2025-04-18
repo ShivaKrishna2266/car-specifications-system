@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { useRouter } from "next/navigation";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 interface Brand {
   brandId: number;
@@ -182,27 +183,35 @@ export default function HomePage() {
 
       {/* Shop By Brand Section */}
       <div className="container mt-5">
-        <h1 className="text-center">Shop By Brand</h1>
-        <div className="row mt-4">
+        {/* Page Heading */}
+        <h1 className="text-center text-uppercase mb-4">Shop By Brand</h1>
+        <div className="text-end text-decoration-underline"><b>Total Brands: {brands.length}</b></div><br />
+
+        {/* Brand Cards */}
+        <div className="row">
           {currentBrands.map((brand) => (
             <div className="col-md-3 mb-4" key={brand.brandId}>
-              <div className="card">
+              <div className="card h-100 shadow-sm">
+                {/* Brand Logo */}
                 <img
-                  src={brand.logoUrl || "https://tse4.mm.bing.net/th?id=OIP.XQ6CyncXgEdljRssh_LAIwHaEK&pid=Api&P=0&h=180"}
+                  src={"https://tse4.mm.bing.net/th?id=OIP.XQ6CyncXgEdljRssh_LAIwHaEK&pid=Api&P=0&h=180"}
                   className="card-img-top"
                   alt={brand.brandName}
-                  style={{ height: "180px", objectFit: "contain", padding: "10px" }}
+                  style={{ height: "180px", objectFit: "contain", }}
                 />
-                <div className="card-body">
-                  <h5 className="card-title text-center">{brand.brandName}
 
-                  </h5>
+                {/* Brand Name */}
+                <div className="card-body d-flex flex-column justify-content-between text-center">
+                  <h5 className="card-title mb-3">{brand.brandName}</h5>
+
+                  {/* View Models Button */}
+                  <button
+                    onClick={() => handleViewModelsClick(brand.brandName)}
+                    className="btn btn-outline-primary mt-auto"
+                  >
+                    View Models
+                  </button>
                 </div>
-                {/* <button  className="btn btn-primary add-to-cart-btn" >View All Models</button> */}
-                <button onClick={() => handleViewModelsClick(brand.brandName)} className="btn btn-primary">
-                  View Models
-                </button>
-
               </div>
             </div>
           ))}
@@ -210,9 +219,12 @@ export default function HomePage() {
 
         {/* Pagination Controls */}
         <nav>
-          <ul className="pagination justify-content-center">
+          <ul className="pagination justify-content-center mt-4">
             {[...Array(totalPages)].map((_, index) => (
-              <li key={index} className={`page-item ${currentPage === index + 1 ? "active" : ""}`}>
+              <li
+                key={index}
+                className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+              >
                 <button className="page-link" onClick={() => paginate(index + 1)}>
                   {index + 1}
                 </button>
@@ -220,6 +232,45 @@ export default function HomePage() {
             ))}
           </ul>
         </nav>
+
+
+        <div className="container py-5">
+          <div className="row g-4">
+            <div className="col-md-6">
+              <div className="card h-100 shadow-sm">
+                <img
+                  src="https://assets.fastly.carvana.io/home-assets/nba/promo_cvt.png"
+                  alt="Car Value"
+                  className=""
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
+                <div className="card-body text-center d-flex flex-column justify-content-between">
+                  <h5 className="card-title">Stay up to speed on your car's value</h5>
+                  <p className="card-text">
+                    Get personalized insights on your car's value and track it over time with Carvana Value Tracker.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card h-100 shadow-sm">
+                <img
+                  src="https://assets.fastly.carvana.io/home-assets/redesign/insurance-promo_103023.png"
+                  alt="Insurance"
+                  className="card-img-top"
+                  style={{ height: "200px", objectFit: "cover" }}
+                />
+                <div className="card-body text-center d-flex flex-column justify-content-between">
+                  <h5 className="card-title">Insurance coverage in 3 clicks™</h5>
+                  <p className="card-text">
+                    Effortless to buy and personalized to you, introducing Carvana Insurance.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );

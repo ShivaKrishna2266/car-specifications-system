@@ -4,6 +4,8 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Define the structure of a cart item
 interface CartItem {
+  quantity: ReactNode;
+  imageUrl: string;
   modelId: string;
   modelName: string;
   specifications: string;
