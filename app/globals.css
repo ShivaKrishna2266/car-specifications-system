@@ -1,3 +1,16 @@
+.container-flued{
+  background-color: black;
+}
+
+.welcome{
+  background: #69b7e5;
+}
+/* 
+.content_image {
+  width: 50%;
+  max-height: 200px;
+  object-fit: cover;
+} */
 
 
 @keyframes zoomInOut {
@@ -42,7 +55,13 @@
 .carousel-img {
   height: 500px; /* Set your desired height */
   object-fit: cover; /* Ensures image fills area without distortion */
-  border-radius: 12px; /* Optional rounded corners */
+  border-radius: 0px; /* Optional rounded corners */
+  transition: transform 0.5s ease; /* Smooth hover effect */
+}
+.content_image{
+  height: 400px; /* Set your desired height */
+  object-fit: cover; /* Ensures image fills area without distortion */
+  border-radius: 0px; /* Optional rounded corners */
   transition: transform 0.5s ease; /* Smooth hover effect */
 }
 

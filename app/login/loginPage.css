@@ -4,7 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("https://media.istockphoto.com/id/499751058/photo/concept-car.jpg?s=1024x1024&w=is&k=20&c=9rEMWop3A1VEc2aowwhuH9Aq2HxP5QmN5tn5ImvFSIs=");
+  background: #000;
+  /* background-image: url("https://media.istockphoto.com/id/499751058/photo/concept-car.jpg?s=1024x1024&w=is&k=20&c=9rEMWop3A1VEc2aowwhuH9Aq2HxP5QmN5tn5ImvFSIs="); */
   background-size: cover;
   background-position: center;
 }
@@ -49,4 +50,5 @@
     background-color: #0056b3;
     border-color: #0056b3;
   }
+ 
   

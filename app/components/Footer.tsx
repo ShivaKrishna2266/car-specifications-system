@@ -6,7 +6,7 @@ import './footer.css'
 export default function Footer() {
   return (
     <footer className="footer">
-    <div className="footer-container">
+    {/* <div className="footer-container">
       <div className="footer-section logo">
         <h2>CarSpecs</h2>
         <p>Your trusted car comparison and booking partner.</p>
@@ -28,7 +28,7 @@ export default function Footer() {
         <p>Phone: +91 98765 43210</p>
         <p>Location: Hyderabad, India</p>
       </div>
-    </div>
+    </div> */}
   
     <div className="footer-bottom">
       <p>&copy; 2025 CarSpecs. All rights reserved.</p>

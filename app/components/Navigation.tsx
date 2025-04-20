@@ -32,7 +32,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark mt-3">
+    <nav className="navbar navbar-expand-lg mt-3">
       <div className="container-fluid">
         {/* <a className="navbar-brand" href="/">
           BrandLogo
@@ -57,9 +57,24 @@ export default function Navigation() {
                 Home
               </a>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a href="/products" className="nav-link text-white">
                 Products
+              </a>
+            </li> */}
+             <li className="nav-item">
+              <a href="/" className="nav-link text-white">
+              Calendar
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="/" className="nav-link text-white">
+              Gallery
+              </a>
+            </li>
+            <li className="nav-item">
+              <a href="/" className="nav-link text-white">
+              Membership
               </a>
             </li>
             <li className="nav-item">
@@ -72,13 +87,13 @@ export default function Navigation() {
                 Contact
               </a>
             </li>
-            {isLoggedIn && isAdmin && (
+            {/* {isLoggedIn && isAdmin && (
               <li className="nav-item">
                 <a href="/admin" className="nav-link text-white">
                   Admin Dashboard
                 </a>
               </li>
-            )}
+            )} */}
           </ul>
         </div>
       </div>

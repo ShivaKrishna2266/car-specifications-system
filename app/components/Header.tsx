@@ -10,22 +10,22 @@ export default function Header() {
   const { cartItems } = useCart();
 
   return (
-    <header className="bg-dark text-white p-3">
-      <div className="container">
+    <header className="bg-dark text-white fixed top-0 left-0 w-full z-50">
+      <div className="container-flued">
         <div className="d-flex justify-content-between align-items-center">
           <a href="/">
             <img
-              src="https://www.designrush.com/uploads/users/customer-11/image_1526487017_D4nHpYcQEqJIECHp7VuoM7UR9XJw8GdGB0wdshls.png"
+              src="https://lcarizona.com/wp-content/uploads/2021/08/LogowithLambo_280_80.jpg"
               alt="Logo"
               className="me-3"
-              style={{ height: '50px' }}
+              style={{ height: '95px' }}
             />
           </a>
           <Navigation />
           <SearchForm />
-          <a href="/cart-details" className="btn btn-light">
+          {/* <a href="/cart-details" className="btn btn-light">
             Cart ({cartItems.length})
-          </a>
+          </a> */}
         </div>
       </div>
     </header>

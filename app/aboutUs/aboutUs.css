@@ -1,11 +1,16 @@
 .about-us-container {
     position: relative;
+    background: #000;
+    text-emphasis-color:#fefdfd ;
 }
 
 .image-container {
     position: relative;
 }
 
+.text-center{
+    color: #fefdfd;
+}
 .image-container img {
     width: 100%;
     height: auto;
@@ -39,8 +44,8 @@
 }
 
 .text-color{
-    background-color: rgb(241, 234, 234);
-    color: rgb(15, 13, 13);
+    background-color: rgb(5, 4, 4);
+    color: rgb(255, 255, 255);
     padding: 20px;
     border-radius: 8px;
 }
