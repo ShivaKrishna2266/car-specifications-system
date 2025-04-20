@@ -5,12 +5,16 @@
     align-items: center;
     min-height: 100vh;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #050404;
 
-    background-image: url('https://t3.ftcdn.net/jpg/08/68/87/14/240_F_868871426_pbtuxaZrRsBgAeCaZQbTAKFNnuXucZvd.jpg'); /* Replace with your image path */
+    /* background-image: url('https://t3.ftcdn.net/jpg/08/68/87/14/240_F_868871426_pbtuxaZrRsBgAeCaZQbTAKFNnuXucZvd.jpg'); */
     background-size: cover; 
     background-position: center;
   }
+
+  .form-label{
+    color: aliceblue;
+}
 
   .page {
     background-color: rgba(255, 255, 255, 0.8);
@@ -24,7 +28,7 @@
   .page.contact-page {
     width: 100%;
     max-width: 600px;
-    background-color: #ffffff;
+    background-color: #050404;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     overflow: hidden;

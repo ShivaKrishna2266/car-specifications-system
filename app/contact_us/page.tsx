@@ -34,7 +34,7 @@ export default function ContactUs() {
           <form onSubmit={handleContactus} id="contact-us-form">
             {/* Request Type Dropdown */}
             <div className="form-fields">
-              <label htmlFor="Type">Request type:</label>
+              <label htmlFor="Type" className='form-label' >Request type:</label>
               <select
                 name="type"
                 id="Type"
@@ -53,7 +53,7 @@ export default function ContactUs() {
 
             {/* Name Input */}
             <div className="form-fields">
-              <label htmlFor="FullName">Your name:</label>
+              <label htmlFor="FullName" className='form-label'>Your name:</label>
               <input
                 type="text"
                 name="fullName"
@@ -67,7 +67,7 @@ export default function ContactUs() {
 
             {/* Email Input */}
             <div className="form-fields">
-              <label htmlFor="Email">Your email:</label>
+              <label htmlFor="Email" className='form-label'>Your email:</label>
               <input
                 type="email"
                 name="email"
@@ -81,7 +81,7 @@ export default function ContactUs() {
 
             {/* Country Dropdown (Modularize the options in a separate file if needed) */}
             <div className="form-fields">
-              <label htmlFor="Country">Your country:</label>
+              <label htmlFor="Country" className='form-label'>Your country:</label>
               <select
                 name="country"
                 id="Country"
@@ -97,7 +97,7 @@ export default function ContactUs() {
 
             {/* Enquiry Textarea */}
             <div className="form-fields">
-              <label htmlFor="Enquiry">Enquiry:</label>
+              <label htmlFor="Enquiry" className='form-label'>Enquiry:</label>
               <textarea
                 name="enquiry"
                 id="Enquiry"

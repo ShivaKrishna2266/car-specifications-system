@@ -37,7 +37,7 @@
   border: none;
   color: #007bff;
   cursor: pointer;
-  text-align: left;
+  /* text-align: left; */
 }
 
 .logout-link:hover {

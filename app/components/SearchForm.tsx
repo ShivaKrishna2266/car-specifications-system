@@ -41,7 +41,7 @@ export default function SearchForm() {
 
   return (
     <form className="d-flex ">
-    <input
+    {/* <input
       className="form-control me-2"
       type="search"
       placeholder="Search"
@@ -49,24 +49,26 @@ export default function SearchForm() {
     />
     <button className="btn btn-outline-light me-3" type="submit">
       Search
-    </button>
+    </button> */}
 
     {isLoggedIn ? (
-      <div className="user-icon-container">
+      <div className="container-flued">
         <FaUserCircle className="user-icon" />
         <div className="user-modal">
           <p className="username">
             {username} ({role})
           </p>
+          
           <button onClick={handleLogout} className="logout-link">
             Logout
           </button>
         </div>
       </div>
     ) : (
-      <a href="./login" className="nav-link text-white mt-2">
-        Login
+      // <button type="button" className="btn btn-light">
+      <a href="./login" className="nav-link text-white ">Login<i className="fa fa-sign-in"></i>
       </a>
+      // </button>
     )}
   </form>
 
