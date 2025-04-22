@@ -4,18 +4,19 @@
 import React from 'react';
 import Navigation from './Navigation';
 import SearchForm from './SearchForm';
+import './SearchForm.css'
 import { useCart } from '../context/CartContext';
 
 export default function Header() {
   const { cartItems } = useCart();
 
   return (
-    <header className="bg-dark text-white fixed top-0 left-0 w-full z-50">
+    <header className="background text-white fixed top-0 left-0 w-full z-50">
       <div className="container-flued">
         <div className="d-flex justify-content-between align-items-center">
           <a href="/">
             <img
-              src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/logos/2024/03_26/logo_header_01.svg"
+              src="/images/centenario-1920x700-1.jpg"
               alt="Logo"
               className="me-3"
               style={{ height: '95px' }}

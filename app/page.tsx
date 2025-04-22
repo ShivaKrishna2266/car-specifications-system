@@ -343,7 +343,7 @@ export default function HomePage() {
       </div><hr />
 
       <div className="container mt-5 text-white">
-        <h1 className="fw-bold">Upcoming Events:</h1>
+        <h2 className="fw-bold">Upcoming Events:</h2>
 
         <div className="row mt-5">
           <div className="col-md-6 col-sm-6 mb-4">
@@ -372,7 +372,7 @@ export default function HomePage() {
 
       <div className="container mt-5">
 
-        <h1 className="text-white text-center"> Modern / Marketing Style</h1>
+        <h2 className="text-white text-center"> Modern / Marketing Style</h2>
         <div className="row">
           <div className="col-md-6 col-sm-6 mt-5 text-white text-center">
             <img
@@ -404,28 +404,31 @@ export default function HomePage() {
 
 
       <div className=" container row mt-5">
-        <div className="col-md-4 col-sm-12 text-center mb-4">
+        <h2 className="text-white text-center mb-5">Sponsors and Partners:</h2>
+        <div className="row d-flex justify-content-center mb-5">
+        <div className="col-md-4 col-sm-4 text-center mb-4 mt-2">
           <img
             src="https://lcarizona.com/wp-content/uploads/2021/06/sshot-94.jpg"
-            className="d-block  img-fluid rounded mt-2"
-            alt="Car Display 1"
+            className=""
+            alt="Partners 1"
           />
         </div>
 
-        <div className="col-md-4 col-sm-12 mb-4">
+        <div className="col-md-4 col-sm-4 mb-4">
           <img
             src="https://lcarizona.com/wp-content/uploads/2021/06/sshot-95.jpg"
-            className="d-block  img-fluid rounded mt-2"
-            alt="Car Display 2"
+            className=""
+            alt="Partners 2"
           />
         </div>
 
-        <div className="col-md-4 col-sm-12 mb-4">
+        <div className="col-md-4 col-sm-4 mb-4">
           <img
             src="https://lcarizona.com/wp-content/uploads/2021/06/sshot-96.jpg"
-            className="d-block  img-fluid rounded mt-2"
-            alt="Car Display 3"
+            className="  "
+            alt="Partners 3"
           />
+        </div>
         </div>
       </div>
 
