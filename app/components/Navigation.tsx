@@ -1,13 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import tokenService from '../tokenService'; // Ensure this path is correct
+import tokenService from '../tokenService';
+import './SearchForm.css';
+import Link from 'next/link';
+import Models from './Models';
 
+interface CarModel {
+  id: number;
+  modelName: string;
+}
 
 export default function Navigation() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [models, setModels] = useState<CarModel[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const checkLoginStatus = () => {
     const role = tokenService.getRole();
@@ -16,15 +25,16 @@ export default function Navigation() {
   };
 
   useEffect(() => {
-    // Initial check on load
     checkLoginStatus();
-
-    // Listen for custom login event to update state
     window.addEventListener("userLoggedIn", checkLoginStatus);
+    return () => window.removeEventListener("userLoggedIn", checkLoginStatus);
+  }, []);
 
-    return () => {
-      window.removeEventListener("userLoggedIn", checkLoginStatus);
-    };
+  useEffect(() => {
+    fetch("http://localhost:9090/data/getAllCarModels")
+      .then(res => res.json())
+      .then(data => setModels(data))
+      .catch(err => console.error("Failed to fetch models:", err));
   }, []);
 
   const toggleMenu = () => {
@@ -34,9 +44,6 @@ export default function Navigation() {
   return (
     <nav className="navbar navbar-expand-lg mt-3">
       <div className="container-fluid">
-        {/* <a className="navbar-brand" href="/">
-          BrandLogo
-        </a> */}
         <button
           className="navbar-toggler"
           type="button"
@@ -47,53 +54,44 @@ export default function Navigation() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div
-          className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`}
-          id="navbarNav"
-        >
+
+        <div className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`} id="navbarNav">
           <ul className="navbar-nav mx-auto">
             <li className="nav-item">
-              <a href="/" className="nav-link text-white">
-                Home
-              </a>
+              <a href="/" className="nav-link text-white">HOME</a>
             </li>
-            {/* <li className="nav-item">
-              <a href="/products" className="nav-link text-white">
-                Products
-              </a>
-            </li> */}
-             <li className="nav-item">
-              <a href="/" className="nav-link text-white">
-              Calendar
-              </a>
-            </li>
+
             <li className="nav-item">
-              <a href="/" className="nav-link text-white">
-              Gallery
-              </a>
+              <a href="/" className="nav-link text-white">EVENTS</a>
             </li>
+
+            <li className="nav-item dropdown">
+              <div className="nav-link text-white dropdown">
+                MODELS
+                <div className="dropdown-content">
+                  <a href="/show"><Models /></a>
+                </div>
+              </div>
+            </li>
+
             <li className="nav-item">
-              <a href="/" className="nav-link text-white">
-              Membership
-              </a>
+              <a href="/" className="nav-link text-white">Membership</a>
             </li>
+
             <li className="nav-item">
-              <a href="/aboutUs" className="nav-link text-white">
-                About Us
-              </a>
+              <a href="/aboutUs" className="nav-link text-white">ABOUT-US</a>
             </li>
+
             <li className="nav-item">
-              <a href="/contact_us" className="nav-link text-white">
-                Contact
-              </a>
+              <a href="/contact_us" className="nav-link text-white">CONTACT</a>
             </li>
-            {/* {isLoggedIn && isAdmin && (
+
+            {/* Optional Admin Dashboard */}
+            {isLoggedIn && isAdmin && (
               <li className="nav-item">
-                <a href="/admin" className="nav-link text-white">
-                  Admin Dashboard
-                </a>
+                <a href="/admin" className="nav-link text-white">Admin Dashboard</a>
               </li>
-            )} */}
+            )}
           </ul>
         </div>
       </div>
