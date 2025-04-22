@@ -1,0 +1,35 @@
+/* Container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  /* List of car models */
+  .car-models-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Car model name styling */
+  .carModelName {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f8f9fc;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  /* Hover effect on car model name */
+  .carModelName:hover {
+    color: #4753f7;
+  }
+  
+  /* No models available message styling */
+  .no-models-message {
+    font-size: 1.125rem;
+    color: #6b7280;
+    text-align: center;
+  }
+  

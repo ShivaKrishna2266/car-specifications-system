@@ -51,7 +51,7 @@ const Models = () => {
     <ul className="car-models-list space-y-2 text-lg text-gray-700">
       {models.length > 0 ? (
         models.map((model) => (
-          <p key={model.modelId} className="bg-gray-100 p-4 rounded shadow hover:shadow-lg transition-shadow ">
+          <p key={model.modelId} className="carModelName">
             {model.modelName}
           </p>
         ))
@@ -60,6 +60,7 @@ const Models = () => {
       )}
     </ul>
   </div>
+  
   
   );
 };
