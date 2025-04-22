@@ -66,7 +66,7 @@ export default function SearchForm() {
       </div>
     ) : (
       // <button type="button" className="btn btn-light">
-      <a href="./login" className="nav-link text-white ">Login<i className="fa fa-sign-in"></i>
+      <a href="./login" className="nav-link text-white ">LOG-IN<i className="fa fa-sign-in"></i>
       </a>
       // </button>
     )}

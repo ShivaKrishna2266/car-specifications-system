@@ -15,7 +15,7 @@ export default function Header() {
         <div className="d-flex justify-content-between align-items-center">
           <a href="/">
             <img
-              src="https://lcarizona.com/wp-content/uploads/2021/08/LogowithLambo_280_80.jpg"
+              src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/logos/2024/03_26/logo_header_01.svg"
               alt="Logo"
               className="me-3"
               style={{ height: '95px' }}

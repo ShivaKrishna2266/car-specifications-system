@@ -69,8 +69,8 @@ export default function HomePage() {
               alt="Car Display 1"
             />
             <div className="carousel-caption d-none d-md-block">
-              <h1>Luxury and Speed</h1>
-              <p>Experience the thrill of modern design and performance.</p>
+              <h1>Organize</h1>
+              <p>fun driving and social events local and with other LCA chapters..</p>
             </div>
           </div>
 
@@ -81,20 +81,21 @@ export default function HomePage() {
               alt="Car Display 2"
             />
             <div className="carousel-caption d-none d-md-block">
-              <h1>Premium Rentals</h1>
-              <p>Drive the best without the commitment.</p>
+              <h1>Promote</h1>
+              <p>the Lamborghini lifestyle and image with the general public.</p>
             </div>
           </div>
 
           <div className="carousel-item">
             <img
-              src="https://images.unsplash.com/photo-1485291571150-772bcfc10da5?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/gateway/limited_series/2024/s/limited_s2_02.jpg"
               className="d-block w-100 carousel-img "
               alt="Car Display 3"
             />
             <div className="carousel-caption d-none d-md-block">
-              <h1>Premium Rentals</h1>
-              <p>Drive the best without the commitment.</p>
+              <h1>Improve</h1>
+              <p>communication and services available to fellow Lamborghini owners
+                .</p>
             </div>
           </div>
 
@@ -104,10 +105,10 @@ export default function HomePage() {
               className="d-block w-100 carousel-img "
               alt="Car Display 3"
             />
-            <div className="carousel-caption d-none d-md-block">
+            {/* <div className="carousel-caption d-none d-md-block">
               <h1>Premium Rentals</h1>
               <p>Drive the best without the commitment.</p>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -287,48 +288,58 @@ export default function HomePage() {
 
       <div className="welcome">
         <div className="container p-5 ">
-          <h1>Welcome to the Arizona Chapter of the Lamborghini Club of America</h1>
+          <h1>Welcome to the LAMB-bros Lamborghini Club of America</h1>
         </div>
       </div>
 
       <div className="container mt-5">
-        <div className="row align-items-start">
+        <div className="row align-items-start mt-5 mb-5">
           {/* Left Image */}
-          <div className="col-md-3 col-sm-12 mb-4">
+          <div className="col-md-36 col-sm-6 mb-4">
             <img
-              src="https://lcarizona.com/wp-content/uploads/2022/01/sshot-229.jpg"
+              src="https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/f/g/a/small-spos14461-poster-lamborghini-huracan-lamborghini-black-car-original-imagkb9bba3mdbr7.jpeg?q=90&crop=false"
               className="d-block content_image img-fluid rounded"
               alt="Car Display"
             />
           </div>
 
           {/* Center Text */}
-          <div className="col-md-6 col-sm-12 mb-4">
+          <div className="col-md-6 col-sm-6 mb-4">
+            <h2 className="text-center text-white ">LAMBORGHINI</h2>
             <p className="text-white">
-              Welcome to the home of Arizona’s Lamborghini Club America (LCA), a community of Lamborghini owners and enthusiasts who are passionate about the Lamborghini brand and the thrill of the bull on the road. <br /><br />
+              Welcome to the home of LAMB-bros  Lamborghini Club America (LCA), a community of Lamborghini owners and enthusiasts who are passionate about the Lamborghini brand and the thrill of the bull on the road. <br /><br />
               Our mission is to be ambassadors of Lamborghini delivering a fulfilling and inclusive experience that connects our regional Arizona Lamborghini community to our national Lamborghini Club America family and home to our Italian roots at the heart of Sant’Agata Bolognese – the Automobili Lamborghini factory. <br /><br />
               Become an active member of Lamborghini Club America by participating in your local region. By being an active member, you are able to influence what your region plans and hosts throughout the year by contributing your ideas, and helping to plan and organize regional activities.
             </p>
           </div>
 
-          {/* Right Image */}
-          <div className="col-md-3 col-sm-12 mb-4">
+        </div>
+
+        <h5 className="text-white fw-bold mb-5">
+          Lamborghini owners are known for their enjoyment of good wine, fine food, quality functions and a friendliness that is unmatched in the automotive world. The Club is open to all owners and enthusiasts.<br /><br />
+          If you are interested in learning more and staying informed about club activities please register your email here or by clicking the Register button on the right. We would love to hear from you!
+        </h5>
+
+        <div className="row align-items-start mt-5 mb-5">
+          {/* Center Text */}
+          <div className="col-md-6 col-sm-6 mb-4">
+            <h2 className="text-center text-white mt-5 mb-5">REVUELTO</h2>
+            <p className="text-white">
+              The Revuelto is the beginning of a new era for Lamborghini, who has harnessed the power of hybridization technology to create the first HPEV (High Performance Electrified Vehicle). <br />
+              Responding to the need for sustainability and powerful performance, the Lamborghini Revuelto rewrites all paradigms and represents a technical masterpiece beyond anyone’s imagination. <br /> The iconic V12 engine finds a new life in this futuristic automotive masterwork that delivers unparalleled performance and driving emotions.
+            </p>
+          </div>
+          {/* Left Image */}
+          <div className="col-md-36 col-sm-6 mb-4">
             <img
-              src="https://lcarizona.com/wp-content/uploads/2019/02/facebook-300x199-300x199.jpg"
-              className="d-block content_image img-fluid rounded mb-2"
-              alt="Car Display"
-            />
-            <img
-              src="https://lcarizona.com/wp-content/uploads/2019/02/contact_us.jpg"
-              className="d-block content_image img-fluid rounded mt-2"
+              src="https://www.supercars.net/blog/wp-content/uploads/2024/10/Lamborghini-Current-Models-1024x736.png"
+              className="d-block content_image img-fluid rounded"
               alt="Car Display"
             />
           </div>
         </div>
-        <h5 className="text-white fw-bold">
-          Lamborghini owners are known for their enjoyment of good wine, fine food, quality functions and a friendliness that is unmatched in the automotive world. The Club is open to all owners and enthusiasts.<br /><br />
-          If you are interested in learning more and staying informed about club activities please register your email here or by clicking the Register button on the right. We would love to hear from you!
-        </h5>
+
+
       </div><hr />
 
       <div className="container mt-5 text-white">
@@ -339,7 +350,7 @@ export default function HomePage() {
             <ul className="fw-bold">Lone Mountain Toybarn C&C</ul>
             <img
               src="https://lcarizona.com/wp-content/uploads/2023/08/lone-mountain-candc-150x150.jpg"
-              className="d-block content_image img-fluid rounded mb-2"
+              className="d-block img-fluid rounded mb-2"
               alt="Car Display"
             />
             <p>Join us every 4th Saturday of the month at the Toy Barn on Lone Mountain in Cave Creek, AZ. Coffee, breakfast including hundreds of cars and amazing garages makes this…</p>
@@ -350,7 +361,7 @@ export default function HomePage() {
             <ul className="fw-bold">Highline Autos Cars & Coffee</ul>
             <img
               src="https://lcarizona.com/wp-content/uploads/2022/09/sshot-128-150x150.jpg"
-              className="d-block content_image img-fluid rounded mb-2"
+              className="d-block  img-fluid rounded mb-2"
               alt="Car Display"
             />
             <p>If there is no LCA event going on this is a great place to meet hundreds of car enthusiasts! Highline Autos Cars & Coffee at High Street! 400+ Exotic, Classic,…</p>
@@ -359,11 +370,44 @@ export default function HomePage() {
         </div>
       </div>
 
+      <div className="container mt-5">
+
+        <h1 className="text-white text-center"> Modern / Marketing Style</h1>
+        <div className="row">
+          <div className="col-md-6 col-sm-6 mt-5 text-white text-center">
+            <img
+              src="https://static.pakwheels.com/2018/01/Lamborghini-Terzo_Millennio_Concept-2017-1024-01.jpg"
+              className="d-block img-fluid_1 rounded mb-2"
+              alt="Car Display"
+            />
+            <h5>19 December 2024</h5>
+            <h2>Automobili Lamborghini and Italian State Police: 20 years together</h2>
+            <p>The vehicle is not yet offered for sale and is therefore not subject to Directive 1999/94/EC. The fuel consumption and emissions data is in the type approval stage</p>
+
+            <button className="btn btn-primery ">READ MORE</button>
+          </div>
+          <div className="col-md-6 col-sm-6 mt-5 text-white text-center">
+            <img
+              src="https://m.media-amazon.com/images/I/61PQ5aLKoRL._AC_UF894,1000_QL80_.jpg"
+              className="d-block img-fluid_1 rounded mb-2"
+              alt="Car Display"
+            />
+
+            <h5>4 December 2024</h5>
+            <h2>Movember 2024: Lamborghini's commitment to prevention</h2>
+            <p>The vehicle is not yet offered for sale and is therefore not subject to Directive 1999/94/EC. The fuel consumption and emissions data is in the type approval stage</p>
+
+            <button className="btn btn-primery ">READ MORE</button>
+          </div>
+        </div>
+      </div>
+
+
       <div className=" container row mt-5">
         <div className="col-md-4 col-sm-12 text-center mb-4">
           <img
             src="https://lcarizona.com/wp-content/uploads/2021/06/sshot-94.jpg"
-            className="d-block content_image img-fluid rounded mt-2"
+            className="d-block  img-fluid rounded mt-2"
             alt="Car Display 1"
           />
         </div>
@@ -371,7 +415,7 @@ export default function HomePage() {
         <div className="col-md-4 col-sm-12 mb-4">
           <img
             src="https://lcarizona.com/wp-content/uploads/2021/06/sshot-95.jpg"
-            className="d-block content_image img-fluid rounded mt-2"
+            className="d-block  img-fluid rounded mt-2"
             alt="Car Display 2"
           />
         </div>
@@ -379,15 +423,11 @@ export default function HomePage() {
         <div className="col-md-4 col-sm-12 mb-4">
           <img
             src="https://lcarizona.com/wp-content/uploads/2021/06/sshot-96.jpg"
-            className="d-block content_image img-fluid rounded mt-2"
+            className="d-block  img-fluid rounded mt-2"
             alt="Car Display 3"
           />
         </div>
       </div>
-
-
-
-
 
     </div>
   );
