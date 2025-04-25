@@ -1,0 +1,52 @@
+.events-container {
+    background-color: #0b0b0b;
+    color: white;
+    padding: 2rem;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .events-heading {
+    font-size: 3rem;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #e3b505;
+  }
+  
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .event-card {
+    background-color: #1c1c1c;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(227, 181, 5, 0.2);
+    transition: transform 0.3s ease;
+  }
+  
+  .event-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 25px rgba(227, 181, 5, 0.4);
+  }
+  
+  .event-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  
+  .event-date {
+    color: #e3b505;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+  
+  .event-description {
+    font-size: 1rem;
+    color: #d1d1d1;
+  }
+  
