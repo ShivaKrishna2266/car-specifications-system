@@ -1,78 +1,100 @@
-import "./aboutUs.css"
+import "./aboutUs.css";
 
 export default function AboutUs() {
     return (
         <div className="about-us-container">
             <div className="image-container">
                 <img
-                    src="https://www.mbusa.com/content/dam/mb-nafta/us/myco/my20/cls/class-page/non-amg/2020-CLS-COUPE-CH-2-1-DR.jpg"
+                    src="https://static.vecteezy.com/system/resources/thumbnails/053/733/179/small_2x/every-detail-of-a-sleek-modern-car-captured-in-close-up-photo.jpg"
                     className="d-block w-100 img-fluid"
-                    alt="Car 1"
+                    alt="Lamborghini Detail"
                 />
-                <h1 className="centered-text">About Us</h1>
+                <h1 className="centered-text">About Lamborghini</h1>
             </div>
 
             <div className="text mt-5 mb-5">
-                <h1 className="text-center"><b>Who We Are?</b></h1>
-                <p className="text-center">Cars.com is the No. 1 most recognized automotive marketplace visited by more than 25 million in-market consumers each month. Launched in 1998 and headquartered in Chicago, Cars.com empowers shoppers with the data, resources and digital tools needed to make informed buying decisions and seamlessly connect with automotive retailers.
-                    Cars.com is the flagship offering from Cars.com Inc. d/b/a Cars Commerce, an audience-driven technology company empowering automotive that simplifies everything about buying and selling cars. Learn more at www.carscommerce.inc.</p>
+                <h1 className="text-center"><b>Performance Beyond Limits</b></h1>
+                <p className="text-center">
+                    At Automobili Lamborghini, we don’t just build cars—we shape dreams, forge legacies, and engineer the extraordinary.
+                    Founded in 1963 by visionary Ferruccio Lamborghini, our brand was born from a bold desire: to create a vehicle that could outperform the finest offerings from Italy’s most elite automakers. What followed was a revolution in design, speed, and philosophy—one that reshaped the concept of luxury performance.
+                    <br /><br />
+                    Every Lamborghini is a masterpiece, a symphony of raw power and sculpted beauty. From the sharp lines of the Aventador to the futuristic silhouette of the Revuelto, our vehicles ignite the senses and command attention across continents.
+                    This is not transportation. This is emotion, art, and engineering at their peak.
+                </p>
             </div>
 
             <div className="text-container">
                 <div className="row">
                     <div className="col-md-6 mt-4 mb-4">
                         <img
-                            src="https://images.pexels.com/photos/1335077/pexels-photo-1335077.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            src="https://storage.googleapis.com/pod_public/1300/176804.jpg"
                             className="d-block w-100 img-fluid"
-                            alt="Car 1"
+                            alt="Lamborghini Headquarters"
                         />
                     </div>
-                    <div className="text-center col-md-6 mt-5 ">
-                        <h1 >Our roots</h1><br />
+                    <div className="text-center col-md-6 mt-5">
+                        <h1>The Spirit of Sant’Agata</h1><br />
                         <p>
-                            Cars.com invented car search. Our site and innovative solutions connect buyers and sellers to match people with their perfect car. With our people spread across the U.S., we still maintain a startup culture with innovation and passion for our people at the core of everything we do.
+                            Nestled in the heart of Italy, our global headquarters in Sant'Agata Bolognese is where art meets automation. Every vehicle that leaves our factory is assembled by artisans—masters of their craft—who uphold a tradition of excellence and attention to detail that dates back over six decades.
                             <br /><br />
-                            Cars.com has an award-winning brand, leadership team, and the best and brightest employees in the industry. We’ve been featured as one of the top places to work by The Chicago Tribune, Built in Chicago, Chicago Innovation, and U.S. News & World Report.
+                            We are not defined by what is possible. We are driven by what is not yet imagined. Our legacy began with the iconic Miura, matured through the Countach and Diablo, and lives on through today’s Urus, Huracán, and the all-new Revuelto. Each model carries a heartbeat that echoes the roaring V12s that once defined the roads of Europe.
                             <br /><br />
-                            Alex Vetter, President and CEO, Cars.com
+                            As we transition into a new era, our commitment to innovation remains unwavering. Lamborghini’s roadmap includes bold steps into hybrid technology, full electrification, and sustainable design—without compromising the emotional connection and power that define us.
                         </p>
                     </div>
                 </div>
             </div>
 
             <div className="text-center mt-5">
-                <h1 className="text-center">Our people</h1>
+                <h1 className="text-center">Beyond the Car: A Way of Life</h1>
+                <p className="mt-3">
+                    Lamborghini is more than a brand—it is a statement. An expression of fearless ambition, unparalleled performance, and exquisite style.
+                    Our owners, drivers, and enthusiasts are united by a shared belief: that life should be lived without limits.
+                    <br /><br />
+                    Whether it's a thunderous engine rev on a quiet mountain road, a private viewing of a bespoke model, or a VIP track experience on the world’s finest circuits—Lamborghini is a lifestyle. One driven by adrenaline, defined by aesthetics, and guided by precision.
+                </p>
             </div>
 
-            <div className=" mt-5 text-color">
+            <div className="mt-5 text-color">
                 <div className="row">
-                    <h1>From the Pressroom</h1>
+                    <h1>Lamborghini News</h1>
                     <div className="text-center col-md-4 mt-5">
-                        <p>CARS to Announce Third Quarter 2024 Financial Results <br /><br />
-                            Oct 24, 2024</p>
+                        <p>
+                            <strong>Lamborghini Unveils Lanzador, Its First All-Electric Supercar</strong><br />
+                            A bold leap into the future, the Lanzador embodies pure electric thrill, aggressive lines, and the brand’s unwavering DNA. The future roars—silently.<br />
+                            <em>October 24, 2024</em>
+                        </p>
                     </div>
                     <div className="text-center col-md-4 mt-5">
-                        <p>Surplus Inventory Slightly Drives Down New-Car Prices as Used-Car Market Stabilizes, According to Cars Commerce’s September Industry Insights Report <br /><br />
-                            Oct 21, 2024</p>
+                        <p>
+                            <strong>Record Q3 Sales Amidst Global Demand Surge</strong><br />
+                            Lamborghini achieves its highest-ever third-quarter sales, driven by strong demand for Urus and Huracán across Europe, Asia, and the Middle East.<br />
+                            <em>October 21, 2024</em>
+                        </p>
                     </div>
                     <div className="text-center col-md-4 mt-5">
-                        <p>Cars Commerce’s Industry Insights Report Shows a Stabilizing Market; Ford, Chevrolet and Honda Drive Balanced New-Car Inventory Levels in August <br /><br />
-                            Sep 19, 2024</p>
+                        <p>
+                            <strong>Revuelto Shatters Nürburgring Lap Time Record</strong><br />
+                            The Revuelto sets an astonishing new lap time at the world’s most challenging track, cementing its place in motorsport history.<br />
+                            <em>September 19, 2024</em>
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div className=" text-center mt-5">
-                <h1>Our office</h1>
-                <p>Cars.com is located at 300 South Riverside, a 23-story Class A, LEED Gold Certified office tower. LEED Gold Certificate <br /><br />
-                    <b> Cars.com</b>
-                    <span> </span>300 S. Riverside Plaza, Suite 1000
-                    Chicago, IL 60606</p>
+            <div className="text-center mt-5">
+                <h1>Visit the Heart of the Raging Bull</h1>
+                <p>
+                    Our legacy begins where every detail is sculpted by hand and every engine is born with a roar. The Lamborghini headquarters in Sant’Agata Bolognese is not only a factory—it is a sanctuary for visionaries and creators.
+                    <br /><br />
+                    Guests from around the world visit the Lamborghini Museum and production facility to experience firsthand the passion that fuels our legacy. Every rivet, stitch, and spark tells the story of dedication, legacy, and innovation.
+                    <br /><br />
+                    <b>Automobili Lamborghini S.p.A.</b><br />
+                    Via Modena, 12<br />
+                    40019 Sant'Agata Bolognese, Bologna, Italy<br />
+                    Tel: +39 051 6817611
+                </p>
             </div>
-
-
         </div>
-
-
     );
-};
+}

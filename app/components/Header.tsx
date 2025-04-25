@@ -16,7 +16,7 @@ export default function Header() {
         <div className="d-flex justify-content-between align-items-center">
           <a href="/">
             <img
-              src="/images/centenario-1920x700-1.jpg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSKbkmNAJE7VTcFYkXvttkhcW9twQWqjQpFQ&s"
               alt="Logo"
               className="me-3"
               style={{ height: '95px' }}
