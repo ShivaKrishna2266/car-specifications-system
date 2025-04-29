@@ -42,6 +42,7 @@ export default function HomePage() {
     };
 
     fetchBrands();
+    document.title = "Car Specifications";
   }, []);
 
   const handleViewModelsClick = (brandName: string) => {
