@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import './Models.css';
+import { useRouter } from 'next/router';
 
 interface CarModel {
   modelId: number;
@@ -39,6 +38,10 @@ const Models = () => {
 
   if (loading) return <div>Loading car models...</div>;
   if (error) return <div>{error}</div>;
+
+  const handleViewModelsClick = (modelName: string) => {
+    router.push(`/model_list/${modelName}`);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">

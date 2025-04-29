@@ -1,53 +1,53 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
-interface CarModelDetails {
+interface CarModel {
   modelId: number;
   modelName: string;
   price: number;
   specifications: string;
 }
 
-export default function ModelDetailsPage() {
-  const params = useParams();
-  const id = params?.id;
-
-  const [modelDetails, setModelDetails] = useState<CarModelDetails | null>(null);
+export default function ModelDetailPage() {
+  const router = useRouter();
+  const { modelId } = router.query;
+  const [model, setModel] = useState<CarModel | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!modelId) return;
 
-    const fetchModelDetails = async () => {
+    const fetchModel = async () => {
       try {
-        const response = await fetch(`http://localhost:9090/data/getCarModelById/${id}`);
-        const result = await response.json();
+        const res = await fetch(`http://localhost:9090/data/getCarModelById/${modelId}`);
+        const data = await res.json();
 
-        if (response.ok && result.status === 200) {
-          setModelDetails(result.data); // ✅ use result.data
-        } else {
-          console.error("Backend error:", result.message);
-        }
-      } catch (error) {
-        console.error("Error fetching model details:", error);
+        if (!res.ok) throw new Error(data.message || "Error fetching model");
+
+        setModel(data.data); // assuming `data.data` contains the model object
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchModelDetails();
-  }, [id]);
+    fetchModel();
+  }, [modelId]);
 
   if (loading) return <div>Loading model details...</div>;
-  if (!modelDetails) return <div>No model found.</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!model) return <div>No model found.</div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">{modelDetails.modelName}</h1>
-      <p className="text-lg">Price: ₹{modelDetails.price}</p>
-      <p className="text-lg">Specifications: {modelDetails.specifications}</p>
+      <h1 className="text-2xl font-bold mb-4">{model.modelName}</h1>
+      <p><strong>Price:</strong> ${model.price}</p>
+      <p><strong>Specifications:</strong> {model.specifications}</p>
     </div>
   );
 }

@@ -13,7 +13,7 @@
   }
 
   .form-label{
-    color: aliceblue;
+    color: rgb(250, 252, 253);
 }
 
   .page {
@@ -35,7 +35,7 @@
   }
   
   .page-title {
-    background-color: #75d550;
+    background-color: #080808;
     border-radius: 8px;
     color: #ffffff;
     padding: 20px;
@@ -65,7 +65,7 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #333333;
+    color: #ffffff;
   }
   
   /* Input fields */

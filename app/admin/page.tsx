@@ -8,14 +8,15 @@ import ViewCarColour from './car_colour/page';
 import ViewFeedBacks from './FeedBack/page'
 import tokenService from '../tokenService';
 import { useRouter } from 'next/navigation'; 
+import Viewevents from './events/page';
 
 export default function AdminDashboard() {
 
    const [isLoggedIn, setIsLoggedIn] = useState(false);
    const router = useRouter();
-  const [activeSection, setActiveSection] = useState<'dashboard' | 'carBrands' | 'carModels' | 'carColour' | 'feedback'>('dashboard');
+  const [activeSection, setActiveSection] = useState<'dashboard' | 'carBrands' | 'carModels' | 'carColour' | 'feedback' | 'events'>('dashboard');
 
-  const handleSectionChange = (section: 'dashboard' | 'carBrands' | 'carModels' | 'carColour' | 'feedback') => {
+  const handleSectionChange = (section: 'dashboard' | 'carBrands' | 'carModels' | 'carColour' | 'feedback' |'events') => {
     setActiveSection(section);
   };
 
@@ -37,8 +38,9 @@ export default function AdminDashboard() {
         <div className="card col-md-3">
           <h5 onClick={() => handleSectionChange('carBrands')} style={{ cursor: 'pointer' }}>Car Brands</h5>
           <h5 onClick={() => handleSectionChange('carModels')} style={{ cursor: 'pointer' }}>Car Models</h5>
-          <h5 onClick={() => handleSectionChange('carColour')} style={{ cursor: 'pointer' }}>Car Colour</h5>
-          <h5 onClick={() => handleSectionChange('feedback')} style={{ cursor: 'pointer' }}>Feedback</h5>
+          <h5 onClick={() => handleSectionChange('events')} style={{ cursor: 'pointer' }}>Events</h5>
+          {/* <h5 onClick={() => handleSectionChange('carColour')} style={{ cursor: 'pointer' }}>Car Colour</h5> */}
+          {/* <h5 onClick={() => handleSectionChange('feedback')} style={{ cursor: 'pointer' }}>Feedback</h5> */}
         </div>
         <div className="col-md-9 d-flex justify-content-center">
           {activeSection === 'dashboard' && (
@@ -48,6 +50,7 @@ export default function AdminDashboard() {
           )}
           {activeSection === 'carBrands' && <ViewCarBrands />}
           {activeSection === 'carModels' && <ViewCarModels />}
+          {activeSection === 'events' && <Viewevents />}
           {activeSection === 'carColour' && <ViewCarColour />}
           {activeSection === 'feedback' && <ViewFeedBacks />}
         </div>

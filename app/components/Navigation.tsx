@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import tokenService from '../tokenService';
 import './SearchForm.css';
 import Link from 'next/link';
+import router from 'next/router';
 
 interface CarModel {
   modelId: number;
@@ -42,6 +43,11 @@ export default function Navigation() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleViewDeatailsClick = (model: any) => {
+    localStorage.setItem('selectedCarModel', JSON.stringify(model));
+    router.push('/viewdetails');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg mt-3">
       <div className="container-fluid">
@@ -68,15 +74,13 @@ export default function Navigation() {
               <ul className="dropdown-menu">
                 {models.map((model) => (
                   <li key={model.modelId}>
-                    <Link href={`/model_lise/${model.modelId}`} className="dropdown-item">
+                    <Link href={`/model_list/${model.modelId}`} className="dropdown-item">
                       {model.modelName}
                     </Link>
                   </li>
                 ))}
               </ul>
             </li>
-
-            <li className="nav-item"><Link href="/" className="nav-link text-white">Membership</Link></li>
             <li className="nav-item"><Link href="/aboutUs" className="nav-link text-white">ABOUT-US</Link></li>
             <li className="nav-item"><Link href="/contact_us" className="nav-link text-white">CONTACT</Link></li>
 
