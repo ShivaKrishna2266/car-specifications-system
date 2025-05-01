@@ -16,7 +16,7 @@
   
   .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(590px, 1fr));
     gap: 2rem;
   }
   
@@ -48,5 +48,34 @@
   .event-description {
     font-size: 1rem;
     color: #d1d1d1;
+  }
+  .event-image {
+    width: 70%; /* or a fixed width like 300px */
+    height: auto; /* maintain aspect ratio */
+    border-radius: 10px; /* rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* subtle shadow */
+    margin: 10px 0;
+    object-fit: cover;
+  }
+  .register-button {
+    display: block;
+  margin: 1rem auto; /* Auto horizontally centers it */
+  padding: 0.75rem 1.5rem;
+  background-color: #070707;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  }
+  
+  .register-button:hover {
+    background-color: #218838; 
+    transform: scale(1.05); 
+  }
+  
+  .register-button:active {
+    transform: scale(0.98); 
   }
   
