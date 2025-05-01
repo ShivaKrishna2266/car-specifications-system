@@ -38,10 +38,12 @@ export default function LoginPage() {
       // Redirect based on role
       if (role === "ROLE_ADMIN") {
         router.push('/admin');
-      } else {
-        router.push('/products');
+      } else if(role === "ROLE_USER"){
+        router.push('/user');
+      }else {
+        alert('Unknown role');
       }
-  
+
     } catch (error) {
       console.error("Error logging in:", error);
       alert("Invalid credentials! Please try again.");

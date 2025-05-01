@@ -1,0 +1,67 @@
+.background{
+    background-color: #010101;
+    justify-content: center;
+}
+.event-registration-form {
+    max-width: 500px;
+    
+    margin: auto;
+    background-color: #010101;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .event-registration-form input,
+  .event-registration-form select,
+  .event-registration-form textarea {
+    padding: 10px 14px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .event-registration-form input:focus,
+  .event-registration-form select:focus,
+  .event-registration-form textarea:focus {
+    border-color: #28a745;
+  }
+  
+  .event-registration-form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .event-registration-form label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .register-button {
+    background-color: #28a745; /* Green */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .register-button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+  }
+  
+  .register-button:active {
+    transform: scale(0.98);
+  }
+  

@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import './events.css';
+import { useRouter } from 'next/navigation';
 
 export interface Event {
   eventId: number;
@@ -28,6 +29,7 @@ export interface Event {
 export default function Events() {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     fetch('http://localhost:9090/data/getAllEvents') // Replace with your actual API endpoint
@@ -55,9 +57,17 @@ export default function Events() {
       });
   }, []);
 
+  const handleRegisterClick = () => {
+    const encodedEvent = encodeURIComponent(JSON.stringify(event));
+    router.push(`/event_register?event=${encodedEvent}`);
+  };
+
   return (
     <div className="events-container">
-      <h1 className="events-heading">Shiva Event Works</h1>
+      <h1 className="events-heading">Show All Events</h1>
+      <div className='mt-3 mb-5'>
+      <h5 className='text-end'><strong>Total Events:</strong>{events.length}</h5>
+      </div>
       {loading ? (
         <p>Loading events...</p>
       ) : (
@@ -67,31 +77,24 @@ export default function Events() {
           ) : (
             events.map((event, index) => (
               <div className="event-card" key={index}>
-                <h2 className="event-title">{event.eventName}</h2>
-                <p className="event-date">{new Date(event.date).toLocaleDateString()}</p>
-                <p className="event-description">{event.description}</p>
-                <p className="event-location">Location: {event.location}</p>
-                <p className="event-category">Category: {event.category}</p>
-                <p className="event-organizer">Organizer: {event.organizerName}</p>
-                <p className="event-contact-email">Contact Email: {event.contactEmail}</p>
-                <p className="event-contact-phone">Contact Phone: {event.contactPhone}</p>
-                <p className="event-status">Status: {event.status}</p>
-                <p className="event-ticket-price">
-                  Ticket Price: {event.isFree ? 'Free' : `$${event.ticketPrice}`}
-                </p>
-                <p className="event-attendees-count">
-                  Attendees Count: {event.attendeesCount}
-                </p>
-                <a href={event.eventLink} target="_blank" rel="noopener noreferrer">
-                  Event Link
-                </a>
-                {event.bannerVideo && (
-                  <video width="320" height="240" controls>
-                    <source src={event.bannerVideo} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                )}
-                <img src={event.imageUrl} alt={event.eventName} className="event-image" />
+                <div className='row'>
+                  <div className='col-md-2'>
+                  <p className="event-date">{new Date(event.date).toLocaleDateString()}</p>
+                  </div>
+                  <div className='col-md-5'>
+                  <h2 className="event-title">{event.eventName}</h2>
+                  <p className="event-description">{event.description}</p>
+                  <p className="event-location">Location: {event.location}</p>
+                  <p className="event-organizer">Organizer: {event.organizerName}</p>
+                  </div>
+                  <div className='col-md-5'>
+                    <img src="https://lcarizona.com/wp-content/uploads/2022/09/Alpios.jpg" alt={event.eventName} className="event-image" />
+                  </div>
+                  
+                </div>
+                <button className="register-button" onClick={handleRegisterClick}>
+                    Register
+                  </button>
               </div>
             ))
           )}
