@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import './event_details.css';
+import './event_details.css'
 
 interface RegisteredUser {
   userId: number;
@@ -85,50 +85,74 @@ export default function EventDetails() {
   return (
     <div className="event-container">
       <div className="event-hero">
-        <img
-          src={'https://via.placeholder.com/1200x600'}
-          alt={event.eventName}
-          className="event-image"
-        />
-        <div className="event-overlay">
-          <h1 className="event-title">{event.eventName}</h1>
-          <p className="event-category">{event.category} • {event.status}</p>
+        <div className="image-container">
+          <img
+            src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/2025/s_01.jpg"
+            className="d-block w-100 img-fluid"
+            alt={event.eventName}
+          />
+          <h3 className="centered-text">
+            Discover the Thrill of Innovation at Our {event.eventName}: An Unforgettable Automotive Experience
+          </h3>
+
+        </div>
+        <div className="container">
+          <div className="event-overlay">
+            <h1 className="event-title">{event.eventName}</h1>
+            <p className="event-category"><b>{event.category}</b> • {event.status}</p>
+          </div>
         </div>
       </div>
-
-      <div className="event-content">
-        <div className="event-info">
-          <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
-          <p><strong>Time:</strong> {event.startTime} – {event.endTime}</p>
-          <p><strong>Location:</strong> {event.location}</p>
-          <p><strong>Organizer:</strong> {event.organizerName}</p>
-          <p><strong>Contact:</strong> {event.contactEmail} | {event.contactPhone}</p>
-          <p><strong>Price:</strong> {event.isFree ? 'Free' : `$${event.ticketPrice}`}</p>
-        </div>
-
-        <div className="event-description">
-          <h2>About the Event</h2>
-          <p>{event.description}</p>
-        </div>
+      <div className="container">
+  <div className="event-content">
+    {/* Text on the left */}
+    <div className="event-details">
+      <div className="event-info">
+        <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+        <p><strong>Time:</strong> {event.startTime} – {event.endTime}</p>
+        <p><strong>Location:</strong> {event.location}</p>
+        <p><strong>Organizer:</strong> {event.organizerName}</p>
+        <p><strong>Contact:</strong> {event.contactEmail} | {event.contactPhone}</p>
+        <p><strong>Price:</strong> {event.isFree ? 'Free' : `$${event.ticketPrice}`}</p>
       </div>
+
+      <div className="event-description">
+        <h1>About the Event</h1>
+        <p>{event.description}</p>
+      </div>
+    </div>
+      {/*  Image on the right */}
+    <div className="event-image">
+      <img
+        src={event.imageUrl || "https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/2025/s_01.jpg"}
+        className="img-fluid"
+        alt={event.eventName}
+      />
+    </div>
+  </div>
+</div>
+
 
 
       <div className="registered-users">
-      <h2>Registered Users</h2>
-      {registeredUsers.length === 0 ? (
-        <p>No users registered for this event.</p>
-      ) : (
-        <ul>
-          {registeredUsers.map((user) => (
-            <li key={user.userId}>
-              <strong>{user.username}</strong> – {user.email}, {user.mobile}
-              <br />
-              Registered on: {new Date(user.registrationDate).toLocaleDateString()}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+        <h2 >Registered Users</h2>
+
+        {registeredUsers.length === 0 ? (
+          <p>No users registered for this event.</p>
+        ) : (
+          <ul>
+            {registeredUsers.map((user) => (
+              <li key={user.userId} className="user-item">
+                <p>
+                  <strong>{user.username}</strong> – {user.email}, {user.mobile}
+                </p>
+                <p>Registered on: {new Date(user.registrationDate).toLocaleDateString()}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
     </div>
 
 

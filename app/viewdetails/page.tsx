@@ -204,13 +204,13 @@ export default function CarModelDetails() {
       </div>
 
       {/* Inspection */}
-      <div className="mt-5">
+      {/* <div className="mt-5">
         <h2 className="text text-center mb-4">🔍 Inspection</h2>
         <p className="text text-center">
           We recommend scheduling a comprehensive inspection. Book one with our certified agents.
         </p>
         <button className="btn btn-outline-primary">Book Inspection</button>
-      </div>
+      </div> */}
 
       {/* Reviews */}
       {/* <div className="mt-5">

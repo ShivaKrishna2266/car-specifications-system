@@ -1,0 +1,133 @@
+.dashboard-container {
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    min-height: 100vh;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #00bfff; /* Sky blue accent */
+    margin-bottom: 2rem;
+  }
+  
+  .user-info,
+  .registered-events {
+    background: #1a1a1a; /* Dark gray cards */
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+  }
+  
+  .user-info h2,
+  .registered-events h2 {
+    margin-bottom: 1rem;
+    color: #ffd700; /* Gold section headings */
+  }
+  
+  .registered-events ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .registered-events li {
+    background: #333;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #555;
+    color: #fff;
+  }
+  
+  /* Additional styles for the event item layout */
+  .event-item {
+    border: 1px solid #555;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    background-color: #222;
+  }
+  
+  .event-title {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #e5ff00; /* Sky blue title */
+  }
+  
+  .event-content {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap; /* Responsive behavior */
+  }
+  
+  .event-details strong {
+    flex: 1;
+    min-width: 250px;
+    color: #0044ff;
+  }
+  
+  .event-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    background-color: #222;
+    padding: 1.5rem;
+    border: 1px solid #444;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    flex-wrap: wrap; 
+
+     background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(227, 181, 5, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .event-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 35px rgba(227, 181, 5, 0.5);
+  }
+  
+  .event-details {
+    flex: 1;
+    min-width: 280px;
+  }
+  
+  .event-details p {
+    margin: 0.5rem 0;
+  }
+  
+  .event-image {
+    flex: 1;
+    min-width: 280px;
+    text-align: right;
+  }
+  
+  .image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  @media (max-width: 768px) {
+    .event-card {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .event-image {
+      text-align: center;
+      margin-top: 1rem;
+    }
+  }
+    
+  
+ 

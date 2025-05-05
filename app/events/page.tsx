@@ -72,11 +72,11 @@ export default function Events() {
 
       <div className="image-container">
         <img
-          src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/temerario/temerario/ar/AR%20Temerario.jpg"
+          src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/gateway_urus/performante/2022/centro_stile/urus_perfo_centrostile_06.jpg"
           className="d-block w-100 img-fluid"
           alt={`Image of `}
         />
-        <h1 className="centered-text">Show All Events</h1>
+        <h2 className="centered-text">Show All Events</h2>
       </div>
 
 

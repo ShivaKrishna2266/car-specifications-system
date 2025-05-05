@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import './user.css';
 import UserDetails from './user_details/page';
-import EventDetails from './event_details/page';
+import RegisteredEvents from './event_details/page';
 
 
 export default function UserDashboard() {
@@ -12,7 +12,7 @@ export default function UserDashboard() {
   return (
     <div className="dashboard-container">
       <UserDetails />
-      <EventDetails />
+      <RegisteredEvents />
     </div>
   );
 }
