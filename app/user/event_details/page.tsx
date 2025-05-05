@@ -1,7 +1,8 @@
 'use client';
 
-import tokenService from '@/app/tokenService';
 import React, { useEffect, useState } from 'react';
+import tokenService from '@/app/tokenService';
+import './er.css';
 
 interface Event {
   eventId: number;
@@ -26,67 +27,99 @@ interface Event {
   updatedAt: string;
 }
 
-export default function EventDetails() {
-  const [events, setEvents] = useState<Event[]>([]);
+interface User {
+  userId: number;
+  email: string;
+  username: string;
+  eventId: number | null;
+}
+
+function EventCard({ event }: { event: Event }) {
+  return (
+    <li key={event.eventId} className="">
+      <h2 className="event-title">{event.eventName}</h2>
+      <div className="event-card ">
+        <div className="event-details">
+          <p><strong>Date:</strong> {event.date}</p>
+          <p><strong>Time:</strong> {event.startTime} - {event.endTime}</p>
+          <p><strong>Location:</strong> {event.location}</p>
+          <p><strong>Category:</strong> {event.category}</p>
+          <p><strong>Status:</strong> {event.status}</p>
+          <p><strong>Organizer:</strong> {event.organizerName}</p>
+          <p><strong>Contact:</strong> {event.contactEmail} | {event.contactPhone}</p>
+          <p><strong>Price:</strong> {event.isFree ? 'Free' : `$${event.ticketPrice}`}</p>
+          <p><strong>Attendees:</strong> {event.attendeesCount}</p>
+          {event.eventLink && <p><a href={event.eventLink} target="_blank">Event Link</a></p>}
+          {event.bannerVideo && <p><a href={event.bannerVideo} target="_blank">Banner Video</a></p>}
+          <p><strong>Description:</strong> {event.description}</p>
+        </div>
+        <div className="event-image">
+          <img src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/gateway/ownership/s/gate_ownership_s1_03.jpg" alt={event.eventName} className='image' />
+        </div>
+      </div>
+    </li>
+
+  );
+}
+
+export default function RegisteredEvents() {
+  const [event, setEvent] = useState<Event | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchRegisteredEvent = async () => {
       try {
         const token = tokenService.getToken();
+        const username = tokenService.getUserId();
 
-        const response = await fetch('http://localhost:9090/user/getAllEvents', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
+        // 1. Get all users
+        const userRes = await fetch('http://localhost:9090/user/getAllUser', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const userJson = await userRes.json();
+        const users: User[] = userJson.data;
+
+        // 2. Find logged-in user by email
+        const currentUser = users.find(u => u.username === username);
+        if (!currentUser) throw new Error('User not found.');
+
+        if (!currentUser.eventId) {
+          setEvent(null); // no registration
+          return;
+        }
+
+        // 3. Get event by eventId
+        const eventRes = await fetch(`http://localhost:9090/user/getEventById/${currentUser.eventId}`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
-        if (!response.ok) throw new Error(`Failed to fetch events: ${response.statusText}`);
+        if (!eventRes.ok) throw new Error('Event not found.');
 
-        const res = await response.json();
-        setEvents(res.data);
-      } catch (error: any) {
-        console.error('Error fetching events:', error);
-        setError(error.message || 'Something went wrong.');
+        const eventJson = await eventRes.json();
+        setEvent(eventJson.data);
+
+      } catch (err: any) {
+        setError(err.message || 'Something went wrong');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEvents();
+    fetchRegisteredEvent();
   }, []);
 
-  if (loading) return <p>Loading events...</p>;
+  if (loading) return <p>Loading registered event...</p>;
   if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
 
   return (
-    <div>
-      <h1>Registered Events</h1>
-      {events.length === 0 ? (
-        <p>No events registered.</p>
+    <div style={{ padding: '2rem' }}>
+      <h1 className='text-light'>My Registered Event</h1>
+      {!event ? (
+        <p>You haven't registered for any events yet.</p>
       ) : (
-        <ul>
-          {events.map((event) => (
-            <li key={event.eventId} style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '1rem' }}>
-              <h2>{event.eventName}</h2>
-              <img src={event.imageUrl} alt={event.eventName} style={{ maxWidth: '100%', height: 'auto' }} />
-              <p><strong>Date:</strong> {event.date}</p>
-              <p><strong>Time:</strong> {event.startTime} - {event.endTime}</p>
-              <p><strong>Location:</strong> {event.location}</p>
-              <p><strong>Category:</strong> {event.category}</p>
-              <p><strong>Status:</strong> {event.status}</p>
-              <p><strong>Organizer:</strong> {event.organizerName}</p>
-              <p><strong>Contact:</strong> {event.contactEmail} | {event.contactPhone}</p>
-              <p><strong>Price:</strong> {event.isFree ? 'Free' : `$${event.ticketPrice}`}</p>
-              <p><strong>Attendees:</strong> {event.attendeesCount}</p>
-              {event.eventLink && <p><a href={event.eventLink} target="_blank">Event Link</a></p>}
-              {event.bannerVideo && <p><a href={event.bannerVideo} target="_blank">Banner Video</a></p>}
-              <p><strong>Description:</strong> {event.description}</p>
-            </li>
-          ))}
+        <ul style={{ listStyle: 'none', padding: 0 }}>
+          <EventCard event={event} />
         </ul>
       )}
     </div>

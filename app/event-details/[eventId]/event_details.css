@@ -1,0 +1,157 @@
+/* Overall Event Container Background */
+.event-container {
+    background: #000;
+  }
+  
+  /* Shared Container Styling */
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 20px;
+  }
+  
+  /* Banner Image Section */
+  .image-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+  }
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(75%);
+  }
+  
+  /* Centered Text Over Banner */
+  .centered-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: #fefefe;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px 40px;
+    border-radius: 12px;
+  }
+  
+  /* Heading Color */
+  h1 {
+    color: #f5e719;
+  }
+  
+  /* Registered Users Section */
+  .registered-users {
+    margin: 40px auto;
+    padding: 32px;
+    max-width: 800px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+  }
+  
+  .registered-users h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #b1dc32;
+    padding-bottom: 8px;
+  }
+  
+  .registered-users ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .registered-users li {
+    margin-bottom: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .registered-users li strong {
+    color: #ffd700;
+    font-weight: 600;
+  }
+  
+  /* Event Content Layout (Image Left, Text Right) */
+  .event-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 40px 0;
+  }
+  
+  .event-image {
+    flex: 1;
+    max-width: 50%;
+  }
+  
+  .event-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+  
+  .event-details {
+    flex: 1;
+    max-width: 50%;
+    color: #fff;
+  }
+  
+  .event-info p,
+  .event-description p {
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  
+  .event-description h1 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-size: 2rem;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .image-container {
+      height: 300px;
+    }
+  
+    .centered-text {
+      font-size: 2rem;
+      padding: 10px 20px;
+    }
+  
+    .text,
+    .text-container {
+      padding: 0 5%;
+    }
+  
+    .text-center p {
+      padding: 0 5%;
+    }
+  
+    .event-content {
+      flex-direction: column;
+    }
+  
+    .event-image,
+    .event-details {
+      max-width: 100%;
+    }
+  }
+  
