@@ -1,0 +1,136 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import './event_details.css';
+
+interface RegisteredUser {
+  userId: number;
+  username: string;
+  email: string;
+  mobile: string;
+  registrationDate: string;
+}
+
+interface EventDTO {
+  eventId: number;
+  eventName: string;
+  description: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  imageUrl: string;
+  category: string;
+  organizerName: string;
+  contactEmail: string;
+  contactPhone: string;
+  status: string;
+  isFree: boolean;
+  ticketPrice: number;
+  attendeesCount: number;
+  eventLink: string;
+  bannerVideo: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export default function EventDetails() {
+  const params = useParams();
+  const eventId = params?.eventId;
+  const [event, setEvent] = useState<EventDTO | null>(null);
+  const [registeredUsers, setRegisteredUsers] = useState<RegisteredUser[]>([]);
+
+  useEffect(() => {
+    if (!eventId) return;
+
+    fetch(`http://localhost:9090/data/getEventById/${eventId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) {
+          setEvent(data.data);
+        } else {
+          console.error('No event data found for the given eventId');
+        }
+      })
+      .catch((err) => {
+        console.error('Error fetching event details:', err);
+      });
+  }, [eventId]);
+
+
+  useEffect(() => {
+    if (!eventId) return;
+
+    // Fetch event details
+    fetch(`http://localhost:9090/data/getEventById/${eventId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) setEvent(data.data);
+      })
+      .catch((err) => console.error('Error fetching event details:', err));
+
+    // Fetch registered users
+    fetch(`http://localhost:9090/data/getUsersByEventId/${eventId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data.data)) setRegisteredUsers(data.data);
+      })
+      .catch((err) => console.error('Error fetching registered users:', err));
+
+  }, [eventId]);
+
+  if (!event) return <p className="loading">Loading...</p>;
+
+  return (
+    <div className="event-container">
+      <div className="event-hero">
+        <img
+          src={'https://via.placeholder.com/1200x600'}
+          alt={event.eventName}
+          className="event-image"
+        />
+        <div className="event-overlay">
+          <h1 className="event-title">{event.eventName}</h1>
+          <p className="event-category">{event.category} • {event.status}</p>
+        </div>
+      </div>
+
+      <div className="event-content">
+        <div className="event-info">
+          <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+          <p><strong>Time:</strong> {event.startTime} – {event.endTime}</p>
+          <p><strong>Location:</strong> {event.location}</p>
+          <p><strong>Organizer:</strong> {event.organizerName}</p>
+          <p><strong>Contact:</strong> {event.contactEmail} | {event.contactPhone}</p>
+          <p><strong>Price:</strong> {event.isFree ? 'Free' : `$${event.ticketPrice}`}</p>
+        </div>
+
+        <div className="event-description">
+          <h2>About the Event</h2>
+          <p>{event.description}</p>
+        </div>
+      </div>
+
+
+      <div className="registered-users">
+      <h2>Registered Users</h2>
+      {registeredUsers.length === 0 ? (
+        <p>No users registered for this event.</p>
+      ) : (
+        <ul>
+          {registeredUsers.map((user) => (
+            <li key={user.userId}>
+              <strong>{user.username}</strong> – {user.email}, {user.mobile}
+              <br />
+              Registered on: {new Date(user.registrationDate).toLocaleDateString()}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+    </div>
+
+
+  );
+}

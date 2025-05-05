@@ -3,256 +3,178 @@
 import { useEffect, useState } from 'react';
 import '../viewdetails/view_details.css';
 import { useCart } from '../context/CartContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+interface CarModel {
+  modelId: number;
+  modelName: string;
+  specifications: string;
+  price: number;
+  engine: string;
+  transmission: string;
+  infotainment: string;
+  safety: string;
+  fuelType: string;
+  bodyType: string;
+  seatingCapacity: string;
+  colorOptions: string;
+  exShowroomPrice: number;
+  onRoadPrice: number;
+  insurance: number;
+  emiOption: string;
+}
+
 export default function CarModelDetails() {
-  const [carModel, setCarModel] = useState<any>(null);
+  const [carModel, setCarModel] = useState<CarModel | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const searchParams = useSearchParams();
+  const modelId = searchParams.get('id');
   const { addToCart } = useCart();
   const router = useRouter();
 
-  const [carModels, setCarModels] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  const API_URL = 'http://localhost:9090';
+  // Fetch car model from the API on initial load
   useEffect(() => {
-    const storedModel = localStorage.getItem('selectedCarModel');
-    if (storedModel) {
-      setCarModel(JSON.parse(storedModel));
+    if (!modelId) {
+      setError('No model ID provided in the URL.');
+      setLoading(false);
+      return;
     }
-  }, [router]);
 
-
-
-
-  // Fetch car models from the backend API
-  useEffect(() => {
-    const fetchCarModels = async () => {
-      try {
-        const response = await fetch('https://your-backend-api.com/cars'); // Replace with your actual API URL
-        const data = await response.json();
-        setCarModels(data); // Set car models to state
-      } catch (error) {
-        console.error("Error fetching car models:", error);
-      } finally {
+    fetch(`${API_URL}/data/getCarModelById/${modelId}`)
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(err => {
+            throw new Error(err.message || 'Failed to fetch model details');
+          });
+        }
+        return res.json();
+      })
+      .then(data => {
+        setCarModel(data.data);
         setLoading(false);
-      }
-    };
+      })
+      .catch(err => {
+        console.error(err);
+        setError('Unable to load car model details.');
+        setLoading(false);
+      });
+  }, [modelId]);
 
-    fetchCarModels();
-  }, []);
-
-  const handleBookCar = () => {
-    addToCart(carModel);
-    router.push('/cart-details');
-  };
-
+  if (loading) return <div className="container mt-5 text-center"><p>Loading...</p></div>;
+  if (error) return <div className="container mt-5 text-center text-danger"><p>{error}</p></div>;
   if (!carModel) {
     return (
-      <div className="container text-center mt-5">
+      <div className="container-fluid text-center ">
         <h2 className="text-danger">Error</h2>
         <p>No car model data found. Please go back and select a car model.</p>
       </div>
     );
   }
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  />
 
   return (
-    <div className="container mt-5 mb-5">
-      <div className="card shadow-lg border-0 rounded-4 p-5 bg-light">
-        <h2 className="text-center mb-4 text-primary fw-bold">
+    <div className="container-fluid ">
+      <div className="image-container">
+        <img
+          src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/temerario/temerario/ar/AR%20Temerario.jpg"
+          className="d-block w-100 img-fluid"
+          alt={`Image of ${carModel.modelName}`}
+        />
+        <h1 className="centered-text">{carModel.modelName} </h1>
+      </div>
+
+
+      <div className="overview-section">
+        <div className="overview-image">
+          <img
+            src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/gateway/ownership/s/gate_ownership_s1_03.jpg"
+            alt="Lamborghini Temerario"
+          />
+        </div>
+        <div className="overview-text">
+          <h2 className="text-center ">OVERVIEW</h2>
+          <p>
+            Introducing the <strong>{carModel.modelName}</strong>, a stunning blend of innovation and performance. Equipped with a powerful <strong>{carModel.engine}</strong> and seamless <strong>{carModel.transmission}</strong> transmission, this {carModel.bodyType} redefines luxury on the road.
+          </p>
+
+          <p>
+            Designed to deliver unmatched comfort for up to <strong>{carModel.seatingCapacity}</strong> passengers, the {carModel.modelName} features cutting-edge infotainment: <strong>{carModel.infotainment}</strong>, and advanced safety systems like <strong>{carModel.safety}</strong>. With color options such as <strong>{carModel.colorOptions}</strong>, this model offers unparalleled customization.
+          </p>
+
+          <p>
+            Priced competitively with an ex-showroom price of <strong>${Number(carModel.exShowroomPrice).toLocaleString('en-IN')}</strong> and on-road price of <strong>${Number(carModel.onRoadPrice).toLocaleString('en-IN')}</strong>, it includes insurance worth <strong>${Number(carModel.insurance).toLocaleString('en-IN')}</strong>. Financing is flexible, with EMI plans starting from <strong>{carModel.emiOption}</strong>.
+          </p>
+
+        </div>
+      </div>
+
+
+      <div className="overview-section">
+      <div className="overview-text">
+          <h2 className="text-center ">CONNECTIVITY</h2>
+          <p>Lamborghini connected services can be used from the moment you get in the car via the Lamborghini Infotainment System (LIS), an intuitive system that accesses information directly from the Web and allows you to manage it quickly and easily.</p>
+
+        </div>
+        <div className="overview-image">
+          <img
+            src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/gateway/ownership/s/gate_ownership_s3_02.jpg"
+            alt="Lamborghini Temerario"
+          />
+        </div>
+        
+      </div>
+
+
+
+      <div className="shadow-lg border-0 rounded-4 p-5 ">
+        <h2 className="text-center mb-5 mt-5 text fw-bold">
           {carModel.modelName} - Premium Car Details
         </h2>
-        <div className="row align-items-center">
-          <div className="col-md-6 mb-3 text-center">
+        <div className="card row align-items-center">
+          <div className="col-md-6 mb-3 mt-5 text-center">
             <img
+              loading="lazy"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU"
-              alt={carModel.modelName}
+              alt={`Image of ${carModel.modelName}`}
               className="img-fluid rounded-4 border shadow-lg"
-              style={{ maxHeight: '350px', objectFit: 'cover' }}
             />
           </div>
           <div className="col-md-6">
-            <ul className="list-group list-group-flush fs-5">
+            <ul className="list-group  list-group-flush fs-5">
               <li className="list-group-item bg-transparent">
-                <strong className="text-muted">Name:</strong> {carModel.modelName}
+                <strong className="text">Name: {carModel.modelName}</strong>
               </li>
               <li className="list-group-item bg-transparent">
-                <strong className="text-muted">Specifications:</strong> {carModel.specifications}
+                <strong className="text">Specifications: {carModel.specifications}</strong>
               </li>
               <li className="list-group-item bg-transparent">
-                <strong className="text-muted">Price:</strong> $  {Number(carModel.price).toLocaleString('en-IN')}
+                <strong className="text">Price: $ {Number(carModel.price).toLocaleString('en-IN')}</strong>
               </li>
             </ul>
-            <div className="mt-4 d-grid">
-              <button className="btn btn-success btn-lg fw-semibold" onClick={handleBookCar}>
-                🚗 Add to Cart
-              </button>
-            </div>
           </div>
         </div>
       </div>
 
       {/* Key Features Section */}
       <div className="mt-5">
-        <h4 className="text-primary mb-4">🔑 Key Features</h4>
+        <h2 className="text text-center mb-4">🔑 Key Features</h2>
         <div className="row">
-          <div className="col-md-3 mb-3">
-            <div className="card h-100 text-center shadow p-3">
-              <i className="fas fa-cogs fa-3x text-primary mb-2"></i>
-              <div className="card-body">
-                <h5 className="card-title">Engine</h5>
-                <p className="card-text">{carModel.engine}</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card h-100 text-center shadow p-3">
-              <i className="fas fa-sliders-h fa-3x text-success mb-2"></i>
-              <div className="card-body">
-                <h5 className="card-title">Transmission</h5>
-                <p className="card-text">{carModel.transmission}</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card h-100 text-center shadow p-3">
-              <i className="fas fa-music fa-3x text-warning mb-2"></i>
-              <div className="card-body">
-                <h5 className="card-title">Infotainment</h5>
-                <p className="card-text">{carModel.infotainment}</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card h-100 text-center shadow p-3">
-              <i className="fas fa-shield-alt fa-3x text-danger mb-2"></i>
-              <div className="card-body">
-                <h5 className="card-title">Safety</h5>
-                <p className="card-text">{carModel.safety}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-      {/* Vehicle Details Section */}
-      <div className="mt-5">
-        <h4 className="text-primary mb-4">🚗 Vehicle Details</h4>
-        <div className="row">
-          <div className="col-md-3 mb-3">
-            <div className="card text-center shadow p-3 h-100">
-              <i className="fas fa-gas-pump fa-2x text-danger mb-2"></i>
-              <h6 className="fw-bold">Fuel Type</h6>
-              <p className="text-muted">{carModel.fuelType}</p>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card text-center shadow p-3 h-100">
-              <i className="fas fa-car-side fa-2x text-info mb-2"></i>
-              <h6 className="fw-bold">Body Type</h6>
-              <p className="text-muted">{carModel.bodyType}</p>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card text-center shadow p-3 h-100">
-              <i className="fas fa-users fa-2x text-success mb-2"></i>
-              <h6 className="fw-bold">Seating Capacity</h6>
-              <p className="text-muted">{carModel.seatingCapacity}</p>
-            </div>
-          </div>
-          <div className="col-md-3 mb-3">
-            <div className="card text-center shadow p-3 h-100">
-              <i className="fas fa-palette fa-2x text-warning mb-2"></i>
-              <h6 className="fw-bold">Color Options</h6>
-              <p className="text-muted">{carModel.colorOptions}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      {/* Price Details Section */}
-      <div className="mt-5">
-        <h4 className="text-primary mb-4">💰 Price Details</h4>
-        <div className="table-responsive">
-          <table className="table table-bordered shadow rounded text-center">
-            <thead className="table-light">
-              <tr>
-                <th className='text-primary'>S No</th>
-                <th className="text-primary">Type</th>
-                <th className="text-primary">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td><i className="fas fa-store-alt me-2 text-info"></i>Ex-Showroom Price</td>
-                <td>$  {Number(carModel.exShowroomPrice).toLocaleString('en-IN')}</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td><i className="fas fa-road me-2 text-success"></i>On-Road Price</td>
-                <td>$  {Number(carModel.onRoadPrice).toLocaleString('en-IN')}</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td><i className="fas fa-shield-alt me-2 text-warning"></i>Insurance</td>
-                <td>$  {Number(carModel.insurance).toLocaleString('en-IN')}</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td><i className="fas fa-coins me-2 text-danger"></i>EMI Option</td>
-                <td>$ {carModel.emiOption}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="mt-3 text-end p-3 bg-light rounded shadow-sm">
-          <h5 className="text-dark fw-bold">
-            🧾 Total Price: $ {" "}
-            {(
-              Number(carModel.exShowroomPrice) +
-              Number(carModel.onRoadPrice) +
-              Number(carModel.insurance)
-            ).toLocaleString("en-IN")}
-          </h5>
-        </div>
-      </div>
-
-
-      {/* Inspection Section */}
-      <div className="mt-5">
-        <h4 className="text-primary mb-4">🔍 Inspection</h4>
-        <p className="text-muted">
-          We recommend that all potential buyers schedule a comprehensive inspection to ensure the vehicle
-          meets your expectations. You can book an inspection with our certified agents for a detailed review.
-        </p>
-        <button className="btn btn-outline-primary">Book Inspection</button>
-      </div>
-
-      {/* More Cars Section */}
-      <div className="mt-5">
-        <h4 className="text-primary mb-4">🚘 More Cars You Might Like</h4>
-        <div className="row">
-          {[...Array(3)].map((_, idx) => (
-            <div className="col-md-4 mb-4" key={idx}>
-              <div className="card">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvFWeIrXchC-9QyHEjyUmqKKlrX5isDKv-pwRfD5gkwplJ7GxmAo_XdmGWZex1J6hvE-g&usqp=CAU"
-                  alt="Car Model"
-                  className="card-img-top"
-                />
+          {[
+            { icon: "fas fa-cogs", title: "Engine", content: carModel.engine, color: "primary" },
+            { icon: "fas fa-sliders-h", title: "Transmission", content: carModel.transmission, color: "success" },
+            { icon: "fas fa-music", title: "Infotainment", content: carModel.infotainment, color: "warning" },
+            { icon: "fas fa-shield-alt", title: "Safety", content: carModel.safety, color: "danger" },
+          ].map((feature, idx) => (
+            <div className="col-md-3 mb-3" key={idx}>
+              <div className="card h-100 text-center shadow p-3">
+                <i className={`${feature.icon} fa-3x text-${feature.color} mb-2`}></i>
                 <div className="card-body">
-                  <h5 className="card-title">Car Model {idx + 1}</h5>
-                  <p className="card-text">₹ 25,00,000</p>
-                  <a href="#" className="btn btn-primary">View Details</a>
+                  <h5 className="text">{feature.title}</h5>
+                  <p className="text">{feature.content}</p>
                 </div>
               </div>
             </div>
@@ -260,84 +182,72 @@ export default function CarModelDetails() {
         </div>
       </div>
 
-      {/* Reviews Section */}
+      {/* Vehicle Details */}
       <div className="mt-5">
-        <h4 className="text-primary mb-4">⭐ Customer Reviews</h4>
-        <div className="list-group">
-          <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
-            <h6 className="mb-1 fw-semibold text-dark">Ravi Sharma</h6>
-            <p className="mb-2 text-muted">"Amazing driving experience! The mileage is great and the interior is super premium."</p>
-            <div className="d-flex align-items-center">
-              <span className="text-warning">⭐⭐⭐⭐☆</span>
-              <small className="ms-3 text-muted">2 days ago</small>
+        <h2 className="text-center text mb-4">🚗 Vehicle Details</h2>
+        <div className="row">
+          {[
+            { icon: "fas fa-gas-pump", label: "Fuel Type", value: carModel.fuelType, color: "danger" },
+            { icon: "fas fa-car-side", label: "Body Type", value: carModel.bodyType, color: "info" },
+            { icon: "fas fa-users", label: "Seating Capacity", value: carModel.seatingCapacity, color: "success" },
+            { icon: "fas fa-palette", label: "Color Options", value: carModel.colorOptions, color: "warning" },
+          ].map((item, idx) => (
+            <div className="col-md-3 mb-3" key={idx}>
+              <div className="card-dark text-center shadow p-3 h-100">
+                <i className={`${item.icon} fa-2x text-${item.color} mb-2`}></i>
+                <h6 className="fw-bold text">{item.label}</h6>
+                <p className="text">{item.value}</p>
+              </div>
             </div>
-          </div>
-          <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-white">
-            <h6 className="mb-1 fw-semibold text-dark">Sneha Reddy</h6>
-            <p className="mb-2 text-muted">"Comfortable and smooth ride. Definitely worth the price. I highly recommend it!"</p>
-            <div className="d-flex align-items-center">
-              <span className="text-warning">⭐⭐⭐⭐⭐</span>
-              <small className="ms-3 text-muted">1 week ago</small>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
+      {/* Inspection */}
+      <div className="mt-5">
+        <h2 className="text text-center mb-4">🔍 Inspection</h2>
+        <p className="text text-center">
+          We recommend scheduling a comprehensive inspection. Book one with our certified agents.
+        </p>
+        <button className="btn btn-outline-primary">Book Inspection</button>
+      </div>
 
-      {/* FAQ Section */}
-      <div className="mt-5 mb-5">
+      {/* Reviews */}
+      {/* <div className="mt-5">
+        <h4 className="text mb-4">⭐ Customer Reviews</h4>
+        {[ 
+          { name: "Ravi Sharma", text: "Amazing driving experience! The mileage is great and the interior is super premium.", stars: "⭐⭐⭐⭐☆", time: "2 days ago" },
+          { name: "Sneha Reddy", text: "Comfortable and smooth ride. Definitely worth the price. I highly recommend it!", stars: "⭐⭐⭐⭐⭐", time: "1 week ago" },
+        ].map((review, idx) => (
+          <div className="list-group-item border-0 shadow-sm p-3 mb-4 rounded-4 bg-dark" key={idx}>
+            <h6 className="mb-1 fw-semibold text">{review.name}</h6>
+            <p className="mb-2 text">"{review.text}"</p>
+            <div className="d-flex align-items-center">
+              <span className="text">{review.stars}</span>
+              <small className="ms-3 text">{review.time}</small>
+            </div>
+          </div>
+        ))}
+      </div> */}
+
+      {/* FAQs */}
+      {/* <div className="mt-5 ">
         <h4 className="text-primary mb-3">❓ Frequently Asked Questions</h4>
         <div className="accordion" id="faqAccordion">
           <div className="accordion-item">
             <h2 className="accordion-header" id="headingOne">
-              <button
-                className="accordion-button fw-semibold"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
+              <button className="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                 What is the mileage of this model?
               </button>
             </h2>
-            <div
-              id="collapseOne"
-              className="accordion-collapse collapse show"
-              aria-labelledby="headingOne"
-              data-bs-parent="#faqAccordion"
-            >
-              <div className="accordion-body text-muted">
+            <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+              <div className="accordion-body text">
                 This car offers a mileage of approximately 18–20 km/l depending on the variant and driving conditions.
               </div>
             </div>
           </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="headingTwo">
-              <button
-                className="accordion-button fw-semibold"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
-                Is there a sunroof available in this model?
-              </button>
-            </h2>
-            <div
-              id="collapseTwo"
-              className="accordion-collapse collapse"
-              aria-labelledby="headingTwo"
-              data-bs-parent="#faqAccordion"
-            >
-              <div className="accordion-body text-muted">
-                Yes, this model comes with an optional sunroof for an enhanced driving experience.
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

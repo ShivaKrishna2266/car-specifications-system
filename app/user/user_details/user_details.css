@@ -1,0 +1,59 @@
+/* Premium-style Dashboard CSS */
+/* .dashboard-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #000000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+  } */
+  
+  .dashboard-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #34495e;
+  }
+  
+  .user-card {
+    background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(227, 181, 5, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .user-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 35px rgba(227, 181, 5, 0.5);
+  }
+
+
+  
+  .user-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+  
+  .user-card p {
+    font-size: 1rem;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+  
+  .user-card strong {
+    color: #1a73e8;
+  }
+  
+  /* .user-meta {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e6ed;
+  } */
+  
+  /* .user-meta p {
+    font-size: 0.95rem;
+    color: #5f6f81;
+  } */
+  

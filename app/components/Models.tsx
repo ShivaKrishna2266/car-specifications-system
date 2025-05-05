@@ -43,6 +43,11 @@ const Models = () => {
     router.push(`/model_list/${modelName}`);
   };
 
+  const handleViewDeatailsClick = (model: any) => {
+    localStorage.setItem('selectedCarModel', JSON.stringify(model));
+    router.push('/viewdetails');
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-xl font-bold mb-4">Available Car Models</h2>
@@ -51,8 +56,8 @@ const Models = () => {
           <li
             key={model.modelId}
             className="cursor-pointer text-blue-600 hover:underline"
-            onClick={() => router.push(`/model_list/${model.modelId}`)}
-          >
+             onClick={() => handleViewDeatailsClick(model)} >
+              
             {model.modelName}
           </li>
         ))}

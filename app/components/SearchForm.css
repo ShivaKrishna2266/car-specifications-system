@@ -106,3 +106,16 @@
 .dropdown-item:hover {
   background-color: #f0f0f0;
 }
+/* Add to your global CSS file or inside a <style> tag if in _app.tsx or layout */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.nav-item.dropdown .dropdown-toggle::after {
+  display: none; /* Optional: hide the arrow icon */
+}
+
+.logout-link{
+  background: #d41111;
+  color: #000;
+}

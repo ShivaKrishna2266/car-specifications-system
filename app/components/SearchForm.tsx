@@ -36,6 +36,7 @@ export default function SearchForm() {
   const handleLogout = () => {
     tokenService.clearToken();
     setIsLoggedIn(false);
+    window.dispatchEvent(new Event("userLoggedOut")); // ✅ Dispatch logout event
     router.push('/');
   };
 
@@ -52,18 +53,19 @@ export default function SearchForm() {
     </button> */}
 
     {isLoggedIn ? (
-      <div className="container-flued">
-        <FaUserCircle onClick={handleLogout} className="logout-link" />
-        <div className="user-modal">
-          <p className="username">
-            {username} ({role})
-          </p>
-          
-          <button onClick={handleLogout} className="logout-link">
-            Logout
-          </button>
-        </div>
+      <div className="user-icon-container">
+      <FaUserCircle onClick={handleLogout} className="logout-icon" />
+      <div className="user-modal">
+        {/* <p className="username">
+          {username} ({role})
+        </p> */}
+    
+        <button onClick={handleLogout} className="btn btn-success logout-link">
+          Logout
+        </button>
       </div>
+    </div>
+    
     ) : (
       <button type="button" className="btn btn-light">
       <a href="./login" className="nav-link text-dark "><b>LOG-IN</b><i className="fa fa-sign-in"></i>

@@ -29,8 +29,7 @@ export default function AdminDashboard() {
   return (
     <div className='container mt-5'>
       <div className="conntent-end">
-      {/* <button type="button" className="btn btn-primary">LogOut</button> */}
-      <button onClick={handleLogout} className="logout-link">
+      <button type="button" onClick={handleLogout} className="btn btn-primary">
             Logout
           </button>
       </div>

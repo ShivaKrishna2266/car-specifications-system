@@ -1,6 +1,8 @@
+import tokenService from "@/app/tokenService";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { FaEdit, FaTrash } from "react-icons/fa";
+
 
 interface Event {
   eventId: number;
@@ -28,25 +30,41 @@ interface Event {
 const EventsTable: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get("http://localhost:9090/data/getAllEvents");
-      
-      // Log the response to check its structure
-      console.log("API Response:", response.data);
-      
-      // Check if the response data is an array or contains the array inside an object
-      if (Array.isArray(response.data)) {
-        setEvents(response.data);
-      } else if (response.data && Array.isArray(response.data.events)) {
-        setEvents(response.data.events); // Adjust this based on your API response structure
+      const token = tokenService.getToken();
+
+      if (!token) {
+        console.error("No token found. Please log in.");
+        setError("Authentication token not found.");
+        return;
+      }
+
+      const response = await fetch("http://localhost:9090/admin/getAllEvents", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch events. Status: ${response.status}`);
+      }
+
+      const res = await response.json();
+      console.log("Fetched Events:", res.data);
+
+      if (Array.isArray(res.data)) {
+        setEvents(res.data);
       } else {
-        setError("Data format error: Expected an array of events.");
+        setError("Unexpected response format.");
       }
     } catch (error) {
       console.error("Error fetching events:", error);
-      setError("Failed to load events. Please try again later.");
+      setError("Could not load events. Please try again later.");
     }
   };
 
@@ -61,13 +79,26 @@ const EventsTable: React.FC = () => {
   const handleDeleteEvent = (id: number) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this event?");
     if (confirmDelete) {
-      setEvents(events.filter(event => event.eventId !== id));
+      setEvents(events.filter((event) => event.eventId !== id));
     }
+  };
+
+  const handleAddEvents = () => {
+    console.log("Navigating to AddCarModel page");
+    router.push("/admin/events/add_events");
   };
 
   return (
     <div className="card container">
-      <h4 className="mt-3 mb-3">Events</h4>
+       <div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleAddEvents}
+        >
+          Add Event
+        </button>
+      </div>
       {error && <div className="alert alert-danger">{error}</div>}
       <div className="table-responsive">
         <table className="table table-bordered table-striped">
@@ -99,7 +130,7 @@ const EventsTable: React.FC = () => {
           <tbody>
             {events.length === 0 ? (
               <tr>
-                <td colSpan={20}>No events available</td>
+                <td colSpan={21}>No events available</td>
               </tr>
             ) : (
               events.map((event, index) => (
@@ -120,22 +151,44 @@ const EventsTable: React.FC = () => {
                   <td>{event.ticketPrice}</td>
                   <td>{event.attendeesCount}</td>
                   <td>
-                    <a href={event.eventLink} target="_blank" rel="noreferrer">View</a>
+                    {event.eventLink ? (
+                      <a href={event.eventLink} target="_blank" rel="noreferrer">
+                        View
+                      </a>
+                    ) : (
+                      "N/A"
+                    )}
                   </td>
                   <td>
-                    <img src={event.imageUrl} alt={event.eventName} width="50" height="50" />
+                    {event.imageUrl ? (
+                      <img src={event.imageUrl} alt={event.eventName} width="50" height="50" />
+                    ) : (
+                      "No Image"
+                    )}
                   </td>
                   <td>
-                    <video width="100" controls>
-                      <source src={event.bannerVideo} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
+                    {event.bannerVideo ? (
+                      <video width="100" controls>
+                        <source src={event.bannerVideo} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      "No Video"
+                    )}
                   </td>
                   <td>{new Date(event.createdAt).toLocaleString()}</td>
                   <td>{new Date(event.updatedAt).toLocaleString()}</td>
                   <td>
-                    <FaEdit className="text-warning me-2" onClick={() => handleEditEvent(event.eventId)} />
-                    <FaTrash className="text-danger" onClick={() => handleDeleteEvent(event.eventId)} />
+                    <FaEdit
+                      className="text-warning me-2"
+                      onClick={() => handleEditEvent(event.eventId)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <FaTrash
+                      className="text-danger"
+                      onClick={() => handleDeleteEvent(event.eventId)}
+                      style={{ cursor: "pointer" }}
+                    />
                   </td>
                 </tr>
               ))
