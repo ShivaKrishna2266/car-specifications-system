@@ -1,81 +1,137 @@
+.image-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.image-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .events-container {
-    background-color: #0b0b0b;
-    color: white;
-    padding: 2rem;
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .events-heading {
-    font-size: 3rem;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    color: #e3b505;
-  }
-  
-  .events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(590px, 1fr));
-    gap: 2rem;
-  }
-  
-  .event-card {
-    background-color: #1c1c1c;
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(227, 181, 5, 0.2);
-    transition: transform 0.3s ease;
-  }
-  
-  .event-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 25px rgba(227, 181, 5, 0.4);
-  }
-  
-  .event-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #ffffff;
-  }
-  
-  .event-date {
-    color: #e3b505;
-    margin-bottom: 1rem;
-    font-style: italic;
-  }
-  
-  .event-description {
-    font-size: 1rem;
-    color: #d1d1d1;
-  }
-  .event-image {
-    width: 70%; /* or a fixed width like 300px */
-    height: auto; /* maintain aspect ratio */
-    border-radius: 10px; /* rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* subtle shadow */
-    margin: 10px 0;
-    object-fit: cover;
-  }
-  .register-button {
-    display: block;
-  margin: 1rem auto; /* Auto horizontally centers it */
-  padding: 0.75rem 1.5rem;
-  background-color: #070707;
-  color: #fff;
+  background-color: #0b0b0b;
+  color: #f5f5f5;
+  padding: 2rem;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.centered-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  pointer-events: none; /* So it doesn't block clicks on the image if needed */
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #e3b505;
+  text-shadow: 1px 1px 10px rgba(227, 181, 5, 0.2);
+}
+/* .events-heading {
+  font-size: 3rem;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #e3b505;
+  text-shadow: 1px 1px 10px rgba(227, 181, 5, 0.2);
+} */
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(590px, 1fr));
+  gap: 2rem;
+}
+
+.event-card {
+  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 25px rgba(227, 181, 5, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 35px rgba(227, 181, 5, 0.5);
+}
+
+.event-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.event-title .dropdown-item {
+  background: none;
+  border: none;
+  color: #e3b505;
+  text-align: left;
+  padding: 0;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.event-title .dropdown-item:hover {
+  color: #f7d13b;
+  text-decoration: underline;
+}
+
+.event-date {
+  color: #e3b505;
+  margin-bottom: 1rem;
+  font-style: italic;
+  font-size: 1rem;
+}
+
+.event-description,
+.event-location,
+.event-organizer {
+  font-size: 1rem;
+  color: #d1d1d1;
+  margin-bottom: 0.5rem;
+}
+
+.event-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  margin-top: 1rem;
+  object-fit: cover;
+}
+
+.register-button {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(90deg, #e3b505, #d4a017);
+  color: #000;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  }
-  
-  .register-button:hover {
-    background-color: #218838; 
-    transform: scale(1.05); 
-  }
-  
-  .register-button:active {
-    transform: scale(0.98); 
-  }
-  
+  transition: all 0.3s ease;
+}
+
+.register-button:hover {
+  background: linear-gradient(90deg, #f7d13b, #e3b505);
+  transform: scale(1.05);
+  color: #000;
+}
+
+.register-button:active {
+  transform: scale(0.98);
+}

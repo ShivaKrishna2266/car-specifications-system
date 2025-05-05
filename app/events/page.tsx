@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import './events.css';
 import { useRouter } from 'next/navigation';
@@ -7,8 +8,8 @@ export interface Event {
   eventId: number;
   eventName: string;
   description: string;
-  date: string; // Use string for ISO format, e.g., "2025-05-10"
-  startTime: string; // e.g., "10:00:00"
+  date: string;
+  startTime: string;
   endTime: string;
   location: string;
   imageUrl: string;
@@ -22,7 +23,7 @@ export interface Event {
   attendeesCount: number;
   eventLink: string;
   bannerVideo: string;
-  createdAt: string; // e.g., "2025-04-28T10:30:00"
+  createdAt: string;
   updatedAt: string;
 }
 
@@ -32,23 +33,18 @@ export default function Events() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch('http://localhost:9090/data/getAllEvents') // Replace with your actual API endpoint
+    fetch('http://localhost:9090/data/getAllEvents')
       .then((res) => res.json())
       .then((data) => {
-        console.log('Fetched Data:', data); // Check the structure here
-
-        // Access the events from the "data" field in the response
         if (data && Array.isArray(data.data)) {
           const sortedData = [...data.data].sort(
             (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
           );
           setEvents(sortedData);
-          console.log('Events set:', sortedData); // Verify if data is set to state
         } else {
-          console.error('Error: Data is not in expected format:', data);
-          setEvents([]); // Empty array in case of wrong format
+          console.error('Error: Unexpected data format:', data);
+          setEvents([]);
         }
-
         setLoading(false);
       })
       .catch((err) => {
@@ -57,17 +53,39 @@ export default function Events() {
       });
   }, []);
 
-  const handleRegisterClick = () => {
-    const encodedEvent = encodeURIComponent(JSON.stringify(event));
-    router.push(`/event_register?event=${encodedEvent}`);
+  const handleRegisterClick = (event: Event) => {
+    const minimalEvent = {
+      eventId: event.eventId,
+      eventName: event.eventName,
+    };
+    const encodedEvent = encodeURIComponent(JSON.stringify(minimalEvent));
+    router.push(`/register?event=${encodedEvent}`);
   };
 
+  const handleViewDetailsClick = (eventId: number) => {
+    router.push(`/event-details/${eventId}`);
+  };
+    
   return (
+    
     <div className="events-container">
-      <h1 className="events-heading">Show All Events</h1>
-      <div className='mt-3 mb-5'>
-      <h5 className='text-end'><strong>Total Events:</strong>{events.length}</h5>
+
+      <div className="image-container">
+        <img
+          src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/temerario/temerario/ar/AR%20Temerario.jpg"
+          className="d-block w-100 img-fluid"
+          alt={`Image of `}
+        />
+        <h1 className="centered-text">Show All Events</h1>
       </div>
+
+
+      <div className="mt-3 mb-5">
+        <h5 className="text-end">
+          <strong>Total Events:</strong> {events.length}
+        </h5>
+      </div>
+
       {loading ? (
         <p>Loading events...</p>
       ) : (
@@ -77,24 +95,33 @@ export default function Events() {
           ) : (
             events.map((event, index) => (
               <div className="event-card" key={index}>
-                <div className='row'>
-                  <div className='col-md-2'>
-                  <p className="event-date">{new Date(event.date).toLocaleDateString()}</p>
+                <div className="row">
+                  <div className="col-md-2">
+                    <p className="event-date">
+                      {new Date(event.date).toLocaleDateString()}
+                    </p>
                   </div>
-                  <div className='col-md-5'>
-                  <h2 className="event-title">{event.eventName}</h2>
-                  <p className="event-description">{event.description}</p>
-                  <p className="event-location">Location: {event.location}</p>
-                  <p className="event-organizer">Organizer: {event.organizerName}</p>
+                  <div className="col-md-5">
+                    <h2 className="event-title">
+                      <button onClick={() => handleViewDetailsClick(event.eventId)} className="dropdown-item">
+                        {event.eventName}
+                      </button>
+                    </h2>
+                    <p className="event-description">{event.description}</p>
+                    <p className="event-location">Location: {event.location}</p>
+                    <p className="event-organizer">Organizer: {event.organizerName}</p>
                   </div>
-                  <div className='col-md-5'>
-                    <img src="https://lcarizona.com/wp-content/uploads/2022/09/Alpios.jpg" alt={event.eventName} className="event-image" />
+                  <div className="col-md-5">
+                    <img
+                      src={'https://t4.ftcdn.net/jpg/03/75/42/33/360_F_375423312_VcfklfhcmkVOj8cvJtorP5kQmpYaNndj.jpg'}
+                      alt={event.eventName}
+                      className="event-image"
+                    />
                   </div>
-                  
                 </div>
-                <button className="register-button" onClick={handleRegisterClick}>
-                    Register
-                  </button>
+                <button className="register-button" onClick={() => handleRegisterClick(event)}>
+                  Register
+                </button>
               </div>
             ))
           )}

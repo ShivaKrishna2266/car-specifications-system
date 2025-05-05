@@ -3,18 +3,17 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './loginPage.css';
-import tokenService from '../tokenService';
 import Link from 'next/link';
-
+import tokenService from '../tokenService';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (e:any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch("http://localhost:9090/authenticate", {
         method: "POST",
@@ -23,24 +22,24 @@ export default function LoginPage() {
         },
         body: JSON.stringify({ username, password }),
       });
-  
+
       if (!response.ok) throw new Error("Login failed");
-  
+
       const data = await response.json();
-      const { token, role } = data;
-  
-      // Store token and role using tokenService
-      tokenService.setToken(token, role, data.username);
-  
+      const { token, role, userId } = data;
+
+      // Store token, role, username, and userId using tokenService
+      tokenService.setToken(token, role, username, userId);
+
       // Emit custom login event
       window.dispatchEvent(new Event("userLoggedIn"));
-  
+
       // Redirect based on role
       if (role === "ROLE_ADMIN") {
         router.push('/admin');
-      } else if(role === "ROLE_USER"){
+      } else if (role === "ROLE_USER") {
         router.push('/user');
-      }else {
+      } else {
         alert('Unknown role');
       }
 
@@ -49,7 +48,6 @@ export default function LoginPage() {
       alert("Invalid credentials! Please try again.");
     }
   };
-  
 
   return (
     <div className="login-container">

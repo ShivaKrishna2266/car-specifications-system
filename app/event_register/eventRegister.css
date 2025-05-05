@@ -64,4 +64,8 @@
   .register-button:active {
     transform: scale(0.98);
   }
+  .name{
+    color: azure;
+    justify-content: center;
+  }
   
