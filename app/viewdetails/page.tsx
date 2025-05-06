@@ -134,7 +134,7 @@ export default function CarModelDetails() {
         <h2 className="text-center mb-5 mt-5 text fw-bold">
           {carModel.modelName} - Premium Car Details
         </h2>
-        <div className="card row align-items-center">
+        <div className="card-1 row align-items-center">
           <div className="col-md-6 mb-3 mt-5 text-center">
             <img
               loading="lazy"
@@ -170,7 +170,7 @@ export default function CarModelDetails() {
             { icon: "fas fa-shield-alt", title: "Safety", content: carModel.safety, color: "danger" },
           ].map((feature, idx) => (
             <div className="col-md-3 mb-3" key={idx}>
-              <div className="card h-100 text-center shadow p-3">
+              <div className="card-1 h-100 text-center shadow p-3">
                 <i className={`${feature.icon} fa-3x text-${feature.color} mb-2`}></i>
                 <div className="card-body">
                   <h5 className="text">{feature.title}</h5>

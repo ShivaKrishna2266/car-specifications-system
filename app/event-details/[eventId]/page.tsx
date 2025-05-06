@@ -85,13 +85,13 @@ export default function EventDetails() {
   return (
     <div className="event-container">
       <div className="event-hero">
-        <div className="image-container">
+        <div className="image-container-1">
           <img
             src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/2025/s_01.jpg"
             className="d-block w-100 img-fluid"
             alt={event.eventName}
           />
-          <h3 className="centered-text">
+          <h3 className="centered-text-1">
             Discover the Thrill of Innovation at Our {event.eventName}: An Unforgettable Automotive Experience
           </h3>
 
@@ -104,33 +104,33 @@ export default function EventDetails() {
         </div>
       </div>
       <div className="container">
-  <div className="event-content">
-    {/* Text on the left */}
-    <div className="event-details">
-      <div className="event-info">
-        <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
-        <p><strong>Time:</strong> {event.startTime} – {event.endTime}</p>
-        <p><strong>Location:</strong> {event.location}</p>
-        <p><strong>Organizer:</strong> {event.organizerName}</p>
-        <p><strong>Contact:</strong> {event.contactEmail} | {event.contactPhone}</p>
-        <p><strong>Price:</strong> {event.isFree ? 'Free' : `$${event.ticketPrice}`}</p>
-      </div>
+        <div className="row">
+          {/* Text on the left */}
+          <div className="event-details col-md-6 col-sm-6">
+            <div className="event-info">
+              <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
+              <p><strong>Time:</strong> {event.startTime} – {event.endTime}</p>
+              <p><strong>Location:</strong> {event.location}</p>
+              <p><strong>Organizer:</strong> {event.organizerName}</p>
+              <p><strong>Contact:</strong> {event.contactEmail} | {event.contactPhone}</p>
+              <p><strong>Price:</strong> {event.isFree ? 'Free' : `$${event.ticketPrice}`}</p>
+            </div>
 
-      <div className="event-description">
-        <h1>About the Event</h1>
-        <p>{event.description}</p>
+            <div className="event-description">
+              <h1>About the Event</h1>
+              <p>{event.description}</p>
+            </div>
+          </div>
+          {/*  Image on the right */}
+          <div className="event-image-1 col-md-6 col-sm-6">
+            <img
+              src={ "https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/augmented-reality/revuelto/ar_revuelto.png"}
+              className="img-fluid"
+              alt={event.eventName}
+            />
+          </div>
+        </div>
       </div>
-    </div>
-      {/*  Image on the right */}
-    <div className="event-image">
-      <img
-        src={event.imageUrl || "https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/2025/s_01.jpg"}
-        className="img-fluid"
-        alt={event.eventName}
-      />
-    </div>
-  </div>
-</div>
 
 
 

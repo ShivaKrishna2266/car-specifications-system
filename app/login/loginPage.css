@@ -1,54 +1,45 @@
-
+/* LoginPage.module.css */
 .login-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #000;
-  /* background-image: url("https://media.istockphoto.com/id/499751058/photo/concept-car.jpg?s=1024x1024&w=is&k=20&c=9rEMWop3A1VEc2aowwhuH9Aq2HxP5QmN5tn5ImvFSIs="); */
   background-size: cover;
   background-position: center;
 }
 
-
 .card {
-    box-shadow: 0 4px 8px rgba(37, 75, 156, 0.1);
-    border-radius: 8px;
-    margin: 20px auto;
-    width: 100%;
-    max-width: 600px; 
+  box-shadow: 0 4px 8px rgba(37, 75, 156, 0.1);
+  border-radius: 8px;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  background-image: url("https://img.freepik.com/premium-photo/product-showcase-spotlight-background-3d-rendering_327072-475.jpg");
+  background-size: cover;
+  background-position: center;
+}
 
-    display: flex;
-    justify-content: center;
-    background-image: url("https://img.freepik.com/premium-photo/product-showcase-spotlight-background-3d-rendering_327072-475.jpg?ga=GA1.1.424294533.1729748802&semt=ais_siglip");
-    background-size: cover;
-    background-position: center;
-  }
-  
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
-  /* Input fields */
-  .form-control {
-    height: 40px;
-    /* padding: 10px; */
-    font-size: 1rem;
-  }
-  
-  /* Text alignment for labels */
-  .form-label {
-    text-align: left;
-    display: block;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-  }
- 
-  
+.heading {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.form-control {
+  height: 40px;
+  font-size: 1rem;
+}
+
+.form-label-1 {
+  text-align: left;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.primaryBtn:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}

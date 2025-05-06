@@ -24,17 +24,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 2.5rem;
-  font-weight: bold;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-  text-align: center;
-  pointer-events: none; /* So it doesn't block clicks on the image if needed */
   font-size: 3rem;
-  text-align: center;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: #e3b505;
-  text-shadow: 1px 1px 10px rgba(227, 181, 5, 0.2);
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5); /* Slight Darker Background */
+  padding: 20px 40px;
+  border-radius: 12px;
 }
 /* .events-heading {
   font-size: 3rem;
