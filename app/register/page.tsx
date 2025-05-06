@@ -11,7 +11,7 @@ export default function Register() {
   const eventParam = searchParams.get('event');
 
   const [eventDetails, setEventDetails] = useState<{ eventId: number; eventName: string } | null>(null);
-  const [roles, setRoles] = useState([]);
+
   const roles1 = [
     { id: 1, value: 'ROLE_ADMIN', name: 'ADMIN' },
     { id: 2, value: 'ROLE_USER', name: 'USER' },
@@ -33,28 +33,14 @@ export default function Register() {
         const decoded = decodeURIComponent(eventParam);
         const parsed = JSON.parse(decoded);
         setEventDetails(parsed);
+
+        // Automatically set role to USER if event is present
+        setFormData(prev => ({ ...prev, role: 'ROLE_USER' }));
       } catch (err) {
         console.error('Failed to parse event param', err);
       }
     }
   }, [eventParam]);
-
-  useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const res = await fetch('http://localhost:9090/data/getAllRoles');
-        if (res.ok) {
-          const data = await res.json();
-          setRoles(data);
-        } else {
-          console.error('Failed to fetch roles');
-        }
-      } catch (err) {
-        console.error('Error fetching roles:', err);
-      }
-    };
-    fetchRoles();
-  }, []);
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -84,7 +70,7 @@ export default function Register() {
           role,
           password,
           agreeToTerms,
-          eventId: eventDetails?.eventId, // Include eventId
+          eventId: eventDetails?.eventId || null,
         }),
       });
 
@@ -98,7 +84,6 @@ export default function Register() {
 
       alert('Registration successful!');
 
-
       if (role === "ROLE_ADMIN") {
         router.push('/admin');
       } else if (role === "ROLE_USER") {
@@ -106,11 +91,6 @@ export default function Register() {
       } else {
         alert('Unknown role');
       }
-
-      // if (role === 'ROLE_ADMIN') router.push('/admin');
-      // else if (role === 'ROLE_USER') router.push('/user');
-      // else alert('Unknown role');
-
     } catch (err) {
       console.error('Error registering:', err);
       alert('Registration failed. Please try again.');
@@ -119,18 +99,15 @@ export default function Register() {
 
   return (
     <section className="vh-50 bg-image">
-      <div className="mask d-flex align-items-center h-100 gradient-custom-3">
+      <div className=" d-flex align-items-center h-100 gradient-custom">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-12 col-md-9 col-lg-7 col-xl-6">
               <div style={{ borderRadius: '15px' }}>
                 <div className="card-body p-5">
-                  <h2 className="text-uppercase text-center text-light mb-3">Create an account</h2>
-                  {eventDetails && (
-                    <div className="alert alert-info text-center">
-                      Registering for: <strong>{eventDetails.eventName}</strong> (ID: {eventDetails.eventId})
-                    </div>
-                  )}
+                  <h2 className="text-uppercase text-center text-light mb-3">
+                    {eventDetails ? `Register with ${eventDetails.eventName}` : 'Create an account'}
+                  </h2>
                   <form onSubmit={handleSubmit}>
                     <div className="form-outline mb-4">
                       <input type="text" className="form-control form-control-lg" name="username" value={formData.username} onChange={handleChange} required />
@@ -147,15 +124,17 @@ export default function Register() {
                       <label className="form-label">Mobile Number</label>
                     </div>
 
-                    <div className="form-outline mb-4">
-                      <select className="form-control form-control-lg" name="role" value={formData.role} onChange={handleChange} required>
-                        <option value="">Select Role</option>
-                        {roles1.map((r) => (
-                          <option key={r.id} value={r.value}>{r.name}</option>
-                        ))}
-                      </select>
-                      <label className="form-label">Role</label>
-                    </div>
+                    {!eventDetails && (
+                      <div className="form-outline mb-4">
+                        <select className="form-control form-control-lg" name="role" value={formData.role} onChange={handleChange} required>
+                          <option value="">Select Role</option>
+                          {roles1.map((r) => (
+                            <option key={r.id} value={r.value}>{r.name}</option>
+                          ))}
+                        </select>
+                        <label className="form-label">Role</label>
+                      </div>
+                    )}
 
                     <div className="form-outline mb-4">
                       <input type="password" className="form-control form-control-lg" name="password" value={formData.password} onChange={handleChange} required />
@@ -181,7 +160,7 @@ export default function Register() {
                     </div>
 
                     <p className="text-center text-light mt-5 mb-0">
-                      Already have an account? <Link href="/login" className="fw-bold text-body "><u>Login here</u></Link>
+                      Already have an account? <Link href="/login" className=""><u>Login here</u></Link>
                     </p>
                   </form>
                 </div>

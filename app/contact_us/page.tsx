@@ -1,24 +1,74 @@
 "use client";
 
-import { useState } from 'react';
-import "./contactUs.css"
+import { useState, ChangeEvent, FormEvent } from "react";
+import "./contactUs.css";
+
+interface ContactFormData {
+  type: string;
+  fullName: string;
+  email: string;
+  websiteUrl: string;
+  country: string;
+  enquiry: string;
+}
 
 export default function ContactUs() {
-  const [formData, setFormData] = useState({
-    type: '',
-    fullName: '',
-    email: '',
-    websiteUrl: '',
-    country: '',
-    projects: '',
-    enquiry: '',
+  const [formData, setFormData] = useState<ContactFormData>({
+    type: "",
+    fullName: "",
+    email: "",
+    websiteUrl: "",
+    country: "",
+    enquiry: "",
   });
 
-  const handleContactus = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const [message, setMessage] = useState<string>("");
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const payload = {
+      requestType: formData.type,
+      name: formData.fullName,
+      email: formData.email,
+      country: formData.country,
+      enquiry: formData.enquiry,
+    };
+
+    try {
+      const response = await fetch("http://localhost:9090/data/createContactUs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        setMessage("Form submitted successfully!");
+        setFormData({
+          type: "",
+          fullName: "",
+          email: "",
+          websiteUrl: "",
+          country: "",
+          enquiry: "",
+        });
+      } else {
+        const errorData = await response.json();
+        setMessage(`Submission failed: ${errorData.message || response.statusText}`);
+      }
+    } catch (error: any) {
+      setMessage("Error submitting form: " + error.message);
+    }
   };
 
   return (
@@ -31,92 +81,86 @@ export default function ContactUs() {
       </div>
       <div className="page contact-page">
         <div className="page-body page-body-wrapper">
-          <form onSubmit={handleContactus} id="contact-us-form">
-            {/* Request Type Dropdown */}
+          <form onSubmit={handleSubmit} id="contact-us-form">
+            {/* Request Type */}
             <div className="form-fields">
-              <label htmlFor="Type" className='form-label' >Request type:</label>
+              <label htmlFor="type" className="form-label">Request type:</label>
               <select
                 name="type"
-                id="Type"
+                id="type"
                 className="form-control"
                 value={formData.type}
-                onChange={handleContactus}
+                onChange={handleInputChange}
                 required
               >
                 <option value="">Select</option>
-                <option value="1">General questions</option>
-                <option value="2">Technical support</option>
-                <option value="3">Partnership enquiries</option>
-                <option value="4">Sales enquiries</option>
+                <option value="General questions">General questions</option>
+                <option value="Technical support">Technical support</option>
+                <option value="Partnership enquiries">Partnership enquiries</option>
+                <option value="Sales enquiries">Sales enquiries</option>
               </select>
             </div>
 
-            {/* Name Input */}
+            {/* Full Name */}
             <div className="form-fields">
-              <label htmlFor="FullName" className='form-label'>Your name:</label>
+              <label htmlFor="fullName" className="form-label">Your name:</label>
               <input
                 type="text"
                 name="fullName"
-                id="FullName"
+                id="fullName"
                 placeholder="Enter your name"
                 value={formData.fullName}
-                onChange={handleContactus}
+                onChange={handleInputChange}
                 required
               />
             </div>
 
-            {/* Email Input */}
+            {/* Email */}
             <div className="form-fields">
-              <label htmlFor="Email" className='form-label'>Your email:</label>
+              <label htmlFor="email" className="form-label">Your email:</label>
               <input
                 type="email"
                 name="email"
-                id="Email"
+                id="email"
                 placeholder="Enter your email address"
                 value={formData.email}
-                onChange={handleContactus}
+                onChange={handleInputChange}
                 required
               />
             </div>
 
-            {/* Country Dropdown (Modularize the options in a separate file if needed) */}
+            {/* Country */}
             <div className="form-fields">
-              <label htmlFor="Country" className='form-label'>Your country:</label>
+              <label htmlFor="country" className="form-label">Your country:</label>
               <select
                 name="country"
-                id="Country"
+                id="country"
                 value={formData.country}
-                onChange={handleContactus}
+                onChange={handleInputChange}
               >
                 <option value="">Select country</option>
                 <option value="United States">United States</option>
                 <option value="Canada">Canada</option>
-                {/* Add other countries */}
+                {/* Add more countries here */}
               </select>
             </div>
 
-            {/* Enquiry Textarea */}
+            {/* Enquiry */}
             <div className="form-fields">
-              <label htmlFor="Enquiry" className='form-label'>Enquiry:</label>
+              <label htmlFor="enquiry" className="form-label">Enquiry:</label>
               <textarea
                 name="enquiry"
-                id="Enquiry"
+                id="enquiry"
                 placeholder="Enter your enquiry"
                 value={formData.enquiry}
-                onChange={handleContactus}
+                onChange={handleInputChange}
                 required
               />
             </div>
 
-            {/* reCAPTCHA (use if integrated) */}
-            {/* 
-                    <ReCAPTCHA
-                      sitekey="your-site-key"
-                      onChange={(value) => console.log("Captcha value:", value)}
-                    /> 
-                    */}
+            <button className="btn btn-primary" type="submit">Submit</button>
 
-            <button className='btn btn-primary' type="submit">Submit</button>
+            {message && <p className="form-message">{message}</p>}
           </form>
         </div>
       </div>

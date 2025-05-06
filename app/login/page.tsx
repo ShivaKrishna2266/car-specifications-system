@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import './loginPage.css';
 import Link from 'next/link';
 import tokenService from '../tokenService';
+import  './LoginPage.css'; // Import the CSS Module
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -56,7 +56,7 @@ export default function LoginPage() {
           <h2 className="mb-4">Login</h2>
           <form onSubmit={handleLogin}>
             <div className="mb-3">
-              <label htmlFor="username" className="form-label">Username</label>
+              <label htmlFor="username" className="form-label-1">Username</label>
               <input
                 type="text"
                 className="form-control"
@@ -67,7 +67,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
+              <label htmlFor="password" className="form-label-1">Password</label>
               <input
                 type="password"
                 className="form-control"

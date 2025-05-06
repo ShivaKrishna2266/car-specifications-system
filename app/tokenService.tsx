@@ -7,8 +7,7 @@ const USER_ID_KEY = "userId";
 
 
 // Decode JWT
-// Decode JWT
-const parseJwt = (token : string) => {
+const parseJwt = (token: string): any => {
   try {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -43,19 +42,15 @@ const tokenService = {
   // Retrieve the username from localStorage
   getUsername: () => localStorage.getItem(USERNAME_KEY),
 
-  getUserId: () => {
-    const token = localStorage.getItem("authToken");
+  getUserId: (): string | null => {
+    const token = localStorage.getItem(TOKEN_KEY);
     if (!token) {
       console.warn("No token found");
       return null;
     }
-  
     const decoded = parseJwt(token);
     console.log("Decoded token:", decoded);
-  
-    // Use 'sub' as fallback — it’s the standard JWT user ID field
-    return decoded?.userId ?? decoded?.id ?? decoded?._id ?? decoded?.sub ?? null;
-    // return decoded?.userId ?? decoded?.id ?? decoded?._id ?? null;
+    return decoded?.userId?.toString() ?? decoded?.id?.toString() ?? decoded?.sub?.toString() ?? null;
   },
   
 
