@@ -1,13 +1,23 @@
-// src/utils/tokenService.js
+// src/utils/tokenService.ts
 
 const TOKEN_KEY = "authToken";
 const ROLE_KEY = "userRole";
 const USERNAME_KEY = "username";
 const USER_ID_KEY = "userId";
 
+// Define the interface for the decoded JWT payload
+interface DecodedToken {
+  userId?: string | number;
+  username?: string;
+  role?: string;
+  id?: string | number;
+  sub?: string;
+  exp?: number;
+  iat?: number;
+}
 
 // Decode JWT
-const parseJwt = (token: string): any => {
+const parseJwt = (token: string): DecodedToken | null => {
   try {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -25,12 +35,12 @@ const parseJwt = (token: string): any => {
 };
 
 const tokenService = {
-  // Save token and role to localStorage
+  // Save token, role, username, and userId to localStorage
   setToken: (token: string, role: string, username: string, userId: string) => {
     localStorage.setItem(TOKEN_KEY, token);
     localStorage.setItem(ROLE_KEY, role);
     localStorage.setItem(USERNAME_KEY, username);
-    localStorage.setItem(USER_ID_KEY, userId)
+    localStorage.setItem(USER_ID_KEY, userId);
   },
 
   // Retrieve the token from localStorage
@@ -42,24 +52,38 @@ const tokenService = {
   // Retrieve the username from localStorage
   getUsername: () => localStorage.getItem(USERNAME_KEY),
 
-  getUserId: (): string | null => {
-    const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) {
-      console.warn("No token found");
-      return null;
-    }
-    const decoded = parseJwt(token);
-    console.log("Decoded token:", decoded);
-    return decoded?.userId?.toString() ?? decoded?.id?.toString() ?? decoded?.sub?.toString() ?? null;
-  },
-  
+  // Get userId from token in localStorage
+ // Get userId from token in localStorage
+getUserId: (): string | null => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) {
+    console.warn("No token found");
+    return null;
+  }
 
-  // Remove token and role from localStorage
+  const decoded = parseJwt(token);  // Decode the JWT token
+  console.log("Decoded token:", decoded);  // Check the structure of the decoded token
+
+  // Ensure decoded token has the expected structure and return the userId (or fallback fields)
+  if (decoded) {
+    const userId = decoded.userId?.toString() || decoded.id?.toString() || decoded.sub?.toString();
+    if (userId) {
+      return userId;
+    }
+  }
+
+  // If decoding fails or no expected fields found, return null
+  console.warn("Invalid token structure");
+  return null;
+},
+
+
+  // Remove token, role, username, and userId from localStorage
   clearToken: () => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(ROLE_KEY);
     localStorage.removeItem(USERNAME_KEY);
-    localStorage.removeItem(USER_ID_KEY); // Remove userId from localStorage
+    localStorage.removeItem(USER_ID_KEY); // Clear userId from localStorage
   }
 };
 

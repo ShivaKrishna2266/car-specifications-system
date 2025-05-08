@@ -2,14 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import './event_details.css'
+import './event_details.css';
 
 interface RegisteredUser {
   userId: number;
   username: string;
   email: string;
   mobile: string;
-  registrationDate: string;
+  date: string;
+  role: string;
+  // Add any other user-related fields that you want to display
 }
 
 interface EventDTO {
@@ -44,68 +46,59 @@ export default function EventDetails() {
   useEffect(() => {
     if (!eventId) return;
 
+    // Fetch event details
     fetch(`http://localhost:9090/data/getEventById/${eventId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.data) {
           setEvent(data.data);
         } else {
-          console.error('No event data found for the given eventId');
+          console.error('No event data found for eventId:', eventId);
         }
       })
-      .catch((err) => {
-        console.error('Error fetching event details:', err);
-      });
-  }, [eventId]);
-
-
-  useEffect(() => {
-    if (!eventId) return;
-
-    // Fetch event details
-    fetch(`http://localhost:9090/data/getEventById/${eventId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.data) setEvent(data.data);
-      })
-      .catch((err) => console.error('Error fetching event details:', err));
+      .catch((err) => console.error('Error fetching event:', err));
 
     // Fetch registered users
     fetch(`http://localhost:9090/data/getUsersByEventId/${eventId}`)
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data.data)) setRegisteredUsers(data.data);
+        if (Array.isArray(data.data)) {
+          setRegisteredUsers(data.data);
+        } else {
+          console.error('Unexpected data format for users:', data);
+        }
       })
       .catch((err) => console.error('Error fetching registered users:', err));
-
   }, [eventId]);
 
-  if (!event) return <p className="loading">Loading...</p>;
+  if (!event) return <p className="loading">Loading event details...</p>;
 
   return (
     <div className="event-container">
       <div className="event-hero">
         <div className="image-container-1">
           <img
-            src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/models_gw/2025/s_01.jpg"
+            src={'https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/news/2025/04_11_art/cover.jpg'}
             className="d-block w-100 img-fluid"
             alt={event.eventName}
           />
           <h3 className="centered-text-1">
-            Discover the Thrill of Innovation at Our {event.eventName}: An Unforgettable Automotive Experience
+            Discover the Thrill at {event.eventName}: A Unique Experience
           </h3>
-
         </div>
         <div className="container">
           <div className="event-overlay">
             <h1 className="event-title">{event.eventName}</h1>
-            <p className="event-category"><b>{event.category}</b> • {event.status}</p>
+            <p className="event-category">
+              <b>{event.category}</b> • {event.status}
+            </p>
           </div>
         </div>
       </div>
+
       <div className="container">
         <div className="row">
-          {/* Text on the left */}
+          {/* Event details left */}
           <div className="event-details col-md-6 col-sm-6">
             <div className="event-info">
               <p><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
@@ -121,10 +114,11 @@ export default function EventDetails() {
               <p>{event.description}</p>
             </div>
           </div>
-          {/*  Image on the right */}
+
+          {/* Event image right */}
           <div className="event-image-1 col-md-6 col-sm-6">
             <img
-              src={ "https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_detail/augmented-reality/revuelto/ar_revuelto.png"}
+              src={ "https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/news/2025/04_11_art/cover.jpg"}
               className="img-fluid"
               alt={event.eventName}
             />
@@ -132,29 +126,23 @@ export default function EventDetails() {
         </div>
       </div>
 
-
-
       <div className="registered-users">
-        <h2 >Registered Users</h2>
-
+        <h2>Registered Users</h2>
         {registeredUsers.length === 0 ? (
-          <p>No users registered for this event.</p>
+          <p>No users have registered for this event yet.</p>
         ) : (
           <ul>
             {registeredUsers.map((user) => (
               <li key={user.userId} className="user-item">
-                <p>
-                  <strong>{user.username}</strong> – {user.email}, {user.mobile}
-                </p>
-                <p>Registered on: {new Date(user.registrationDate).toLocaleDateString()}</p>
+                <p><strong>{user.username}</strong></p>
+                <p>Email: {user.email}</p>
+                <p>Mobile: {user.mobile}</p>
+                <p>Registered on: {new Date(user.date).toLocaleDateString()}</p>
               </li>
             ))}
           </ul>
         )}
       </div>
-
     </div>
-
-
   );
 }

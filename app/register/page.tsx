@@ -12,7 +12,7 @@ export default function Register() {
 
   const [eventDetails, setEventDetails] = useState<{ eventId: number; eventName: string } | null>(null);
 
-  const roles1 = [
+  const roles = [
     { id: 1, value: 'ROLE_ADMIN', name: 'ADMIN' },
     { id: 2, value: 'ROLE_USER', name: 'USER' },
   ];
@@ -34,7 +34,7 @@ export default function Register() {
         const parsed = JSON.parse(decoded);
         setEventDetails(parsed);
 
-        // Automatically set role to USER if event is present
+        // Automatically set role to USER
         setFormData(prev => ({ ...prev, role: 'ROLE_USER' }));
       } catch (err) {
         console.error('Failed to parse event param', err);
@@ -42,16 +42,27 @@ export default function Register() {
     }
   }, [eventParam]);
 
-  const handleChange = (e: any) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+  
+    // Handle checkbox separately
+    if (e.target instanceof HTMLInputElement && e.target.type === 'checkbox') {
+      setFormData({
+        ...formData,
+        [name]: e.target.checked,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
+  
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match!');
       return;
@@ -67,10 +78,10 @@ export default function Register() {
           username,
           email,
           mobile,
-          role,
           password,
+          role,
           agreeToTerms,
-          eventId: eventDetails?.eventId || null,
+          eventId: eventDetails?.eventId ?? null,
         }),
       });
 
@@ -84,52 +95,81 @@ export default function Register() {
 
       alert('Registration successful!');
 
-      if (role === "ROLE_ADMIN") {
+      // Redirect
+      if (role === 'ROLE_ADMIN') {
         router.push('/admin');
-      } else if (role === "ROLE_USER") {
-        router.push('/login');
       } else {
-        alert('Unknown role');
+        router.push('/login');
       }
+
     } catch (err) {
-      console.error('Error registering:', err);
+      console.error('Error during registration:', err);
       alert('Registration failed. Please try again.');
     }
   };
 
   return (
     <section className="vh-50 bg-image">
-      <div className=" d-flex align-items-center h-100 gradient-custom">
+      <div className="d-flex align-items-center h-100 gradient-custom">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div className="col-6 col-md-6 col-lg-6 col-xl-6">
               <div style={{ borderRadius: '15px' }}>
                 <div className="card-body p-5">
                   <h2 className="text-uppercase text-center text-light mb-3">
-                    {eventDetails ? `Register with ${eventDetails.eventName}` : 'Create an account'}
+                    {eventDetails ? `Register for ${eventDetails.eventName}` : 'Create an account'}
                   </h2>
                   <form onSubmit={handleSubmit}>
                     <div className="form-outline mb-4">
-                      <input type="text" className="form-control form-control-lg" name="username" value={formData.username} onChange={handleChange} required />
+                      <input
+                        type="text"
+                        className="form-control form-control-lg"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        required
+                      />
                       <label className="form-label">Your Name</label>
                     </div>
 
                     <div className="form-outline mb-4">
-                      <input type="email" className="form-control form-control-lg" name="email" value={formData.email} onChange={handleChange} required />
+                      <input
+                        type="email"
+                        className="form-control form-control-lg"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
                       <label className="form-label">Your Email</label>
                     </div>
 
                     <div className="form-outline mb-4">
-                      <input type="tel" className="form-control form-control-lg" name="mobile" value={formData.mobile} onChange={handleChange} required />
+                      <input
+                        type="tel"
+                        className="form-control form-control-lg"
+                        name="mobile"
+                        value={formData.mobile}
+                        onChange={handleChange}
+                        required
+                      />
                       <label className="form-label">Mobile Number</label>
                     </div>
 
                     {!eventDetails && (
                       <div className="form-outline mb-4">
-                        <select className="form-control form-control-lg" name="role" value={formData.role} onChange={handleChange} required>
+                        <select
+                          className="form-control form-control-lg"
+                          name="role"
+                          value={formData.role}
+                          onChange={handleChange}
+                          required
+                        >
                           <option value="">Select Role</option>
-                          {roles1.map((r) => (
-                            <option key={r.id} value={r.value}>{r.name}</option>
+                          {roles.map((r) => (
+                            <option key={r.id} value={r.value}>
+                              {r.name}
+                            </option>
                           ))}
                         </select>
                         <label className="form-label">Role</label>
@@ -137,17 +177,38 @@ export default function Register() {
                     )}
 
                     <div className="form-outline mb-4">
-                      <input type="password" className="form-control form-control-lg" name="password" value={formData.password} onChange={handleChange} required />
+                      <input
+                        type="password"
+                        className="form-control form-control-lg"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                      />
                       <label className="form-label">Password</label>
                     </div>
 
                     <div className="form-outline mb-4">
-                      <input type="password" className="form-control form-control-lg" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+                      <input
+                        type="password"
+                        className="form-control form-control-lg"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        required
+                      />
                       <label className="form-label">Repeat your password</label>
                     </div>
 
                     <div className="form-check d-flex justify-content-center text-light mb-5">
-                      <input className="form-check-input me-2" type="checkbox" name="agreeToTerms" checked={formData.agreeToTerms} onChange={handleChange} required />
+                      <input
+                        className="form-check-input me-2"
+                        type="checkbox"
+                        name="agreeToTerms"
+                        checked={formData.agreeToTerms}
+                        onChange={handleChange}
+                        required
+                      />
                       <label className="form-check-label">
                         I agree to all statements in <a href="#"><u>Terms of service</u></a>
                       </label>
@@ -160,7 +221,7 @@ export default function Register() {
                     </div>
 
                     <p className="text-center text-light mt-5 mb-0">
-                      Already have an account? <Link href="/login" className=""><u>Login here</u></Link>
+                      Already have an account? <Link href="/login"><u>Login here</u></Link>
                     </p>
                   </form>
                 </div>
