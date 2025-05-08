@@ -288,7 +288,7 @@ export default function HomePage() {
 
 
       <div className="welcome">
-        <div className="container p-5 ">
+        <div className=" p-5 ">
           <h1>Welcome to the LAMB-bros Lamborghini Club of America</h1>
         </div>
       </div>
@@ -299,7 +299,7 @@ export default function HomePage() {
           <div className="col-md-36 col-sm-6 mb-4">
             <img
               src="https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/f/g/a/small-spos14461-poster-lamborghini-huracan-lamborghini-black-car-original-imagkb9bba3mdbr7.jpeg?q=90&crop=false"
-              className="d-block content_image img-fluid rounded"
+              className="d-block content_image-2 img-fluid_1 rounded"
               alt="Car Display"
             />
           </div>
@@ -334,7 +334,7 @@ export default function HomePage() {
           <div className="col-md-36 col-sm-6 mb-4">
             <img
               src="https://www.supercars.net/blog/wp-content/uploads/2024/10/Lamborghini-Current-Models-1024x736.png"
-              className="d-block content_image img-fluid rounded"
+              className="d-block content_image-2 img-fluid_1 rounded"
               alt="Car Display"
             />
           </div>
@@ -351,7 +351,7 @@ export default function HomePage() {
             <ul className="fw-bold">Lone Mountain Toybarn C&C</ul>
             <img
               src="https://lcarizona.com/wp-content/uploads/2023/08/lone-mountain-candc-150x150.jpg"
-              className="d-block img-fluid rounded mb-2"
+              className="d-block img-fluid_1 rounded mb-2"
               alt="Car Display"
             />
             <p>Join us every 4th Saturday of the month at the Toy Barn on Lone Mountain in Cave Creek, AZ. Coffee, breakfast including hundreds of cars and amazing garages makes this…</p>
@@ -362,7 +362,7 @@ export default function HomePage() {
             <ul className="fw-bold">Highline Autos Cars & Coffee</ul>
             <img
               src="https://lcarizona.com/wp-content/uploads/2022/09/sshot-128-150x150.jpg"
-              className="d-block  img-fluid rounded mb-2"
+              className="d-block  img-fluid_1 rounded mb-2"
               alt="Car Display"
             />
             <p>If there is no LCA event going on this is a great place to meet hundreds of car enthusiasts! Highline Autos Cars & Coffee at High Street! 400+ Exotic, Classic,…</p>

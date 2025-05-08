@@ -28,10 +28,28 @@ export interface Event {
   updatedAt: string;
 }
 
+interface UserDTO {
+  userId: number;
+  username: string;
+  email: string;
+  password: string;
+  mobile: string;
+  role: string;
+  createdBy: string;
+  createdAt: string;
+  updatedBy: string;
+  updatedAt: string;
+}
+
 export default function Events() {
   const [events, setEvents] = useState<Event[]>([]);
+  const [user, setUser] = useState<UserDTO | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const token = tokenService.getToken();
+  const rawUserId = tokenService.getUsername();
 
   useEffect(() => {
     fetch('http://localhost:9090/data/getAllEvents')
@@ -54,11 +72,67 @@ export default function Events() {
       });
   }, []);
 
-  const checkUserRegistration = async (userId: string, eventId: number) => {
+  useEffect(() => {
+    if (!token || !rawUserId) {
+      setError('User not logged in or user ID not found.');
+      setLoading(false);
+      return;
+    }
+
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`http://localhost:9090/user/getUserByUsername/${rawUserId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('User not found.');
+          } else if (response.status === 403) {
+            setError('Access denied.');
+          } else {
+            setError(`Failed to fetch user: ${response.statusText}`);
+          }
+          return;
+        }
+        const res = await response.json();
+        console.log("Fetched User:", res.data);
+        setUser(res.data);
+      } catch (err: any) {
+        console.error('Fetch error:', err);
+        setError('An error occurred while fetching user data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [token, rawUserId]);
+
+  const checkUserRegistration = async (userId: number, eventId: number): Promise<boolean> => {
+    const token = tokenService.getToken();
+  
     try {
       const res = await fetch(
-        `http://localhost:9090/user/checkRegistrations?eventId=${eventId}&userId=${userId}`
+        `http://localhost:9090/user/checkRegistrations?eventId=${eventId}&userId=${userId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
       );
+  
+      if (res.status === 403) {
+        console.warn('Access denied. You may need to log in again.');
+        return false;
+      }
+  
       const data = await res.json();
       return data.registered === true;
     } catch (error) {
@@ -66,43 +140,32 @@ export default function Events() {
       return false;
     }
   };
+  
 
   const handleRegisterClick = async (event: Event) => {
-    const token = tokenService.getToken(); // Retrieve token
-    const rawUserId = tokenService.getUserId();
-
-    console.log('Raw UserId:', rawUserId); // Log to check if we have a valid userId
-
-    if (!rawUserId || !token) {
-      const loginResponse = window.confirm('You are not logged in. Do you want to log in to register for this event?');
-      if (loginResponse) {
+    if (!token || !user) {
+      const loginPrompt = window.confirm('You are not logged in. Do you want to log in to register for this event?');
+      if (loginPrompt) {
         router.push('/login');
       } else {
-        const eventParam = encodeURIComponent(
-          JSON.stringify({
-            eventId: event.eventId,
-            eventName: event.eventName,
-          })
-        );
+        const eventParam = encodeURIComponent(JSON.stringify({
+          eventId: event.eventId,
+          eventName: event.eventName,
+        }));
         router.push(`/register?event=${eventParam}`);
       }
       return;
     }
 
-    // Ensure userId is a valid integer (parse if necessary)
-    
-    const userId = parseInt(rawUserId, 10); 
-    console.log("Parsed UserId:", userId); // Log to verify if userId is valid after parsing
+    const userId = user.userId;
 
-    // Step 1: Check if the user is already registered for the event
-    const alreadyRegistered = await checkUserRegistration(userId.toString(), event.eventId);
+    const alreadyRegistered = await checkUserRegistration(userId, event.eventId);
     if (alreadyRegistered) {
       alert('You are already registered for this event!');
       router.push(`/event-details/${event.eventId}`);
       return;
     }
 
-    // Step 2: Proceed with registration if the user is not already registered
     try {
       const res = await fetch('http://localhost:9090/user/registerEvent', {
         method: 'POST',
@@ -111,7 +174,7 @@ export default function Events() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userId: userId,  // Ensure that userId is passed as an integer
+          userId: userId,
           eventId: event.eventId,
         }),
       });
@@ -158,8 +221,8 @@ export default function Events() {
           {events.length === 0 ? (
             <p>No events available.</p>
           ) : (
-            events.map((event, index) => (
-              <div className="event-card" key={index}>
+            events.map((event) => (
+              <div className="event-card" key={event.eventId}>
                 <div className="row">
                   <div className="col-md-2">
                     <p className="event-date">
@@ -181,7 +244,7 @@ export default function Events() {
                   </div>
                   <div className="col-md-5">
                     <img
-                      src="https://t4.ftcdn.net/jpg/03/75/42/33/360_F_375423312_VcfklfhcmkVOj8cvJtorP5kQmpYaNndj.jpg"
+                      src={"https://t4.ftcdn.net/jpg/03/75/42/33/360_F_375423312_VcfklfhcmkVOj8cvJtorP5kQmpYaNndj.jpg"}
                       alt={event.eventName}
                       className="event-image"
                     />
